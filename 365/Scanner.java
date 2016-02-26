@@ -22,7 +22,7 @@ class Scanner
 		String rparen = "[)]";
 		String add_op = "[+-]";	
 		String mult_op = "[/*|//|///|/%]";
-		String assign = "[:=]";
+		String assign = "[:=][=]";
 		String num = "/?\\d+(\\.\\d+)?/";
 
 		Pattern r = Pattern.compile(read);
