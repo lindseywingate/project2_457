@@ -22,7 +22,8 @@ class Scanner
 		String assign = "[:][=]";
 		String add_op = "[+-]";	
 		String mult_op = "[/*|//|///|/%]";
-		String num = "[0-9]*[\\.]*[0-9]";
+		String number = "[0-9]*[\\.]*[0-9]";
+		String operators = "[+-/*|//|///|/%]";
 
 		Pattern r = Pattern.compile(read);
 		Pattern s = Pattern.compile(write);
@@ -32,46 +33,86 @@ class Scanner
 		Pattern a = Pattern.compile(assign);	
 		Pattern k = Pattern.compile(add_op);
 		Pattern l = Pattern.compile(mult_op);
-		Pattern b = Pattern.compile(num);
+		Pattern b = Pattern.compile(number);
+		Pattern op = Pattern.compile(operators);
 
 		while ((line = br.readLine()) !=null) {
 			//System.out.println(line);
 			Matcher m = r.matcher(line);
 			if(m.find( )) {
-				System.out.println("<read>, read");		
+				//System.out.println("<read>, read");		
 				line = line.replace("read", "");	
 			}
 			Matcher n = s.matcher(line);
 			if(n.find()) {
 				System.out.println("<write>, write");
+				line = line.replace("write", "");
 			}	
 			Matcher p = i.matcher(line);
 			if(p.find()) {
 				System.out.println("<lparen>, " + p.group(0));
+				line = line.replace("(", "");
 			}	
 			Matcher o = c.matcher(line);
 			if(o.find()) {
 				System.out.println("<id>, " + o.group(0));
+				line = line.replace(o.group(0), "");
+				System.out.println("LINE: "+line);
 			}
 			Matcher x = a.matcher(line);
 			if(x.find()) {
 				System.out.println("<assign>, " + x.group(0));
+				line = line.replace(x.group(0), "");
+				System.out.println("LINE_assign" + line);
+			}		
+				Matcher oper = op.matcher(line);
+				while(oper.find()) {
+					System.out.println("TA DA! ");
+					Matcher d = c.matcher(line);
+					if(d.find()) {
+						System.out.println("<id>, " + d.group(0));
+						line = line.replace(o.group(0), "");
+						System.out.println("LINE: "+line);
+						break;
+					}
+					Matcher num = b.matcher(line);
+					else(num.find()) {
+						System.out.println("<number>, " + num.group(0));
+						line = line.replace(num.group(0), "");
+						break;
+					}
+					Matcher add = k.matcher(line);
+					if(add.find()) {
+						System.out.println("<add_op>, " + add.group(0));
+						line = line.replace(add.group(0), "");
+						break;
+					}
+					Matcher mult = l.matcher(line);
+					if(mult.find()){
+						System.out.println("<mult_op>, " + mult.group(0));
+						line = line.replace(mult.group(0), "");
+						break;
+					} 
 			}
 			Matcher z = k.matcher(line);
 			if(z.find()) {
 				System.out.println("<add_op>, " + z.group(0));
+				line = line.replace(z.group(0), "");
 			}
 			Matcher y = l.matcher(line);
 			if(y.find()) {
 				System.out.println("<mult_op>, " + y.group(0));
+				line = line.replace(y.group(0), "");
 			} 
 			Matcher w = b.matcher(line);
 			if(w.find()) {
 				System.out.println("<number>, " + w.group(0));
+				line = line.replace(w.group(0), "");
 			}
 			Matcher q = j.matcher(line);
 			if(q.find()) {
 				System.out.println("<rparen>, " + q.group(0));
+				line = line.replace(q.group(0), "");
 			}
 		}	
 		br.close();
@@ -95,9 +136,4 @@ class Scanner
 		Scanner output = list
 	*/
 }
-
-
-
-
-
 /*This code is written by Lindsey Wingate*/
