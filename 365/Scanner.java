@@ -17,13 +17,13 @@ class Scanner
 
 		String read = "^read";	
 		String write = "^write";
-		//String id = "[ ]";
+		String id = "[a-zA-Z]*[a-zA-Z0-9]";
 		String lparen = "[(]";
 		String rparen = "[)]";
 		String add_op = "[+-]";	
 		String mult_op = "[/*|//|///|/%]";
-		String assign = "[:=][=]";
-		String num = "/?\\d+(\\.\\d+)?/";
+		String assign = "[:][=]";
+		String num = "[0-9]*[\\.]*[0-9]";
 
 		Pattern r = Pattern.compile(read);
 		Pattern s = Pattern.compile(write); 
@@ -50,27 +50,27 @@ class Scanner
 		//	}
 			Matcher p = i.matcher(line);
 			if(p.find()) {
-				System.out.println("<lparen>" + p.group(0));
+				System.out.println("<lparen>, " + p.group(0));
 			}	
 			Matcher q = j.matcher(line);
 			if(q.find()) {
-				System.out.println("<rparen>" + q.group(0));
+				System.out.println("<rparen>, " + q.group(0));
 			}
 			Matcher z = k.matcher(line);
 			if(z.find()) {
-				System.out.println("<add_op>" + z.group(0));
+				System.out.println("<add_op>, " + z.group(0));
 			}
 			Matcher y = l.matcher(line);
 			if(y.find()) {
-				System.out.println("<mult_op>" + y.group(0));
+				System.out.println("<mult_op>, " + y.group(0));
 			} 
 			Matcher x = a.matcher(line);
 			if(x.find()) {
-				System.out.println("<assign>" + x.group(0));
+				System.out.println("<assign>, " + x.group(0));
 			}
 			Matcher w = b.matcher(line);
 			if(w.find()) {
-				System.out.println("<number>" + w.group(0));
+				System.out.println("<number>, " + w.group(0));
 			}
 		}	
 		br.close();
