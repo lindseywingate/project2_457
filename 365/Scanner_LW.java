@@ -113,8 +113,10 @@ class Scanner_LW
 					}
 					count--;
 				}
+			else:
 				Matcher q = j.matcher(line);
 				if(q.find()) {
+					System.out.println("FOUND)");
 					System.out.println("<rparen>, " + q.group(0));
 					line = line.replace(q.group(0), "");
 					line = line.trim();
