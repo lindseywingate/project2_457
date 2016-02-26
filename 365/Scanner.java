@@ -71,12 +71,12 @@ class Scanner
 					Matcher d = c.matcher(line);
 					if(d.find()) {
 						System.out.println("<id>, " + d.group(0));
-						line = line.replace(o.group(0), "");
+						line = line.replace(d.group(0), "");
 						System.out.println("LINE: "+line);
 						break;
 					}
 					Matcher num = b.matcher(line);
-					else(num.find()) {
+					if(num.find()) {
 						System.out.println("<number>, " + num.group(0));
 						line = line.replace(num.group(0), "");
 						break;
@@ -94,6 +94,21 @@ class Scanner
 						break;
 					} 
 			}
+	/*	
+			Matcher id2 = c.matcher(line);
+			if(id2.find()) {
+				System.out.println("<id>, " + id2.group(0));
+				line = line.replace(id2.group(0), "");
+				System.out.println("LINE: "+line);
+				break;
+			}
+			Matcher num2 = b.matcher(line);
+			if(num2.find()) {
+				System.out.println("<number>, " + num2.group(0));
+				line = line.replace(num2.group(0), "");
+				break;
+			}
+	*/		
 			Matcher z = k.matcher(line);
 			if(z.find()) {
 				System.out.println("<add_op>, " + z.group(0));
