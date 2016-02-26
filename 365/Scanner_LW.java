@@ -8,9 +8,13 @@ class Scanner_LW
 {
 	public static void main (String[] args) throws IOException
 	{
+		if(args.length == 0) {
+			System.out.println("Please enter a file to read from when you run the program.");
+			System.exit(0);	
+		}
 
 		File file = new File(args[0]);
-		
+			
 		FileInputStream streamer = new FileInputStream(file);	
 		BufferedReader br = new BufferedReader (new InputStreamReader(streamer));
 
@@ -113,14 +117,12 @@ class Scanner_LW
 					}
 					count--;
 				}
-			else:
-				Matcher q = j.matcher(line);
-				if(q.find()) {
-					System.out.println("FOUND)");
-					System.out.println("<rparen>, " + q.group(0));
-					line = line.replace(q.group(0), "");
-					line = line.trim();
-				}
+			}
+			Matcher q = j.matcher(line);
+			if(q.find()) {
+				System.out.println("<rparen>, " + q.group(0));
+				line = line.replace(q.group(0), "");
+				line = line.trim();
 			}
 		}
 		br.close();
