@@ -1,4 +1,4 @@
-/*This code was written by Lindsey Wingate*/
+ /*This code was written by Lindsey Wingate*/
 import java.util.*;
 import java.io.*;
 import java.util.regex.Matcher;
