@@ -28,6 +28,7 @@ class Scanner_LW
 		String add_op = "^[+-]";	
 		String mult_op = "^[\\*|/?|//?|%]";
 		String number = "^[0-9]*[\\.]*[0-9]";
+		String error = "[&_#@%!]";
 	
 		Pattern r = Pattern.compile(read);
 		Pattern s = Pattern.compile(write);
@@ -38,6 +39,7 @@ class Scanner_LW
 		Pattern k = Pattern.compile(add_op);
 		Pattern l = Pattern.compile(mult_op);
 		Pattern b = Pattern.compile(number);
+		Pattern er = Pattern.compile(error);
 
 		while ((line = br.readLine()) !=null) {
 			line = line.trim();
@@ -124,27 +126,16 @@ class Scanner_LW
 				line = line.replace(q.group(0), "");
 				line = line.trim();
 			}
+			Matcher err = er.matcher(line);
+			if(err.find()) {
+				System.out.println("<error>, " + err.group(0));
+				System.out.println("That was a random thing to put in the file!");
+				System.exit(0);
+			}
 		}
 		br.close();
 	}
-	/*	<id> can be a-z or A-Z followed by a-z, A-Z, 0-9;
-		<number> can be int or float
-		<lparen> = (
-		<rparen> = )
-		<add_op> = + or -
-		<mult_op> = *, /, //, or %
-		<assign> = :=
-		reserved words are <read> and <write>
-		<error> text that is not a valid token - stop processing input file
-			
-		for line:
-			find token
-			find lexeme
-			print token, lexeme (ex: <read>, read
-									 <id>, a)
-		
-		Scanner output = list
-	/*	Matcher oper = op.matcher(line);
+		/*	Matcher oper = op.matcher(line);
 					while(oper.find()) {
 						System.out.println("TA DA! ");
 						Matcher d = c.matcher(line);
