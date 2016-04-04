@@ -150,35 +150,53 @@ class Program3_LW
 					break;
 			}
 		}
-		for(int u=0; u<orderme.size(); u++)
-			System.out.println(orderme.get(u));
-		System.out.println("*******");
 		
 		int x = orderme.size();
 		int m = 0;
 		int deleteme = 0;
 
-	//	while(x!=0) 
-	for(int test=0; test<orderme.size(); test++)
-	{		
-		if(orderme.get(test).equals("id"))
-			if(orderme.get(test+1).equals(":=")) {
-				orderme.remove(test);
-				orderme.remove(test);
-		}	
-	}
-	for(int test2=0; test2<orderme.size(); test2++)
-	{
-		if((orderme.get(test2).equals("read"))||(orderme.get(test2).equals("write"))) {
-			orderme.remove(test2);
-			orderme.remove(test2);
+		//looks for id and assign combo
+		for(int test=0; test<orderme.size(); test++)
+		{		
+			if(orderme.get(test).equals("id"))
+				if(orderme.get(test+1).equals(":=")) {
+					orderme.remove(test);
+					orderme.remove(test);
+			}	
 		}
-	}
 
-		
-		System.out.println("This is a very helpful error message, just like java provides. These random symbols were not accounted for in your program. Please rethink it and try again.");
-		for(int y=0; y<orderme.size(); y++)
-			System.out.println(orderme.get(y));
-		
+		//looks for read/id and write/id combo
+		for(int test2=0; test2<orderme.size(); test2++)
+		{
+			if((orderme.get(test2).equals("read"))||(orderme.get(test2).equals("write"))) {
+				orderme.remove(test2);
+				orderme.remove(test2);
+			}
+		}
+
+		for(int test3=0; test3<orderme.size(); test3++)
+		{		
+			if(orderme.get(test3).equals("(")) {
+				orderme.remove(test3);
+				int p=test3;
+				while((orderme.get(p).equals(")"))==false) {
+					if(orderme.get(p).equals(")")==false) {
+						orderme.remove(p);	
+					}
+					if(orderme.get(p).equals(")")) {
+						orderme.remove(p);
+						break;
+					}
+				}
+			}			
+		}	
+	
+	if(orderme.size()>0)
+		System.out.println("Helpful Java Message: The following characters were misplaced. Please rethink your program.");
+		for(int i=0; i<orderme.size(); i++)
+			System.out.println(orderme.get(i));	
+	if(orderme.size()==0)
+		System.out.println("Your program should work. Good luck.");	
+
 	}
 }
