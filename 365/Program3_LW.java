@@ -116,7 +116,7 @@ class Program3_LW
 			}
 
 			if(tokens.get(b).equals("<number>")) {
-				orderme.add(content.get(b));
+				orderme.add("num");
 				continue;
 			}
 
@@ -136,19 +136,21 @@ class Program3_LW
 					break;
 				}
 				else
-					orderme.add(content.get(b));
+					orderme.add("op");
 					continue;	
 			}
 
 			if(tokens.get(b).equals("<mult_op>")) {
 				if((content.get(b).equals("*")) || (content.get(b).equals("/")) || (content.get(b).equals("//")) || (content.get(b).equals("%"))) {
-					orderme.add(content.get(b));
+					orderme.add("op");
 					continue;	
 				}
 				else
-					send_error("mult_op");
+					send_error("op");
 					break;
 			}
+			else
+				send_error("unknown token");
 		}
 		
 		int x = orderme.size();
@@ -156,47 +158,71 @@ class Program3_LW
 		int deleteme = 0;
 
 		//looks for id and assign combo
-		for(int test=0; test<orderme.size(); test++)
-		{		
-			if(orderme.get(test).equals("id"))
-				if(orderme.get(test+1).equals(":=")) {
-					orderme.remove(test);
-					orderme.remove(test);
-			}	
-		}
-
-		//looks for read/id and write/id combo
+				//looks for read/id and write/id combo
 		for(int test2=0; test2<orderme.size(); test2++)
 		{
 			if((orderme.get(test2).equals("read"))||(orderme.get(test2).equals("write"))) {
 				orderme.remove(test2);
 				orderme.remove(test2);
 			}
+	
 		}
 
+		boolean flag=false;
 		for(int test3=0; test3<orderme.size(); test3++)
 		{		
 			if(orderme.get(test3).equals("(")) {
 				orderme.remove(test3);
 				int p=test3;
-				while((orderme.get(p).equals(")"))==false) {
-					if(orderme.get(p).equals(")")==false) {
-						orderme.remove(p);	
-					}
-					if(orderme.get(p).equals(")")) {
-						orderme.remove(p);
-						break;
+				for(int a=0; a<orderme.size(); a++) {
+					if(orderme.get(a).equals(")")==true)
+						flag=true;	
+				}
+				if(flag==false)
+					send_error(")");
+				if(flag==true) {
+					while((orderme.get(p).equals(")"))==false) {
+						if(orderme.get(p).equals(")")==false) {
+							orderme.remove(p);	
+						}
+						if(orderme.get(p).equals(")")) {
+							orderme.remove(p);
+							break;
+						}
 					}
 				}
 			}			
 		}	
-	
+		for(int test=0; test<orderme.size(); test++)
+		{		
+			if(orderme.get(test).equals("id")) {
+				try{
+					if(orderme.get(test+1).equals(":=")) {
+						orderme.remove(test);
+						orderme.remove(test);
+					}
+				}
+				catch (IndexOutOfBoundsException e) {
+				}
+			}	
+		}
+			
+		//addresses long assign statements without parenthesis
+		if(orderme.get(orderme.size()-1).equals("op"))
+			send_error("operator out of place");
+		else if(orderme.get(0).equals("op"))
+			send_error("operator out of place");	
+		else {
+				orderme.clear();
+		}
+
 	if(orderme.size()>0)
-		System.out.println("Helpful Java Message: The following characters were misplaced. Please rethink your program.");
+		System.out.println("Helpful Java Message: The following characters were misplaced, most likely because you forgot somthing or the characters are out of order. Please rethink your program.");
 		for(int i=0; i<orderme.size(); i++)
 			System.out.println(orderme.get(i));	
 	if(orderme.size()==0)
-		System.out.println("Your program should work. Good luck.");	
+		System.out.println("Your program should work if your logic plays out. Good luck.");	
 
 	}
 }
+/*This code was written by Lindsey Wingate*/
