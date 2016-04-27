@@ -1,4 +1,4 @@
---Lindsey Wingate, lindseymwingate@gmail.com
+ndsey Wingate, lindseymwingate@gmail.com
 --DESCRIPTION: 
 with Ada.Text_IO;use Ada.Text_IO;
 with Ada.Integer_Text_IO; use Ada.Integer_Text_IO;
@@ -21,7 +21,8 @@ procedure make_array is
     New_Length: FLOAT:= 21.45;
     
 begin
-    put(New_Total);
+    put(New_Total, 6, 2, 0);
+    New_Line;
     Count := 1;
     Put("Please enter integers: ");
     loop
@@ -90,16 +91,11 @@ end loop For_Loop;
     new_line(1);
     Put("Average of values: ");
     New_Total := FLOAT(Total);
-    New_Total := New_Total*10.0;
-    put(New_Total);
     New_Length := FLOAT(Length_Count);
-    put(New_Length);
 --MEAN :=FLOAT(Total)/FLOAT(Length_Count);
 --MEAN := MEAN*10.0;
-    put(MEAN); 
     MEAN := (New_Total/New_Length);
-    Put(MEAN);
+    new_line(1);
+    Put(MEAN, 6, 2, 0);
 
 end make_array;
-
-
