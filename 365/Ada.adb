@@ -11,14 +11,17 @@ procedure make_array is
     Length : INTEGER;
     Index : INTEGER;
     Biggest : INTEGER;
-    MEAN : FLOAT := 000.00;
+    MEAN : FLOAT:= 21.45;
     Count : INTEGER;
     Length_Count : INTEGER;
     One_Char : INTEGER;
     First : MY_ARRAY;
     Sort_Temp : INTEGER;
+    New_Total: FLOAT:= 21.45;
+    New_Length: FLOAT:= 21.45;
     
 begin
+    put(New_Total);
     Count := 1;
     Put("Please enter integers: ");
     loop
@@ -70,7 +73,7 @@ For_Loop_1:
 end loop For_Loop_1;
 
 --Prints out final results of sort
-    put("Numbers in Array");
+    put("Sorted Numbers in Array");
     new_line(1);
 For_Loop:
     for c in integer range 1..Length_Count+1 loop
@@ -86,7 +89,17 @@ end loop For_Loop;
     Put(Biggest);
     new_line(1);
     Put("Average of values: ");
-    MEAN := FLOAT(Total/Length_Count);
+    New_Total := FLOAT(Total);
+    New_Total := New_Total*10.0;
+    put(New_Total);
+    New_Length := FLOAT(Length_Count);
+    put(New_Length);
+--MEAN :=FLOAT(Total)/FLOAT(Length_Count);
+--MEAN := MEAN*10.0;
+    put(MEAN); 
+    MEAN := (New_Total/New_Length);
     Put(MEAN);
 
 end make_array;
+
+
