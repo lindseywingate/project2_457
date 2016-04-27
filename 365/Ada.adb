@@ -1,4 +1,4 @@
-ndsey Wingate, lindseymwingate@gmail.com
+--Lindsey Wingate, lindseymwingate@gmail.com
 --DESCRIPTION: 
 with Ada.Text_IO;use Ada.Text_IO;
 with Ada.Integer_Text_IO; use Ada.Integer_Text_IO;
@@ -70,15 +70,22 @@ For_Loop_1:
 end loop For_Loop_1;
 
 --Prints out final results of sort
+    put("Numbers in Array");
+    new_line(1);
 For_Loop:
-    for c in integer range 1..Length_Count loop
-        put(First(c));
+    for c in integer range 1..Length_Count+1 loop
+        if(First(c)/=0) then
+            put(First(c));
+            new_line(1);
+        end if;
 end loop For_Loop;
     
 --Final print statements
+    Put("Biggest Number in Array: ");
+    new_line(1);
     Put(Biggest);
-    Put(Length_Count);
-    Put(Total);
+    new_line(1);
+    Put("Average of values: ");
     MEAN := FLOAT(Total/Length_Count);
     Put(MEAN);
 
