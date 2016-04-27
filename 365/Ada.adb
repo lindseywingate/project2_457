@@ -1,4 +1,4 @@
-ndsey Wingate, lindseymwingate@gmail.com
+--Lindsey Wingate, lindseymwingate@gmail.com
 --DESCRIPTION: 
 with Ada.Text_IO;use Ada.Text_IO;
 with Ada.Integer_Text_IO; use Ada.Integer_Text_IO;
@@ -16,7 +16,8 @@ procedure make_array is
     Length_Count : INTEGER;
     One_Char : INTEGER;
     First : MY_ARRAY;
-
+    Sort_Counter : INTEGER;
+    Inner_Sort_Counter : INTEGER;
 begin
     Count := 1;
     Put("Please enter integers: ");
@@ -30,6 +31,7 @@ begin
     end loop;
     New_Line(2);
     
+--This loop counts how many and totals the array for the mean
     Length := 1;
     Total := 0;
     Length_Count := 0;
@@ -41,7 +43,8 @@ begin
         exit when First(Length)<=0;
     end loop;
     New_Line;
-    
+ 
+--This loop finds the biggest number in the array  
     Index := 0;
     Biggest := 0;
     loop
@@ -53,6 +56,21 @@ begin
     end loop;
     New_Line;
     
+--This loop sorts the array
+    Sort_Counter := 0;
+    Inner_Sort_Counter := 0;
+For_Loop_1:
+    for A in integer range 1..Length_Count loop
+        Sort_Counter := Sort_Counter + 1;
+    For_Loop_2:
+        for I in integer range 1..Length_Count loop
+            
+        put("test");
+    end loop For_Loop_2;
+end loop For_Loop_1;
+
+    
+--Final print statements
     Put(Biggest);
     Put(Length_Count);
     Put(Total);
