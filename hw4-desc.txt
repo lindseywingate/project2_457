@@ -1,0 +1,52 @@
+S230	20 points	Due: Feb. 29
+
+C++ has a nice vector class that automatically
+adjusts an array size as needed. C does not have
+any such feature (until now :) ). 
+
+Write a program that prompts the user for characters
+(not strings!). As the user enters characters ONE AT 
+A TIME (I suggest using getchar() ), your
+program must call your "vector function" (that you 
+must write) to automatically adjust the character 
+array size to hold the input.
+
+The vector function must use malloc/calloc to 
+create/adjust the array size. You cannot not use realloc!
+
+You may also want to read the man page on memcpy.
+
+The vector function must return a pointer (to the array) 
+to the main routine (you will probably want to pass
+in the array also). This means your vector function must
+be of type "char *" 
+
+You can adjust the array in chunks of 5 or 10 characters
+(vs 1 character) if you want.
+
+When the user enters "return" (in place of a character) 
+your program must append the '\0' character to the end 
+(making it a string). Your program must then append 
+the new string to the text/string "HW 4 input: " 
+(be carefull here). Your program must then print out 
+the resulting string.
+
+getchar();
+
+
+SAMPLE RUN:
+-----------
+Enter characters: 1234567
+
+HW 4 input: 1234567
+
+REQUIREMENTS:
+-------------
+1. Your program must run in Streibel 115/109 or on shell.aero.und.edu.
+
+2. Your full name must appear as a comment at the beginning of your 
+   program.
+
+3. Your source code must be named hw4-yourname.c
+
+4. Email your source (subject hw4-yourname) to rmarsh@cs.und.edu 

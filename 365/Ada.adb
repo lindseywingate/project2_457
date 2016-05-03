@@ -1,5 +1,5 @@
-ndsey Wingate, lindseymwingate@gmail.com
---DESCRIPTION: 
+--Lindsey Wingate, lindseymwingate@gmail.com
+--DESCRIPTION: My Ada program takes input from the user (up to 100 integers), sorts the array, finds the biggest number and the mean value in the array, then prints the results to the screen.
 with Ada.Text_IO;use Ada.Text_IO;
 with Ada.Integer_Text_IO; use Ada.Integer_Text_IO;
 with Ada.Float_Text_IO; use Ada.Float_Text_IO;
@@ -59,8 +59,18 @@ begin
         end if;
     end loop;
     New_Line;
+ 
+--Prints array before sorted   
+For_Loop_a:
+    for c in integer range 1..Length_Count+1 loop
+        if(First(c)/=0) then
+            put(First(c));
+            new_line(1);
+        end if;
+end loop For_Loop_a;    
     
 --This loop sorts the array
+    put("Unsorted Numbers in Array");
 For_Loop_1:
     for A in integer range 1..Length_Count loop
     For_Loop_2:
@@ -99,3 +109,5 @@ end loop For_Loop;
     Put(MEAN, 6, 2, 0);
 
 end make_array;
+
+

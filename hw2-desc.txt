@@ -1,0 +1,63 @@
+S230	20 points	Due: Jan. 29
+
+Part 1:
+-------
+Write a program that provides the user with a simple 
+menu that includes the following options:
+ 1. Sort data by the float value & print high to low
+ 2. Sort data by the float value & print low to high
+ 3. Sort data by the int value & print high to low
+ 4. Sort data by the int value & print low to high
+ 5. Exit
+
+Of course, the menu must repeatedly be displayed until 
+the user selects the "exit" option. You will need an 
+infinite loop to accomplish ths.
+
+The only thing allowed in the main routine is the code
+required to handle the menu and calls to functions to
+read the data and sort it.
+
+Part 2:
+-------
+For menu options 1, 2, 3 & 4 your program must call a 
+function that opens a file of unknown size and stores 
+the data in a array of struct***. The file will 
+be called hw2.data. The file will contain a string, a 
+float, an int and string. Below is a sample file:
+
+   F150 5.4 28000 white
+   RAM1500 5.7 32000 orange
+
+The code to handle this MUST be a function separate from
+the main routine.
+
+*** You can assume that the file will contain no more than
+100 entries.
+
+
+Part 3:
+-------
+For menu options 1, 2, 3 & 4 your program must call a 
+function that sorts the data HIGH TO LOW by the appropriate 
+component. Since we are sorting the data by 2 different 
+components you are allowed to have 2 different sort 
+functions. But, ONLY 2!
+
+Part 4:
+-------
+For menu options 1, 2, 3 & 4 your program must call a 
+function that prints the resulting data. Since you must 
+print the data high to low or low to high, you are allowed 
+to have 2 routines. But, only 2!
+
+REQUIREMENTS:
+-------------
+1. Your program must run in Streibel 115/109 or on shell.aero.und.edu.
+
+2. Your full name must appear as a comment at the beginning of your 
+   program.
+
+3. Your source code must be named hw2-yourname.c
+
+3. Email your source (subject hw2-yourname) to rmarsh@cs.und.edu 
