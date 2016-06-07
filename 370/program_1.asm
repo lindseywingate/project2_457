@@ -24,6 +24,7 @@
   destroyer:	.asciiz	"\nEnter the destroyer 2x[0-9a-z]: "
   submarine:	.asciiz	"\nEnter the submarine [0-9a-z]: "
   shot:		.asciiz "\nEnter the next shot [0-9a-z]: "
+  shot_input:	.space	1
   new:		.asciiz "\nNew game? (y/n):"
   buf:		.space	200
   var1:		.word	3
@@ -71,25 +72,27 @@
 	
 	#add to board
 	
-	#shot
+	#print shot string
 	li 	$v0,	4	#receives string
 	la	$a0,	shot 	#address of string to print
 	syscall			#print the string
-	
-	#overridding other answers now
-	li	$v0,	8	#receives string input
-	la	$a0,	buf	#set location to store string
-	li	$a1,	200	#set to max # chars to read in (shouldn't go above what is allocated)
+	#getting shot from user
+	li	$v0,	8	#prepare to receive input
+	la	$a0,	shot_input
+	li	$a1,	1
 	syscall
 	
 	jal	conversion	#jump and link - stores address in $ra
 	
-	#mul 	$t0,$t0,2
-	#lh	$t1, offset1($t0)
-	#li	$t2, 'X'
-	#sb	$t2, board($t1)
 	
-	#print board again 
+	
+	#used to put X in offset table
+	mul 	$t0,$t0,2
+	lh	$t1, offset1($t0)
+	li	$t2, 'X'
+	sb	$t2, board($t1)
+	
+	#print board
 	li	$v0,	4
 	la	$a0,	board
 	syscall
@@ -104,22 +107,15 @@
 	addi 	$sp, $sp, -4
 	sw	$a0, 0($sp)	#store word-contents stored in stack, index: 0
 	
-	addi	$t1, $zero, 10 
+	addi	$t1, $zero, 10 	#static value to compare for translating
 	
 	#if equal or greater than 10, it is a letter
 	#else, program will continue to translate numbers
-	bge	$a0, $t1, letter
-	sub	$t0, $a0, 90
-	letter:
-	li	$v0,	4
-	move	$t0,	$a0
-	syscall
-	
+	blt	$a0, $t1, number	#if $a0 is equal or greater than $t1, then translate letter
+	sub	$t0, $a0, 90		#subtract 90 to decode letter
 	lw	$t0, 0($sp)
 	addi	$sp,$sp, 4
-	
-	
-	
+	syscall
       	#letter:
 	#sub	$t0, $a0, 87
 	#pop from stack
