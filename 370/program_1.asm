@@ -104,10 +104,13 @@
 	addi 	$sp, $sp, -4
 	sw	$a0, 0($sp)	#store word-contents stored in stack, index: 0
 	
-	#bge	$a0, 10, letter
-	sub	$t0, $a0, 90
-	#letter:
+	addi	$t1, $zero, 10 
 	
+	#if equal or greater than 10, it is a letter
+	#else, program will continue to translate numbers
+	bge	$a0, $t1, letter
+	sub	$t0, $a0, 90
+	letter:
 	li	$v0,	4
 	move	$t0,	$a0
 	syscall
