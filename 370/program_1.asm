@@ -21,11 +21,11 @@
              .half   267, 269, 271, 273, 275, 277
   
   cruiser:	.asciiz	"\nEnter the cruiser 3x[0-9a-z]: "
-  cruiser_in:	.word	0
+  cruiser_in:	.word	
   destroyer:	.asciiz	"\nEnter the destroyer 2x[0-9a-z]: "
-  destroy_in:	.word	0
+  destroy_in:	.word	
   submarine:	.asciiz	"\nEnter the submarine [0-9a-z]: "
-  sub_in:	.word	0
+  sub_in:	.word	
   shot:		.asciiz "\nEnter the next shot [0-9a-z]: "
   shot_input:	.space	1
   new:		.asciiz "\nNew game? (y/n):"
@@ -46,38 +46,60 @@
 	li 	$v0,	4		#loads space
 	la	$a0,	cruiser		#loads cruiser statement
 	syscall
-	li	$v0,	8		#loads space	
-	la	$a0,	buf		#enter chars here
-	li	$a1,	200		#loads entered characters into register
-	syscall				
 	
-	#get individual characters
-	#la	$t0, 	buf
-	#lw	$a2,	1($t0)
-	#li	$v0,	1
-	#syscall
+	#get input, store in word
+	la	$a0,	cruiser_in	#sets $a0 to space allocated
+	la	$a1,	cruiser_in	#gets length of space
+	li	$v0,	8		#load opcode (8)
+	syscall				#sees 8, asks for input, puts string in $a0
+
+	#gets first byte from cruiser
+	la	$t0,	cruiser_in
+	lb	$a0,	($t0)
+	li	$v0,	1
+	syscall
+	
+	#gets second byte from cruiser
+	la	$t0,	cruiser_in
+	lb	$a0,	1($t0)
+	li	$v0,	1
+	syscall
+	
+	#gets third byte from cruiser
+	la	$t0,	cruiser_in
+	lb	$a0,	2($t0)
+	li	$v0,	1
+	syscall
 
 	#add to board
 			
 	#destroyer
-	li 	$v0,	4
-	la	$a0,	destroyer
-	syscall
-	li	$v0,	8
-	la	$a0,	buf
-	li	$a1,	200
-	syscall
+	#li 	$v0,	4
+	#la	$a0,	destroyer
+	#syscall
+	
+	#get input, store in word
+	#la	$a0,	destroy_in
+	#la	$a1,	destroy_in
+	#li	$v0,	8
+	#syscall
 	
 	#add to board
 	
 	#submarine
-	li 	$v0,	4
-	la	$a0,	submarine
-	syscall
-	li	$v0,	8
-	la	$a0,	buf
-	li	$a1,	200
-	syscall
+	#li 	$v1,	4
+	#la	$a1,	submarine
+	#syscall
+	
+	#la	$a0,	sub_in
+	#la	$a1,	sub_in
+	#li	$v0,	8
+	#syscall
+	
+	#li	$v0,	8
+	#la	$a0,	buf
+	#li	$a1,	200
+	#syscall
 	
 	#add to board
 	
