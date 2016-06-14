@@ -1,12 +1,10 @@
        .data
- s:    .space   4
+ X:    .byte  1
+ Y:    .half  2
        .text 
- main:
-       la  $a0, s
-       li  $a1, 4
-       li  $v0, 8
-       syscall
- # Enter "12345".
-       la  $a0, s
-       li  $v0, 4
+ main: 
+       li  $t0, 1
+       sh  $t0, X+2
+       lh  $a0, Y
+       li  $v0, 1
        syscall

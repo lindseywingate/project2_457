@@ -1,6 +1,7 @@
-       .data
+.data
  s:    .space   4
-       .text 
+
+.text 
  main:
        la  $a0, s
        li  $a1, 4
