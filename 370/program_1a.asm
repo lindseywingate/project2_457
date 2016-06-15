@@ -26,11 +26,11 @@
   destroy_in:   .space  3
   submarine:    .asciiz    "\nEnter the submarine [0-9a-z]: "
   sub_in:       .space  2
-  shot:         .asciiz "\nEnter the next shot [0-9a-z]: "
-  shot_input:   .space    1
+  shot:         .asciiz    "\nEnter the next shot [0-9a-z]: "
+  shot_input:   .space  2
   new:          .asciiz "\nNew game? (y/n):"
-  buf:          .space    200
-  var1:         .word    3
+  buf:          .space  200
+  var1:         .word   3
 
 .text
 .globl main
@@ -62,7 +62,8 @@
     #gets second byte from cruiser
     add   $t0, $t0, 1
     lb    $a0, ($t0)
-
+    li    $v0,    1
+    syscall
     jal	find_spot
 
     #gets third byte from cruiser
@@ -71,9 +72,6 @@
 
     jal	find_spot
 
-    #la      $a0, board    #prints board again
-    #li      $v0, 4
-    #syscall
     #add to board
    #destroyer
     li    $v0,    4
@@ -117,32 +115,79 @@
 
     #add to board
 
-    #print shot string
-    li    $v0,    4    #receives string
-    la    $a0,    shot     #address of string to print
-    syscall            #print the string
-
-
-    #getting shot from user
-    li    $v0,    12    #prepare to receive input
-    la    $a0,    shot_input
-    li    $a1,    1
-    syscall 
-    
-   # jal   find_spot
-    
-    li	$v0,	10
+     #shot
+    li    $v0,    4
+    la    $a0,    shot
     syscall
 
+    la    $a0,    shot_input
+    li    $a1,    2
+    li    $v0,    8
+    syscall
 
-find_spot:    blt  $a0, '0', not_number        #if less than 0, not a number. tests to see if letter
+        #gets first byte from sub
+    la    $t0,    shot_input
+    lb    $a0,    ($t0)
+
+    jal find_spot2
+    
+    # Exit the program.
+       li      $v0,     10
+       syscall
+
+#place spot for shot
+
+find_spot2:
+              blt  $a0, '0', not_number2        #if less than 0, not a number. tests to see if letter
+              bgt  $a0, '9', not_number2        #if greater than 9, not a number. tests to see if letter
+    	      sub  $s0, $a0, 'X'               #otherwise, subtracts difference for ascii value
+	     
+	      #add to board
+	      mul  $s0, $s0, 2         # Each offset is two-byte long.
+              lh   $t1, offset1($s0)   # Load $t1 with the offset of the index $t0.
+              li   $t2, 'X'            # Put the marker X in $t2.
+              sb   $t2, board($t1)
+              la   $a0, board
+              li   $v0, 4
+              syscall
+              jr   $ra
+
+not_number2:   blt   $a0, 'a', not_letter2    #if v0 is less than a, not a letter. 
+              bgt   $a0, 'z', not_letter2    #if v0 is more than z, not a letter.
+              sub   $s0, $a0, 'a'           #otherwise, subtract/add the difference of ascii value
+              add   $s0, $s0, 10
+	      mul  $s0, $s0, 2         # Each offset is two-byte long.
+              lh   $t1, offset1($s0)   # Load $t1 with the offset of the index $t0.
+              li   $t2, 'X'            # Put the marker X in $t2.
+              sb   $t2, board($t1)
+              la   $a0, board
+              li   $v0, 4
+              syscall
+              jr   $ra
+
+not_letter2: 
+	    la      $a0, board    #prints board again
+            li      $v0, 4
+	    syscall
+            jr	    $ra
+
+            
+            la      $a0, board    #prints board again
+            li      $v0, 4
+            
+            li	$v0,	10
+            syscall
+            ##################
+
+find_spot:
+              blt  $a0, '0', not_number       #if less than 0, not a number. tests to see if letter
               bgt  $a0, '9', not_number        #if greater than 9, not a number. tests to see if letter
     	      sub  $s0, $a0, '0'               #otherwise, subtracts difference for ascii value
 	     
 	      #add to board
 	      mul  $s0, $s0, 2         # Each offset is two-byte long.
               lh   $t1, offset1($s0)   # Load $t1 with the offset of the index $t0.
-              li   $t2, 'X'            # Put the marker X in $t2.
+              li   $t2, '0'            # Put the marker X in $t2.
               sb   $t2, board($t1)
               la   $a0, board
               li   $v0, 4
@@ -162,18 +207,14 @@ not_number:   blt   $a0, 'a', not_letter    #if v0 is less than a, not a letter.
               syscall
               jr   $ra
 
-not_letter: la      $a0, board    #prints board again
+not_letter: 
+	    la      $a0, board    #prints board again
             li      $v0, 4
+	    syscall
             jr	    $ra
+            
+            la      $a0, board    #prints board again
+            li      $v0, 4
+            
+            li	$v0,	10
             syscall
-
-
-    # Exit the program.
-       li      $v0,     10
-       syscall
-
-
-
-
-
-
