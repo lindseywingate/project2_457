@@ -125,16 +125,23 @@ j   loop	#jumps back to ask for another shot again
 li      $v0,     10
 syscall
 
-#place spot for shot
+#place spot for shot on board 2
 
+
+
+#place spot for shot on board 1
 find_spot2:
 blt  $a0, '0', not_number2        #if less than 0, not a number. tests to see if letter
 bgt  $a0, '9', not_number2        #if greater than 9, not a number. tests to see if letter
 sub  $s0, $a0, '0'               #otherwise, subtracts difference for ascii value
+sub  $s1, $a0, '0'		 #for board 2
 mul  $s0, $s0, 2         # Each offset is two-byte long.
+mul  $s1, $s1, 2
 lh   $t1, offset1($s0)   # Load $t1 with the offset of the index $t0.
+lh   $t3, offset2($s1)
 li   $t2, '+'            # Put the marker X in $t2.
 sb   $t2, board($t1)
+sb   $t2, board($t3)
 la   $a0, board
 li   $v0, 4
 syscall
@@ -144,11 +151,16 @@ not_number2:
 blt   $a0, 'a', not_letter2    #if v0 is less than a, not a letter. 
 bgt   $a0, 'z', not_letter2    #if v0 is more than z, not a letter.
 sub   $s0, $a0, 'a'           #otherwise, subtract/add the difference of ascii value
-add   $s0, $s0, 10	  # adds to the board
+sub   $s1, $a0, 'a'
+add   $s0, $s0, 10
+add   $s1, $s0, 36	   
 mul   $s0, $s0, 2         # Each offset is two-byte long.
+mul   $s1, $s1, 2
 lh    $t1, offset1($s0)   # Load $t1 with the offset of the index $t0.
+lh    $t3, offset1($s1)
 li    $t2, '+'            # Put the marker X in $t2.
 sb    $t2, board($t1)
+sb    $t2, board($t3)
 la    $a0, board
 li    $v0, 4
 syscall
@@ -164,12 +176,13 @@ li    $v0, 4
 li    $v0, 10	    #exits
 syscall
 
-# second subroutine	##################
+# places ship on board 1	##################
 
 find_spot:
 blt  $a0, '0', not_number       #if less than 0, not a number. tests to see if letter
 bgt  $a0, '9', not_number        #if greater than 9, not a number. tests to see if letter
 sub  $s0, $a0, '0'               #otherwise, subtracts difference for ascii value
+
 #add to board
 mul  $s0, $s0, 2         # Each offset is two-byte long.
 lh   $t1, offset1($s0)   # Load $t1 with the offset of the index $t0.
