@@ -121,10 +121,10 @@ la    $t0,    sub_in
 lb    $a0,    ($t0)
 jal find_spot
 
-#li    $s7,   6
+li    $s7,   6
 
 loop:
-#beq $s7, 0, newgame    #branch if user has sunk all ships
+beq $s7, 0, newgame    #branch if user has sunk all ships
  #shot
 li    $v0,    4
 la    $a0,    shot
@@ -137,18 +137,17 @@ syscall
 #gets shot byte
 la    $t0,    shot_input
 lb    $a0,    ($t0)
-jal find_spot2
-j   newgame
+jal mark_hit
 j   loop	#jumps back to ask for another shot again
 
 # Exit the program.
 li      $v0,     10
 syscall
 
-#place spot for shot on board 1
-find_spot2:
-blt  $a0, '0', not_number2       #if less than 0, not a number. tests to see if letter
-bgt  $a0, '9', not_number2       #if greater than 9, not a number. tests to see if letter
+#place spot for shot on board 2
+mark_hit:
+blt  $a0, '0', mark_letter       #if less than 0, not a number. tests to see if letter
+bgt  $a0, '9', mark_letter       #if greater than 9, not a number. tests to see if letter
 sub  $s0, $a0, '0'               #otherwise, subtracts difference for ascii value
 sub  $s1, $a0, '0'		 #for board 2
 mul  $s0, $s0, 2         # Each offset is two-byte long.
@@ -157,7 +156,7 @@ lh   $t1, offset1($s0)   # Load $t1 with the offset value (of the translated ind
 lh   $t2, offset2($s1)   # '' for board 2
 lb   $t4, board($t1)     # load board piece into $t4
 li   $t3, '+'            # Put the marker in $t2.
-beq  $t4, '0', testing   # if value is a ship, replace with X instead
+beq  $t4, '0', ship_hit   # if value is a ship, replace with X instead
 sb   $t3, board($t1)     # Put the marker in the offset index on the board
 sb   $t3, board($t2)     # Put the marker in board 2
 la   $a0, board
@@ -165,17 +164,18 @@ li   $v0, 4
 syscall
 jr   $ra
 
-testing:
+ship_hit:
 li   $t5, 'X'
 sb   $t5, board($t1)
 sb   $t5, board($t2)
+sub  $s7, $s7, 1
 la   $a0, board
 li   $v0, 4
 syscall
 
-not_number2:   
-blt   $a0, 'a', not_letter2    #if v0 is less than a, not a letter. 
-bgt   $a0, 'z', not_letter2    #if v0 is more than z, not a letter.
+mark_letter:   
+blt   $a0, 'a', invalid_input    #if v0 is less than a, not a letter. 
+bgt   $a0, 'z', invalid_input    #if v0 is more than z, not a letter.
 sub   $s0, $a0, 'a'           #otherwise, subtract/add the difference of ascii value
 sub   $s1, $a0, 'a'
 add   $s0, $s0, 10
@@ -186,7 +186,7 @@ lh    $t1, offset1($s0)   # Load $t1 with the offset at the index $s0.
 lh    $t2, offset1($s1)
 lb    $t4, board($t1)
 li    $t3, '+'            # Put the marker in $t2.
-beq   $t4, '0', testing
+beq   $t4, '0', ship_hit
 sb    $t3, board($t1)
 sb    $t3, board($t2)
 la    $a0, board
@@ -194,7 +194,7 @@ li    $v0, 4
 syscall
 jr    $ra
 
-not_letter2: 
+invalid_input: 
 la    $a0, board    #prints board again
 li    $v0, 4
 syscall
@@ -259,10 +259,15 @@ syscall
 
 lb    $t0, new_resp
 li    $t1, 'y'
-beq   $t1, 'y', clearboard
-la    $a0, thanks
+beq   $t0, $t1, clearboard #if user enters y, new game. go back to top
+bne   $t0, $t1, thankyou   #else, print thank you and quit
+
+thankyou:
+la    $a0, thanks #prints thank you
 li    $v0, 4
-li    $v0, 10
+syscall 
+
+li    $v0, 10 #quits game
 syscall
 
 
