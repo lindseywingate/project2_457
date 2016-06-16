@@ -31,11 +31,28 @@ shot_input:  .space  2
 new:	     .asciiz     "\nNew game? (y/n):"
 buf:         .space  200
 var1:        .word   3
-test:        .asciiz    "/n THIS IS A TEST"
+new_resp:    .space  2
+thanks:      .asciiz    "\nThanks for playing!"
 .text
 .globl main
 #main procedure/function in program
 main:
+
+clearboard:
+li    $t3, 36
+li    $t8, 0
+
+#clears first board
+clearing:
+mul    $t0, $t8, 2		#offset = 2 bytes
+lh     $t1, offset1($t0)        #$t1 with offset index
+lh     $t5, offset2($t0)        #t5 with offset index
+li     $t2, '.'			#reset with .
+sb     $t2, board($t1)   	#put . in place
+sb     $t2, board($t5)
+addi   $t8, $t8, 1		#next
+bne    $t3, $t8, clearing
+
 #print board
 li    $v0,    4
 la    $a0,    board
@@ -104,7 +121,10 @@ la    $t0,    sub_in
 lb    $a0,    ($t0)
 jal find_spot
 
+#li    $s7,   6
+
 loop:
+#beq $s7, 0, newgame    #branch if user has sunk all ships
  #shot
 li    $v0,    4
 la    $a0,    shot
@@ -118,6 +138,7 @@ syscall
 la    $t0,    shot_input
 lb    $a0,    ($t0)
 jal find_spot2
+j   newgame
 j   loop	#jumps back to ask for another shot again
 
 # Exit the program.
@@ -183,7 +204,7 @@ li    $v0, 4
 li    $v0, 10	    #exits
 syscall
 
-############### places ship on board 1	##################
+############### places ship on board 1, do not need to adjust	##################
 
 find_spot:
 blt  $a0, '0', not_number       #if less than 0, not a number. tests to see if letter
@@ -223,3 +244,25 @@ la     $a0, board    #prints board again
 li     $v0, 4
 li     $v0, 10
 syscall
+
+
+######################### new game ############################
+newgame:
+la    $a0, new
+li    $v0, 4
+syscall
+
+li    $v0, 8
+la    $a0, new_resp
+li    $a1, 2
+syscall
+
+lb    $t0, new_resp
+li    $t1, 'y'
+beq   $t1, 'y', clearboard
+la    $a0, thanks
+li    $v0, 4
+li    $v0, 10
+syscall
+
+
