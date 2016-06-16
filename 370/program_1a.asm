@@ -31,7 +31,7 @@ shot_input:  .space  2
 new:	     .asciiz     "\nNew game? (y/n):"
 buf:         .space  200
 var1:        .word   3
-
+test:        .asciiz    "/n THIS IS A TEST"
 .text
 .globl main
 #main procedure/function in program
@@ -109,13 +109,12 @@ loop:
 li    $v0,    4
 la    $a0,    shot
 syscall
-
+ #gets shot input
 la    $a0,    shot_input
 li    $a1,    2
 li    $v0,    8
 syscall
-
-#gets first byte from sub
+#gets shot byte
 la    $t0,    shot_input
 lb    $a0,    ($t0)
 jal find_spot2
@@ -125,27 +124,33 @@ j   loop	#jumps back to ask for another shot again
 li      $v0,     10
 syscall
 
-#place spot for shot on board 2
-
-
-
 #place spot for shot on board 1
 find_spot2:
-blt  $a0, '0', not_number2        #if less than 0, not a number. tests to see if letter
-bgt  $a0, '9', not_number2        #if greater than 9, not a number. tests to see if letter
+blt  $a0, '0', not_number2       #if less than 0, not a number. tests to see if letter
+bgt  $a0, '9', not_number2       #if greater than 9, not a number. tests to see if letter
 sub  $s0, $a0, '0'               #otherwise, subtracts difference for ascii value
 sub  $s1, $a0, '0'		 #for board 2
 mul  $s0, $s0, 2         # Each offset is two-byte long.
 mul  $s1, $s1, 2
-lh   $t1, offset1($s0)   # Load $t1 with the offset of the index $t0.
-lh   $t3, offset2($s1)
-li   $t2, '+'            # Put the marker X in $t2.
-sb   $t2, board($t1)
-sb   $t2, board($t3)
+lh   $t1, offset1($s0)   # Load $t1 with the offset value (of the translated index).
+lh   $t2, offset2($s1)   # '' for board 2
+lb   $t4, board($t1)     # load board piece into $t4
+li   $t3, '+'            # Put the marker in $t2.
+beq  $t4, '0', testing   # if value is a ship, replace with X instead
+sb   $t3, board($t1)     # Put the marker in the offset index on the board
+sb   $t3, board($t2)     # Put the marker in board 2
 la   $a0, board
 li   $v0, 4
 syscall
 jr   $ra
+
+testing:
+li   $t5, 'X'
+sb   $t5, board($t1)
+sb   $t5, board($t2)
+la   $a0, board
+li   $v0, 4
+syscall
 
 not_number2:   
 blt   $a0, 'a', not_letter2    #if v0 is less than a, not a letter. 
@@ -156,11 +161,13 @@ add   $s0, $s0, 10
 add   $s1, $s0, 36	   
 mul   $s0, $s0, 2         # Each offset is two-byte long.
 mul   $s1, $s1, 2
-lh    $t1, offset1($s0)   # Load $t1 with the offset of the index $t0.
-lh    $t3, offset1($s1)
-li    $t2, '+'            # Put the marker X in $t2.
-sb    $t2, board($t1)
-sb    $t2, board($t3)
+lh    $t1, offset1($s0)   # Load $t1 with the offset at the index $s0.
+lh    $t2, offset1($s1)
+lb    $t4, board($t1)
+li    $t3, '+'            # Put the marker in $t2.
+beq   $t4, '0', testing
+sb    $t3, board($t1)
+sb    $t3, board($t2)
 la    $a0, board
 li    $v0, 4
 syscall
@@ -176,7 +183,7 @@ li    $v0, 4
 li    $v0, 10	    #exits
 syscall
 
-# places ship on board 1	##################
+############### places ship on board 1	##################
 
 find_spot:
 blt  $a0, '0', not_number       #if less than 0, not a number. tests to see if letter
@@ -186,7 +193,7 @@ sub  $s0, $a0, '0'               #otherwise, subtracts difference for ascii valu
 #add to board
 mul  $s0, $s0, 2         # Each offset is two-byte long.
 lh   $t1, offset1($s0)   # Load $t1 with the offset of the index $t0.
-li   $t2, '0'            # Put the marker X in $t2.
+li   $t2, '0'            # Put the marker in $t2.
 sb   $t2, board($t1)
 la   $a0, board
 li   $v0, 4
@@ -200,7 +207,7 @@ sub   $s0, $a0, 'a'           #otherwise, subtract/add the difference of ascii v
 add   $s0, $s0, 10
 mul   $s0, $s0, 2         # Each offset is two-byte long.
 lh    $t1, offset1($s0)   # Load $t1 with the offset of the index $t0.
-li    $t2, '0'            # Put the marker 0 in $t2.
+li    $t2, '0'            # Put the marker in $t2.
 sb    $t2, board($t1)
 la    $a0, board
 li    $v0, 4
