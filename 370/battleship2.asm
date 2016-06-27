@@ -81,7 +81,8 @@ clearsysboard:
 li    $t3, 36
 li    $t7, 0
 
-clearing2:
+#clears second board
+clear2:
 mul    $t0, $t7, 2		#offset = 2 bytes
 lh     $t1, offset3($t0)        #$t1 with offset1 index
 lh     $t5, offset4($t0)        #t5 with offset2 index
@@ -89,7 +90,7 @@ li     $t2, '.'			#reset with .
 sb     $t2, sys_board($t1)   	#replace with .
 sb     $t2, sys_board($t5)		#do the same thing on second board
 addi   $t7, $t7, 1		#next
-bne    $t3, $t7, clearing2
+bne    $t3, $t7, clear2
 
 #print board
 li    $v0,    4
@@ -188,18 +189,18 @@ li    $v0, 42				#randomly choose number
 syscall
 
 move  $t0, $a0				#put random move in $t0
-mul   $t0, $t0, 2			#change random number to offset
+mul   $s0, $t0, 2			# Each offset is two-byte long.
+mul   $t0, $t0, 2
+lh    $t1, offset1($s0)   		# Load $t1 with the offset value (of the translated index).
+lh    $t2, offset4($t0)  	 	# '' for board 2
+lb    $t4, sys_board($t1)     		# load board piece into $t4
+li    $t3, '+'            		# Put the marker in $t3.
+beq   $t4, '0', ship_hit   		# if value is a ship, replace with X instead
+sb    $t3, board($t1)     		# Put the marker in the offset index player left board
+sb    $t3, sys_board($t2)    	 	# Put the marker in system right board
+la    $a0, sys_board
+li    $v0, 4
 syscall
-
-#add marks to system board
-#lh   $t1, offset1($s0)   # Load $t1 with the offset value (of the translated index).
-#lh   $t2, offset2($s1)   # '' for board 2
-#lb   $t4, board($t1)     # load board piece into $t4
-#li   $t3, '+'            # Put the marker in $t2.
-#beq  $t4, '0', ship_hit   # if value is a ship, replace with X instead
-#sb   $t3, board($t1)     # Put the marker in the offset index on the board
-#sb   $t3, board($t2)     # Put the marker in board 2
-#syscall
 
 j     loop	#jumps back to ask for another shot again
 
@@ -207,14 +208,14 @@ j     loop	#jumps back to ask for another shot again
 li      $v0,     10
 syscall
 
-#place shot on board
+################### ---------- Places shots when player takes turn
 mark_hit:
 blt  $a0, '0', mark_letter       #if less than 0, not a number. tests to see if letter
 bgt  $a0, '9', mark_letter       #if greater than 9, not a number. tests to see if letter
 sub  $s0, $a0, '0'               #otherwise, subtracts difference for ascii value
 sub  $s1, $a0, '0'		 #for board 2
 mul  $s0, $s0, 2         # Each offset is two-byte long.
-mul  $s1, $s1, 2
+mul  $s1, $s1, 2	
 lh   $t1, offset2($s0)   # Load $t1 with the offset value (of the translated index).
 lh   $t2, offset3($s1)   # '' for board 2
 lb   $t4, sys_board($t1)     # load board piece into $t4
@@ -242,7 +243,7 @@ bgt   $a0, 'z', invalid_input    #if v0 is more than z, not a letter.
 sub   $s0, $a0, 'a'           #otherwise, subtract/add the difference of ascii value
 sub   $s1, $a0, 'a'
 add   $s0, $s0, 10
-add   $s1, $s0, 36	   
+add   $s1, $s0, 0	  #don't need to add 10 for the location  
 mul   $s0, $s0, 2         # Each offset is two-byte long.
 mul   $s1, $s1, 2
 lh    $t1, offset2($s0)   # Load $t1 with the offset at the index $s0.
@@ -276,7 +277,6 @@ li    $v0, 10	    #exits
 syscall
 
 ############### places ships on board 1, do not need to adjust	##################
-
 find_spot:
 blt  $a0, '0', not_number       #if less than 0, not a number. tests to see if letter
 bgt  $a0, '9', not_number        #if greater than 9, not a number. tests to see if letter
