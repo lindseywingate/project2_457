@@ -42,6 +42,9 @@ offset4:   .half    22,  24,  26,  28,  30,  32
            .half   267, 269, 271, 273, 275, 277
 
 
+buf:         .space  200
+var1:        .word   3
+new_resp:    .space  2
 cruiser:     .asciiz    "\nEnter the cruiser 3x[0-9a-z]: "
 cruiser_in:  .space  4
 destroyer:   .asciiz    "\nEnter the destroyer 2x[0-9a-z]: "
@@ -52,10 +55,9 @@ shot:	     .asciiz  	"\nYour turn:\n Next shot [0-9a-z] or peek(/): "
 shot_input:  .space  2
 system:	     .asciiz    "\nSystem's turn:"
 invalid:     .asciiz    "\nInvalid input"
+you_won:     .asciiz	"\nYou won!"
+system_won:  .asciiz	"\nThe system won :("
 new:	     .asciiz     "\nNew game? (y/n):"
-buf:         .space  200
-var1:        .word   3
-new_resp:    .space  2
 thanks:      .asciiz    "\nThanks for playing!"
 .text
 .globl main
@@ -161,10 +163,12 @@ lb    $a0,    ($t0)
 jal find_spot
 
 li    $s7,   6
+li    $s6,   6
 
 loop:
-beq $s7, 0, newgame    #branch if user has sunk all ships
+beq $s7, 0, player_won    #branch if user has sunk all ships
  #shot
+ beq $s6, 0, sys_won
 li    $v0,    4
 la    $a0,    shot
 syscall
@@ -183,19 +187,22 @@ li    $v0,4				# print a string
 la    $a0,system		        # print statement 2
 syscall
 
+system_turn_noprint:
 xor   $a0,$a0,$a0			#seed number
 li    $a1, 36				#set range 0-35
 li    $v0, 42				#randomly choose number
 syscall
 
-move  $t0, $a0				#put random move in $t0
-mul   $s0, $t0, 2			# Each offset is two-byte long.
-mul   $t0, $t0, 2
+mul   $s0, $a0, 2			# Each offset is two-byte long.
+mul   $t0, $a0, 2
+
 lh    $t1, offset1($s0)   		# Load $t1 with the offset value (of the translated index).
-lh    $t2, offset4($t0)  	 	# '' for board 2
-lb    $t4, sys_board($t1)     		# load board piece into $t4
+lh    $t2, offset4($t0)  	 	# Load $t2 with offset4 value
+lb    $t4, board($t1)     		# load board piece into $t4
 li    $t3, '+'            		# Put the marker in $t3.
-beq   $t4, '0', ship_hit   		# if value is a ship, replace with X instead
+beq   $t4, 'X', system_turn_noprint
+beq   $t4, '+', system_turn_noprint
+beq   $t4, '0', player_ship_hit   	# if value is a ship, replace with X instead
 sb    $t3, board($t1)     		# Put the marker in the offset index player left board
 sb    $t3, sys_board($t2)    	 	# Put the marker in system right board
 la    $a0, sys_board
@@ -233,6 +240,15 @@ li   $t5, 'X'
 sb   $t5, board($t1)
 sb   $t5, sys_board($t2)
 sub  $s7, $s7, 1
+la   $a0, board
+li   $v0, 4
+syscall
+
+player_ship_hit:
+li   $t5, 'X'
+sb   $t5, board($t1)
+sb   $t5, sys_board($t2)
+sub  $s6, $s6, 1
 la   $a0, board
 li   $v0, 4
 syscall
@@ -279,13 +295,13 @@ syscall
 ############### places ships on board 1, do not need to adjust	##################
 find_spot:
 blt  $a0, '0', not_number       #if less than 0, not a number. tests to see if letter
-bgt  $a0, '9', not_number        #if greater than 9, not a number. tests to see if letter
-sub  $s0, $a0, '0'               #otherwise, subtracts difference for ascii value
+bgt  $a0, '9', not_number       #if greater than 9, not a number. tests to see if letter
+sub  $s0, $a0, '0'              #otherwise, subtracts difference for ascii value
 
 #add to board
-mul  $s0, $s0, 2         # Each offset is two-byte long.
-lh   $t1, offset1($s0)   # Load $t1 with the offset of the index $t0.
-li   $t2, '0'            # Put the marker in $t2.
+mul  $s0, $s0, 2         	# Each offset is two-byte long.
+lh   $t1, offset1($s0)  	# Load $t1 with the offset of the index $t0.
+li   $t2, '0'            	# Put the marker in $t2.
 sb   $t2, board($t1)
 la   $a0, board
 li   $v0, 4
@@ -293,13 +309,13 @@ syscall
 jr   $ra
 
 not_number:   
-blt   $a0, 'a', not_letter    #if v0 is less than a, not a letter. 
-bgt   $a0, 'z', not_letter    #if v0 is more than z, not a letter.
-sub   $s0, $a0, 'a'           #otherwise, subtract/add the difference of ascii value
+blt   $a0, 'a', not_letter    	#if v0 is less than a, not a letter. 
+bgt   $a0, 'z', not_letter   	#if v0 is more than z, not a letter.
+sub   $s0, $a0, 'a'           	#otherwise, subtract/add the difference of ascii value
 add   $s0, $s0, 10
-mul   $s0, $s0, 2         # Each offset is two-byte long.
-lh    $t1, offset1($s0)   # Load $t1 with the offset of the index $t0.
-li    $t2, '0'            # Put the marker in $t2.
+mul   $s0, $s0, 2         	# Each offset is two-byte long.
+lh    $t1, offset1($s0)   	# Load $t1 with the offset of the index $t0.
+li    $t2, '0'            	# Put the marker in $t2.
 sb    $t2, board($t1)
 la    $a0, board
 li    $v0, 4
@@ -307,17 +323,45 @@ syscall
 jr    $ra
 
 not_letter: 
-la     $a0, board    #prints board again
+la     $a0, board    		#prints board again
 li     $v0, 4
 syscall
 jr     $ra
-la     $a0, board    #prints board again
+la     $a0, board   		#prints board again
 li     $v0, 4
 li     $v0, 10
 syscall
 
+######################## check for duplicates #####################
+check_dup:
+li	$a0,0				# set 'boolean' value
+lh	$t1, offset4($t0)		# Load $t1 with offset of position we are checking (offset4).
+lb	$t2, board($t1)			
+beq	$t2, '.', not_dup		# if not duplicate, quit with $a0 = 0
+li	$a0,1				# else, $a0 = 1
 
-######################### new game ############################
+#do not need to print error message because is considered "internal service error"
+#and user does not need to know the computer needs to retry
+not_dup:
+jr $31 # done
+
+
+######################## end of game stuff ########################
+player_won:
+la    $a0, you_won
+li    $v0, 4
+syscall
+
+j newgame
+
+sys_won:
+la    $a0, system_won
+li    $v0, 4
+syscall
+
+j newgame
+
+######################### new game ################################
 newgame:
 la    $a0, new
 li    $v0, 4
@@ -330,15 +374,15 @@ syscall
 
 lb    $t0, new_resp
 li    $t1, 'y'
-beq   $t0, $t1, clearboard #if user enters y, new game. go back to top
-bne   $t0, $t1, thankyou   #else, print thank you and quit
+beq   $t0, $t1, clearboard 	#if user enters y, new game. go back to top
+bne   $t0, $t1, thankyou   	#else, print thank you and quit
 
 thankyou:
-la    $a0, thanks #prints thank you
+la    $a0, thanks 		#prints thank you
 li    $v0, 4
 syscall 
 
-li    $v0, 10 #quits game
+li    $v0, 10 			#quits game
 syscall
 
 
