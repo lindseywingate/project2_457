@@ -99,7 +99,51 @@ li    $v0,    4
 la    $a0,    board
 syscall
 
-#get ships and add to board
+############## places systems ships first ###########################################
+#first random seed # for submarine
+xor   $a0,$a0,$a0			#seed number
+li    $a1, 36				#set range 0-35
+li    $v0, 42				#randomly choose number
+syscall
+
+#places submarine
+mul   $t0, $a0, 2			# Each offset is two-byte long.
+lh    $t1, offset3($t0)   		# Load $t1 with the offset value (of the translated index).
+lb    $t4, sys_board($t1)     		# load board piece into $t4
+li    $t3, '0'            		# Put the marker in $t3.	
+sb    $t3, sys_board($t1)     		# Put the marker in the offset index player left board
+
+#random seed # for destroyer
+random_num_destroyer:
+xor   $a0,$a0,$a0			#seed number
+li    $a1, 36				#set range 0-35
+li    $v0, 42				#randomly choose number
+syscall
+
+#places destroyer1
+mul   $a0, $a0, 2			# Each offset is two-byte long.
+lh    $t1, offset3($a0)   		# Load $t1 with the offset value (of the translated index).
+lb    $t4, sys_board($t1)     		# load board piece into $t4
+li    $t3, '$'            		# Put the marker in $t3.
+beq   $t4, '$',	random_num_destroyer	# if already contains 0, retry random #
+sb    $t3, sys_board($t1)     		# Put the marker in the offset index player left board
+
+#random seed # for cruiser
+xor   $a0,$a0,$a0			#seed number
+li    $a1, 36				#set range 0-35
+li    $v0, 42				#randomly choose number
+syscall
+
+#places cruiser1
+mul   $a0, $a0, 2			# Each offset is two-byte long.
+lh    $t1, offset3($a0)   		# Load $t1 with the offset value (of the translated index).
+move  $a3, $t0
+lb    $t4, sys_board($t1)     		# load board piece into $t4
+li    $t3, '^'            		# Put the marker in $t3.
+beq   $t4, '^', random_num_destroyer    #if already contains 0, retry random #
+sb    $t3, sys_board($t1)     		# Put the marker in the offset index player left board
+
+################ get ships from player and adds to board ############################
 #cruiser
 li    $v0,    4        #loads space
 la    $a0,    cruiser        #loads cruiser statement
@@ -119,12 +163,16 @@ jal	find_spot
 #gets second byte from cruiser
 add   $t0, $t0, 1
 lb    $a0, ($t0)
-jal	find_spot
+jal   find_spot
 
 #gets third byte from cruiser
 add   $t0, $t0, 1
 lb    $a0,    ($t0)
-jal	find_spot
+jal   find_spot
+
+la   $a0, board
+li   $v0, 4
+syscall
 
 #destroyer
 li    $v0,    4
@@ -147,6 +195,10 @@ add   $t0, $t0, 1
 lb    $a0,    ($t0)
 jal find_spot
 
+la   $a0, board
+li   $v0, 4
+syscall
+
 #submarine
 li    $v0,    4
 la    $a0,    submarine
@@ -162,13 +214,18 @@ la    $t0,    sub_in
 lb    $a0,    ($t0)
 jal find_spot
 
-li    $s7,   6
-li    $s6,   6
+#sets counters for X's placed
+li    $s7,   6		#if this counter gets down to 0, the player won!
+li    $s6,   6		#if this counter gets down to 0, the system won :(
+
+#prints board to begin
+la   $a0, board
+li   $v0, 4
+syscall
 
 loop:
-beq $s7, 0, player_won    #branch if user has sunk all ships
- #shot
- beq $s6, 0, sys_won
+beq   $s7, 0, player_won    #branch if user has sunk all ships
+beq   $s6, 0, sys_won
 li    $v0,    4
 la    $a0,    shot
 syscall
@@ -205,7 +262,7 @@ beq   $t4, '+', system_turn_noprint
 beq   $t4, '0', player_ship_hit   	# if value is a ship, replace with X instead
 sb    $t3, board($t1)     		# Put the marker in the offset index player left board
 sb    $t3, sys_board($t2)    	 	# Put the marker in system right board
-la    $a0, sys_board
+la    $a0, board
 li    $v0, 4
 syscall
 
@@ -303,9 +360,6 @@ mul  $s0, $s0, 2         	# Each offset is two-byte long.
 lh   $t1, offset1($s0)  	# Load $t1 with the offset of the index $t0.
 li   $t2, '0'            	# Put the marker in $t2.
 sb   $t2, board($t1)
-la   $a0, board
-li   $v0, 4
-syscall
 jr   $ra
 
 not_number:   
@@ -317,9 +371,6 @@ mul   $s0, $s0, 2         	# Each offset is two-byte long.
 lh    $t1, offset1($s0)   	# Load $t1 with the offset of the index $t0.
 li    $t2, '0'            	# Put the marker in $t2.
 sb    $t2, board($t1)
-la    $a0, board
-li    $v0, 4
-syscall
 jr    $ra
 
 not_letter: 
@@ -344,7 +395,6 @@ li	$a0,1				# else, $a0 = 1
 #and user does not need to know the computer needs to retry
 not_dup:
 jr $31 # done
-
 
 ######################## end of game stuff ########################
 player_won:
@@ -384,5 +434,3 @@ syscall
 
 li    $v0, 10 			#quits game
 syscall
-
-
