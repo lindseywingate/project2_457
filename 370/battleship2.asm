@@ -128,6 +128,9 @@ li    $t3, '$'            		# Put the marker in $t3.
 beq   $t4, '$',	random_num_destroyer	# if already contains 0, retry random #
 sb    $t3, sys_board($t1)     		# Put the marker in the offset index player left board
 
+jal   placement
+
+
 #random seed # for cruiser
 xor   $a0,$a0,$a0			#seed number
 li    $a1, 36				#set range 0-35
@@ -156,18 +159,18 @@ li    $v0,    8        #load opcode (8)
 syscall                #sees 8, asks for input, puts string in $a0
 
 #gets first byte from cruiser
-la    $t0,    cruiser_in
-lb    $a0,    ($t0)
+la   $t0, cruiser_in
+lb   $a0, ($t0)
 jal	find_spot
 
 #gets second byte from cruiser
-add   $t0, $t0, 1
-lb    $a0, ($t0)
+add  $t0, $t0, 1
+lb   $a0, ($t0)
 jal   find_spot
 
 #gets third byte from cruiser
-add   $t0, $t0, 1
-lb    $a0,    ($t0)
+add  $t0, $t0, 1
+lb   $a0, ($t0)
 jal   find_spot
 
 la   $a0, board
@@ -348,8 +351,58 @@ la    $a0, board    #prints board again
 li    $v0, 4
 li    $v0, 10	    #exits
 syscall
+############### places ships for system ##########################################
+placement:
+blt  $a0, 16, first_row 
+blt  $a0, 65, second_row
+blt  $a0, 114, third_row
+blt  $a0, 163, fourth_row
+blt  $a0, 212, fifth_row
+blt  $a0, 261, sixth_row
 
-############### places ships on board 1, do not need to adjust	##################
+first_row:
+beq  $a0, 6, top_left_corner
+beq  $a0, 16, top_right_corner
+#return 1
+
+top_left_corner:
+#return 2
+
+top_right_corner:  
+#return 3
+
+bottom_left_corner:
+#return 4
+
+bottom_right_corner:
+#return 5
+
+second_row:
+beq  $a0, 55, left_side
+beq  $a0, 65, right_side
+#return 0
+
+third_row:
+beq  $a0, 104, left_side
+beq  $a0, 114, right_side
+# return 0
+
+fourth_row:
+beq  $a0, 153, left_side
+beq  $a0, 163, right_side
+# return 0
+
+fifth_row:
+beq  $a0, 202, left_side
+beq  $a0, 212, right_side
+# return 0
+
+sixth_row:
+beq  $a0, 251, left_corner
+beq  $a0, 261, right_corner
+#return 6
+
+############### places ships on board 1 #########################################
 find_spot:
 blt  $a0, '0', not_number       #if less than 0, not a number. tests to see if letter
 bgt  $a0, '9', not_number       #if greater than 9, not a number. tests to see if letter
