@@ -100,6 +100,7 @@ la    $a0,    board
 syscall
 
 ############## places systems ships first ###########################################
+
 #first random seed # for submarine
 xor   $a0,$a0,$a0			#seed number
 li    $a1, 36				#set range 0-35
@@ -121,16 +122,139 @@ li    $v0, 42				#randomly choose number
 syscall
 
 #places destroyer1
-mul   $a0, $a0, 2			# Each offset is two-byte long.
+mul   $t0, $a0, 2			# Each offset is two-byte long.
+lh    $t1, offset3($t0)   		# Load $t1 with the offset value (of the translated index).
+lb    $t4, sys_board($t1)     		# load board piece into $t4
+li    $t3, '$'            		# Put the marker in $t3.
+beq   $t4, '$',	random_num_destroyer	# if already contains 0, retry random #
+sb    $t3, sys_board($t1)     		# Put the marker in the offset index player left board
+
+move  $a0, $t0
+jal   placement
+#j     random_cruiser
+beq   $a1, 0, put_anywhere
+beq   $a1, 1, in_first_row
+beq   $a1, 2, in_top_left
+beq   $a1, 3, in_top_right
+beq   $a1, 4, in_bottom_left
+beq   $a1, 5, in_bottom_right
+beq   $a1, 6, in_sixth_row
+beq   $a1, 7, on_left_side
+beq   $a1, 8, on_right_side
+
+put_anywhere:
+xor   $a0,$a0,$a0
+li    $s0, 4
+li    $v0, 42			
+syscall
+
+beq   $s0, 0, put_piece_left
+beq   $s0, 1, put_piece_right
+beq   $s0, 2, put_piece_top
+beq   $s0, 3, put_piece_bottom
+
+in_first_row:
+xor   $a0,$a0,$a0
+li    $s0, 3
+li    $v0, 42			
+syscall
+beq  $s0, 0, put_piece_bottom
+beq  $s0, 1, put_piece_left
+beq  $s0, 2, put_piece_left
+
+in_top_left:
+xor   $a0,$a0,$a0
+li    $s0, 2
+li    $v0, 42			
+syscall
+beq   $s0, 0, put_piece_right
+beq   $s0, 1, put_piece_bottom
+
+in_top_right:
+xor   $a0,$a0,$a0
+li    $s0, 2
+li    $v0, 42			
+syscall
+beq   $s0, 0, put_piece_left
+beq   $s0, 1, put_piece_bottom
+
+in_bottom_left:
+xor   $a0,$a0,$a0
+li    $s0, 2
+li    $v0, 42			
+syscall
+beq   $s0, 0, put_piece_right
+beq   $s0, 1, put_piece_top
+
+in_bottom_right:
+xor   $a0,$a0,$a0
+li    $s0, 2
+li    $v0, 42			
+syscall
+beq   $s0, 0, put_piece_left
+beq   $s0, 1, put_piece_top
+
+in_sixth_row:
+xor   $a0,$a0,$a0
+li    $s0, 4
+li    $v0, 42			
+syscall
+beq   $s0, 0, put_piece_left
+beq   $s0, 1, put_piece_top
+beq   $s0, 2, put_piece_right
+
+on_left_side:
+xor   $a0,$a0,$a0
+li    $s0, 4
+li    $v0, 42			
+syscall
+beq   $s0, 0, put_piece_right
+beq   $s0, 1, put_piece_top
+beq   $s0, 2, put_piece_bottom
+
+on_right_side:
+xor   $a0,$a0,$a0
+li    $s0, 4
+li    $v0, 42			
+syscall
+beq   $s0, 0, put_piece_left
+beq   $s0, 1, put_piece_top
+beq   $s0, 2, put_piece_bottom
+
+put_piece_left:
+sub   $a0, $a0, 2
+lh    $t1, offset3($a0)   		# Load with the offset value (of the translated index).
+lb    $t4, sys_board($t1)     		# load board piece into $t4
+li    $t3, '$'            		# Put the marker in $t3.
+beq   $t4, '$',	random_num_destroyer	# if already contains 0, retry random #
+sb    $t3, sys_board($t1)     		# Put the marker in the offset index player left board
+
+put_piece_right:
+add   $a0, $a0, 2
 lh    $t1, offset3($a0)   		# Load $t1 with the offset value (of the translated index).
 lb    $t4, sys_board($t1)     		# load board piece into $t4
 li    $t3, '$'            		# Put the marker in $t3.
 beq   $t4, '$',	random_num_destroyer	# if already contains 0, retry random #
 sb    $t3, sys_board($t1)     		# Put the marker in the offset index player left board
 
-jal   placement
+put_piece_top:
+sub   $a0, $a0, 49
+#change $a0 to proper spot
+lh    $t1, offset3($a0)   		# Load $t1 with the offset value (of the translated index).
+lb    $t4, sys_board($t1)     		# load board piece into $t4
+li    $t3, '$'            		# Put the marker in $t3.
+beq   $t4, '$',	random_num_destroyer	# if already contains 0, retry random #
+sb    $t3, sys_board($t1)     		# Put the marker in the offset index player left board
 
+put_piece_bottom:
+add   $a0, $a0, 49
+lh    $t1, offset3($a0)   		# Load $t1 with the offset value (of the translated index).
+lb    $t4, sys_board($t1)     		# load board piece into $t4
+li    $t3, '$'            		# Put the marker in $t3.
+beq   $t4, '$',	random_num_destroyer	# if already contains 0, retry random #
+sb    $t3, sys_board($t1)     		# Put the marker in the offset index player left board
 
+random_cruiser:
 #random seed # for cruiser
 xor   $a0,$a0,$a0			#seed number
 li    $a1, 36				#set range 0-35
@@ -146,7 +270,77 @@ li    $t3, '^'            		# Put the marker in $t3.
 beq   $t4, '^', random_num_destroyer    #if already contains 0, retry random #
 sb    $t3, sys_board($t1)     		# Put the marker in the offset index player left board
 
+j     player_ships
+############### places ships for system ##########################################
+placement:
+blt  $a0, 16, first_row 
+blt  $a0, 65, second_row
+blt  $a0, 114, third_row
+blt  $a0, 163, fourth_row
+blt  $a0, 212, fifth_row
+blt  $a0, 261, sixth_row
+
+first_row:
+beq  $a0, 6, top_left_corner
+beq  $a0, 16, top_right_corner
+add  $a1, $a1, 1
+top_left_corner:
+add  $t0, $t0, 2
+move $a0, $t0
+jr   $ra
+top_right_corner:  
+add  $t0, $t0, 3
+move $a0, $t0
+jr   $ra
+bottom_left_corner:
+add  $t0, $t0, 4
+move $a0, $t0
+jr   $ra
+bottom_right_corner:
+add  $t0, $t0, 5
+move $a1, $t0
+jr   $ra
+second_row:
+beq  $a0, 55, left_side
+beq  $a0, 65, right_side
+add  $t0, $t0, 0
+move $a1, $t0
+jr   $ra
+third_row:
+beq  $a0, 104, left_side
+beq  $a0, 114, right_side
+add  $t0, $t0, 0
+move $a1, $t0
+jr   $ra
+fourth_row:
+beq  $a0, 153, left_side
+beq  $a0, 163, right_side
+add  $t0, $t0, 0
+move $a1, $t0
+jr   $ra
+fifth_row:
+beq  $a0, 202, left_side
+beq  $a0, 212, right_side
+add  $t0, $t0, 0
+move $a1, $t0
+jr   $ra
+sixth_row:
+beq  $a0, 251, bottom_left_corner
+beq  $a0, 261, bottom_right_corner
+add  $t0, $t0, 6
+move $a1, $t0
+jr   $ra
+left_side:
+add  $t0, $t0, 7
+move $a1, $t0
+jr   $ra
+right_side:
+add  $t0, $t0, 8
+move $a1, $t0
+jr   $ra
+
 ################ get ships from player and adds to board ############################
+player_ships:
 #cruiser
 li    $v0,    4        #loads space
 la    $a0,    cruiser        #loads cruiser statement
@@ -351,56 +545,7 @@ la    $a0, board    #prints board again
 li    $v0, 4
 li    $v0, 10	    #exits
 syscall
-############### places ships for system ##########################################
-placement:
-blt  $a0, 16, first_row 
-blt  $a0, 65, second_row
-blt  $a0, 114, third_row
-blt  $a0, 163, fourth_row
-blt  $a0, 212, fifth_row
-blt  $a0, 261, sixth_row
 
-first_row:
-beq  $a0, 6, top_left_corner
-beq  $a0, 16, top_right_corner
-#return 1
-
-top_left_corner:
-#return 2
-
-top_right_corner:  
-#return 3
-
-bottom_left_corner:
-#return 4
-
-bottom_right_corner:
-#return 5
-
-second_row:
-beq  $a0, 55, left_side
-beq  $a0, 65, right_side
-#return 0
-
-third_row:
-beq  $a0, 104, left_side
-beq  $a0, 114, right_side
-# return 0
-
-fourth_row:
-beq  $a0, 153, left_side
-beq  $a0, 163, right_side
-# return 0
-
-fifth_row:
-beq  $a0, 202, left_side
-beq  $a0, 212, right_side
-# return 0
-
-sixth_row:
-beq  $a0, 251, left_corner
-beq  $a0, 261, right_corner
-#return 6
 
 ############### places ships on board 1 #########################################
 find_spot:
