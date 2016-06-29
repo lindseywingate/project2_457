@@ -125,22 +125,22 @@ syscall
 mul   $t0, $a0, 2			# Each offset is two-byte long.
 lh    $t1, offset3($t0)   		# Load $t1 with the offset value (of the translated index).
 lb    $t4, sys_board($t1)     		# load board piece into $t4
-li    $t3, '$'            		# Put the marker in $t3.
-beq   $t4, '$',	random_num_destroyer	# if already contains 0, retry random #
+li    $t3, '0'            		# Put the marker in $t3.
+beq   $t4, '0',	random_num_destroyer	# if already contains 0, retry random #
 sb    $t3, sys_board($t1)     		# Put the marker in the offset index player left board
 
-move  $a0, $t0
+move  $a2, $t0
 jal   placement
 #j     random_cruiser
-beq   $a1, 0, put_anywhere
-beq   $a1, 1, in_first_row
-beq   $a1, 2, in_top_left
-beq   $a1, 3, in_top_right
-beq   $a1, 4, in_bottom_left
-beq   $a1, 5, in_bottom_right
-beq   $a1, 6, in_sixth_row
-beq   $a1, 7, on_left_side
-beq   $a1, 8, on_right_side
+beq   $a1, 0, put_anywhere		#not on edge or in corner
+beq   $a1, 1, in_first_row		#on top edge
+beq   $a1, 2, in_top_left		#in top left corner
+beq   $a1, 3, in_top_right		#in top right corner
+beq   $a1, 4, in_bottom_left		#in bottom left corner
+beq   $a1, 5, in_bottom_right		#in bottom right corner
+beq   $a1, 6, in_sixth_row		#in bottom edge
+beq   $a1, 7, on_left_side		#on left side edge
+beq   $a1, 8, on_right_side		#on right side edge
 
 put_anywhere:
 xor   $a0,$a0,$a0
@@ -222,36 +222,39 @@ beq   $s0, 1, put_piece_top
 beq   $s0, 2, put_piece_bottom
 
 put_piece_left:
-sub   $a0, $a0, 2
-lh    $t1, offset3($a0)   		# Load with the offset value (of the translated index).
+sub   $a2, $a2, 2
+lh    $t1, offset3($a2)   		# Load with the offset value (of the translated index).
 lb    $t4, sys_board($t1)     		# load board piece into $t4
-li    $t3, '$'            		# Put the marker in $t3.
-beq   $t4, '$',	random_num_destroyer	# if already contains 0, retry random #
+li    $t3, '0'            		# Put the marker in $t3.
+beq   $t4, '0',	random_num_destroyer	# if already contains 0, retry random #
 sb    $t3, sys_board($t1)     		# Put the marker in the offset index player left board
+j     random_cruiser
 
 put_piece_right:
-add   $a0, $a0, 2
-lh    $t1, offset3($a0)   		# Load $t1 with the offset value (of the translated index).
+add   $a2, $a2, 2
+lh    $t1, offset3($a2)   		# Load $t1 with the offset value (of the translated index).
 lb    $t4, sys_board($t1)     		# load board piece into $t4
-li    $t3, '$'            		# Put the marker in $t3.
-beq   $t4, '$',	random_num_destroyer	# if already contains 0, retry random #
+li    $t3, '0'            		# Put the marker in $t3.
+beq   $t4, '0',	random_num_destroyer	# if already contains 0, retry random #
 sb    $t3, sys_board($t1)     		# Put the marker in the offset index player left board
+j     random_cruiser
 
 put_piece_top:
-sub   $a0, $a0, 49
+sub   $a2, $a2, 49
 #change $a0 to proper spot
-lh    $t1, offset3($a0)   		# Load $t1 with the offset value (of the translated index).
+lh    $t1, offset3($a2)   		# Load $t1 with the offset value (of the translated index).
 lb    $t4, sys_board($t1)     		# load board piece into $t4
-li    $t3, '$'            		# Put the marker in $t3.
-beq   $t4, '$',	random_num_destroyer	# if already contains 0, retry random #
+li    $t3, '0'            		# Put the marker in $t3.
+beq   $t4, '0',	random_num_destroyer	# if already contains 0, retry random #
 sb    $t3, sys_board($t1)     		# Put the marker in the offset index player left board
+j     random_cruiser
 
 put_piece_bottom:
-add   $a0, $a0, 49
-lh    $t1, offset3($a0)   		# Load $t1 with the offset value (of the translated index).
+add   $a2, $a2, 49
+lh    $t1, offset3($a2)   		# Load $t1 with the offset value (of the translated index).
 lb    $t4, sys_board($t1)     		# load board piece into $t4
-li    $t3, '$'            		# Put the marker in $t3.
-beq   $t4, '$',	random_num_destroyer	# if already contains 0, retry random #
+li    $t3, '0'            		# Put the marker in $t3.
+beq   $t4, '0',	random_num_destroyer	# if already contains 0, retry random #
 sb    $t3, sys_board($t1)     		# Put the marker in the offset index player left board
 
 random_cruiser:
@@ -267,23 +270,25 @@ lh    $t1, offset3($a0)   		# Load $t1 with the offset value (of the translated 
 move  $a3, $t0
 lb    $t4, sys_board($t1)     		# load board piece into $t4
 li    $t3, '^'            		# Put the marker in $t3.
-beq   $t4, '^', random_num_destroyer    #if already contains 0, retry random #
+beq   $t4, '0', random_num_destroyer    #if already contains 0, retry random #
 sb    $t3, sys_board($t1)     		# Put the marker in the offset index player left board
 
-j     player_ships
-############### places ships for system ##########################################
+j     player_ships			#need to skip over placement and continue with program
+############## places ships for system ##########################################
 placement:
-blt  $a0, 16, first_row 
-blt  $a0, 65, second_row
-blt  $a0, 114, third_row
-blt  $a0, 163, fourth_row
-blt  $a0, 212, fifth_row
-blt  $a0, 261, sixth_row
-
+bgt  $a2, 5, first_row 
+bgt  $a2, 16, second_row
+bgt  $a2, 65, third_row
+bgt  $a2, 114, fourth_row
+bgt  $a2, 163, fifth_row
+bgt  $a2, 212, sixth_row
+bgt  $a2, 261, thankyou
 first_row:
-beq  $a0, 6, top_left_corner
-beq  $a0, 16, top_right_corner
+beq  $a2, 6, top_left_corner
+beq  $a2, 16, top_right_corner
+bgt  $a2, 16, second_row 		#if bigger than 16, belongs in another row
 add  $a1, $a1, 1
+jr   $ra
 top_left_corner:
 add  $t0, $t0, 2
 move $a0, $t0
@@ -301,32 +306,36 @@ add  $t0, $t0, 5
 move $a1, $t0
 jr   $ra
 second_row:
-beq  $a0, 55, left_side
-beq  $a0, 65, right_side
+beq  $a2, 55, left_side
+beq  $a2, 65, right_side
+bgt  $a2, 65, third_row			#if bigger than 65, belongs in another row
 add  $t0, $t0, 0
 move $a1, $t0
 jr   $ra
 third_row:
-beq  $a0, 104, left_side
-beq  $a0, 114, right_side
+beq  $a2, 104, left_side
+beq  $a2, 114, right_side
+bgt  $a2, 114, fourth_row		#if bigger than 114, belongs in another row
 add  $t0, $t0, 0
 move $a1, $t0
 jr   $ra
 fourth_row:
-beq  $a0, 153, left_side
-beq  $a0, 163, right_side
+beq  $a2, 153, left_side
+beq  $a2, 163, right_side
+bgt  $a2, 163, fifth_row		#if bigger than 163, belongs in sixth row
 add  $t0, $t0, 0
 move $a1, $t0
 jr   $ra
 fifth_row:
-beq  $a0, 202, left_side
-beq  $a0, 212, right_side
+beq  $a2, 202, left_side
+beq  $a2, 212, right_side
+bgt  $a2, 212, sixth_row
 add  $t0, $t0, 0
 move $a1, $t0
 jr   $ra
 sixth_row:
-beq  $a0, 251, bottom_left_corner
-beq  $a0, 261, bottom_right_corner
+beq  $a2, 251, bottom_left_corner
+beq  $a2, 261, bottom_right_corner
 add  $t0, $t0, 6
 move $a1, $t0
 jr   $ra
