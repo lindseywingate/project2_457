@@ -59,8 +59,7 @@ main:
 clearboard:
 li    $t3, 36
 li    $t7, 0
-#clears first board
-clearing:
+clearing:			#clears first board
 mul    $t0, $t7, 2		#offset = 2 bytes
 lh     $t1, offset1($t0)        #$t1 with offset1 index
 lh     $t5, offset2($t0)        #t5 with offset2 index
@@ -108,31 +107,31 @@ beq   $a1, 7, on_left_side		#on left side edge
 beq   $a1, 8, on_right_side		#on right side edge
 put_anywhere:
 xor   $a0,$a0,$a0
-li    $s0, 2
+li    $s0, 3
 li    $v0, 42			
 syscall
-beq   $s0, 0, put_horizontal
 beq   $s0, 1, put_vertical
+beq   $s0, 2, put_horizontal
 in_first_row:
 xor   $a0,$a0,$a0
-li    $s0, 2
+li    $s0, 3
 li    $v0, 42			
 syscall
-beq  $s0, 1, put_horizontal
-beq  $s0, 0, put_2_down
+beq  $s0, 1, put_2_down
+beq  $s0, 2, put_horizontal
 in_sixth_row:
 xor   $a0,$a0,$a0
-li    $s0, 2
+li    $s0, 3
 li    $v0, 42			
 syscall
-beq   $s0, 1, put_horizontal
-beq   $s0, 0, put_2_up
+beq   $s0, 1, put_2_up
+beq   $s0, 2,put_horizontal 
 on_left_side:	
-beq   $s0, 0, put_vertical		
-beq   $s0, 1, put_2_right
+beq   $s0, 1, put_vertical		
+beq   $s0, 2, put_2_right
 on_right_side:
-beq   $s0, 0, put_vertical
-beq   $s0, 1, put_2_left
+beq   $s0, 1, put_vertical
+beq   $s0, 2, put_2_left
 put_2_left:
 sub   $a2, $a2, 2
 lh    $t1, offset3($a2)   		# Load with the offset value (of the translated index).
@@ -158,26 +157,27 @@ li    $t3, 'C'            		# Put the marker in $t3.
 sb    $t3, sys_board($t1)     		# Put the marker in the offset index player left board
 j     system_destroyer
 put_2_up:
-subu  $a2, $a2, 49
-lh    $t4, sys_board($t1)     		# load board piece into $t4
-li    $t3, 'C'            		# Put the marker in $t3.
-sb    $t3, sys_board($t1)     		# Put the marker in the offset index player left board
-sub   $a2, $a2, 49
-lh    $t1, offset3($a2)   		# Load $t1 with the offset value (of the translated index).
-lb    $t4, sys_board($t1)     		# load board piece into $t4
-li    $t3, 'C'            		# Put the marker in $t3.
-sb    $t3, sys_board($t1) 
+sub   $a2, $a2, 12
+lh    $t1, offset3($a2)
+lb    $t4, sys_board($t1)
+li    $t3, '#'
+sb    $t3, sys_board($t1)
+sub   $a2, $a2, 12
+lh    $t1, offset3($a2)
+lb    $t4, sys_board($t1)
+li    $t3, '#'
+sb    $t3, sys_board($t1)
 j     system_destroyer
 put_2_down:
-add   $a2, $a2, 49
-lh    $t1, offset3($a2)   		# Load $t1 with the offset value (of the translated index).
+add   $t0, $a2, 12
+lh    $t1, offset3($t0)   		# Load $t1 with the offset value (of the translated index).
 lb    $t4, sys_board($t1)     		# load board piece into $t4
-li    $t3, 'C'            		# Put the marker in $t3.
+li    $t3, '@'            		# Put the marker in $t3.
 sb    $t3, sys_board($t1)     		# Put the marker in the offset index player left board
-add   $a3, $a2, 49
-lh    $t1, offset3($a3)   		# Load $t1 with the offset value (of the translated index).
+add   $t5, $a2, 12
+lh    $t1, offset3($t5)   		# Load $t1 with the offset value (of the translated index).
 lb    $t4, sys_board($t1)     		# load board piece into $t4
-li    $t3, 'C'            		# Put the marker in $t3.
+li    $t3, '@'            		# Put the marker in $t3.
 sb    $t3, sys_board($t1)     		# Put the marker in the offset index player left board
 j     system_destroyer
 put_horizontal: #one left, one right
@@ -193,15 +193,15 @@ li    $t3, 'C'            		# Put the marker in $t3.
 sb    $t3, sys_board($t1)  
 j     system_destroyer
 put_vertical: #one up, one down
-sub   $a2, $a2, 49			#up
-lh    $t1, offset3($a2)   		# Load $t1 with the offset value (of the translated index).
+sub   $t0, $a2, 12			#up
+lh    $t1, offset3($t0)   		# Load $t1 with the offset value (of the translated index).
 lb    $t4, sys_board($t1)     		# load board piece into $t4
-li    $t3, 'C'            		# Put the marker in $t3.
+li    $t3, '^'            		# Put the marker in $t3.
 sb    $t3, sys_board($t1)     		# Put the marker in the of
-add   $a2, $a2, 98			#down
-lh    $t1, offset3($a2)   		# Load $t1 with the offset value (of the translated index).
+add   $t5, $a2, 24			#down
+lh    $t1, offset3($t5)   		# Load $t1 with the offset value (of the translated index).
 lb    $t4, sys_board($t1)     		# load board piece into $t4
-li    $t3, 'C'            		# Put the marker in $t3.
+li    $t3, '^'            		# Put the marker in $t3.
 sb    $t3, sys_board($t1)     		# Put the marker in the offset index player left board
 j     system_destroyer
 ############## CRUISER PLACEMENT ##########################################
@@ -279,12 +279,11 @@ move $a1, $t0
 jr   $ra
 
 #################           DESTROYER           #########################################################
-system_destroyer:
+system_destroyer:			#places destroyer
 xor   $a0,$a0,$a0			#seed number
 li    $a1, 36				#set range 0-35
 li    $v0, 42				#randomly choose number
-syscall
-#places destroyer1
+syscall					
 mul   $t0, $a0, 2			# Each offset is two-byte long.
 lh    $t1, offset3($t0)   		# Load $t1 with the offset value (of the translated index).
 lb    $t4, sys_board($t1)     		# load board piece into $t4
@@ -294,14 +293,14 @@ sb    $t3, sys_board($t1)     		# Put the marker in the offset index player left
 move  $a2, $t0
 jal   placement
 beq   $a1, 0, put_anywhere		#not on edge or in corner
-beq   $a1, 1, put_below		#on top edge
-beq   $a1, 2, put_below		#in top left corner
-beq   $a1, 3, put_below		#in top right corner
+beq   $a1, 1, put_below			#on top edge
+beq   $a1, 2, put_below			#in top left corner
+beq   $a1, 3, put_below			#in top right corner
 beq   $a1, 4, put_top			#in bottom left corner
 beq   $a1, 5, put_top			#in bottom right corner
-beq   $a1, 6, put_top		#in bottom edge
-beq   $a1, 7, put_right		#on left side edge
-beq   $a1, 8, put_left		#on right side edge
+beq   $a1, 6, put_top			#in bottom edge
+beq   $a1, 7, put_right			#on left side edge
+beq   $a1, 8, put_left			#on right side edge
 put_anywhere2:
 xor   $a0,$a0,$a0
 li    $s0, 2
@@ -338,12 +337,11 @@ li    $t3, 'D'            		# Put the marker in $t3.
 sb    $t3, sys_board($t1)  
 j     system_submarine
 ################ SYSTEM SUBMARINE ##################################################
-system_submarine:
+system_submarine:			#places submarine
 xor   $a0,$a0,$a0			#seed number
 li    $a1, 36				#set range 0-35
 li    $v0, 42				#randomly choose number
 syscall
-#places submarine
 mul   $t0, $a0, 2			# Each offset is two-byte long.
 lh    $t1, offset3($t0)   		# Load $t1 with the offset value (of the translated index).
 lb    $t4, sys_board($t1)     		# load board piece into $t4
@@ -352,86 +350,69 @@ beq   $t4, 'C', system_submarine  	#if already contains 0, retry random #
 li    $t3, 'S'            		# Put the marker in $t3.	
 sb    $t3, sys_board($t1)   
 ################ get ships from player and adds to board ############################
-player_ships:
-#cruiser
-li    $v0,    4        #loads space
-la    $a0,    cruiser        #loads cruiser statement
+player_ships:			#cruiser
+li    $v0,    4        		#loads space
+la    $a0,    cruiser        	#loads cruiser statement
 syscall
-#get input, store in word
-la    $a0,    cruiser_in    #sets $a0 to space allocated
-li    $a1,    4           #gets length of space
-li    $v0,    8        #load opcode (8)
-syscall                #sees 8, asks for input, puts string in $a0
-#gets first byte from cruiser
-la   $t0, cruiser_in
+la    $a0,    cruiser_in    	#sets $a0 to space allocated
+li    $a1,    4          	#gets length of space
+li    $v0,    8        		#load opcode (8)
+syscall                		#sees 8, asks for input, puts string in $a0
+la   $t0, cruiser_in		#gets first byte from cruiser
 lb   $a0, ($t0)
 jal	find_spot
-#gets second byte from cruiser
-add  $t0, $t0, 1
+add  $t0, $t0, 1		#gets second byte from cruiser
 lb   $a0, ($t0)
 jal   find_spot
-#gets third byte from cruiser
-add  $t0, $t0, 1
+add  $t0, $t0, 1		#gets third byte from cruiser
 lb   $a0, ($t0)
 jal   find_spot
 la   $a0, board
 li   $v0, 4
 syscall
-#destroyer
-li    $v0,    4
+li    $v0,    4			#destroyer
 la    $a0,    destroyer
 syscall
-#get input, store in word
-la    $a0,    destroy_in
+la    $a0,    destroy_in	#get input, store in word
 li    $a1,    3
 li    $v0,    8
 syscall
-#gets first byte from cruiser
-la    $t0,    destroy_in
+la    $t0,    destroy_in	#gets first byte from cruiser
 lb    $a0,    ($t0)
 jal find_spot
-#gets second byte from cruiser
-add   $t0, $t0, 1
+add   $t0, $t0, 1		#gets second byte from cruiser
 lb    $a0,    ($t0)
 jal find_spot
 la   $a0, board
 li   $v0, 4
 syscall
-#submarine
-li    $v0,    4
+li    $v0,    4			#submarine
 la    $a0,    submarine
 syscall
 la    $a0,    sub_in
 li    $a1,    2
 li    $v0,    8
 syscall
-#gets first byte from sub
-la    $t0,    sub_in
+la    $t0,    sub_in		#gets first byte from sub
 lb    $a0,    ($t0)
 jal find_spot
-#sets counters for X's placed
 li    $s7,   6		#if this counter gets down to 0, the player won!
 li    $s6,   6		#if this counter gets down to 0, the system won :(
-
-#prints board to begin
-la   $a0, board
-li   $v0, 4
+la   $a0, board		#prints board to begins
+li   $v0, 4	
 syscall
-
 ################################## players turn #######################################
 loop:
-beq   $s7, 0, player_won    #branch if user has sunk all ships
+beq   $s7, 0, player_won    	#branch if user has sunk all ships
 beq   $s6, 0, sys_won
 li    $v0,    4
 la    $a0,    shot
-syscall
- #gets shot input
-la    $a0,    shot_input
+syscall 
+la    $a0,    shot_input	 #gets shot input
 li    $a1,    2
 li    $v0,    8
 syscall
-#gets shot byte
-la    $t0,    shot_input
+la    $t0,    shot_input	#gets shot byte
 lb    $a0,    ($t0)
 jal mark_hit
 ###########################system's turn ###############################################
@@ -457,7 +438,7 @@ sb    $t3, sys_board($t2)    	 	# Put the marker in system right board
 la    $a0, board
 li    $v0, 4
 syscall
-j     loop	#jumps back to ask for another shot again
+j     loop				#jumps back to ask for another shot again
 player_ship_hit:
 li   $t5, 'X'
 sb   $t5, board($t1)
@@ -539,7 +520,6 @@ find_spot:
 blt  $a0, '0', not_number       #if less than 0, not a number. tests to see if letter
 bgt  $a0, '9', not_number       #if greater than 9, not a number. tests to see if letter
 sub  $s0, $a0, '0'              #otherwise, subtracts difference for ascii value
-#add to board
 mul  $s0, $s0, 2         	# Each offset is two-byte long.
 lh   $t1, offset1($s0)  	# Load $t1 with the offset of the index $t0.
 li   $t2, '0'            	# Put the marker in $t2.
