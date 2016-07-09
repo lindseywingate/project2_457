@@ -35,16 +35,39 @@ offset4:   .half    22,  24,  26,  28,  30,  32
            .half   169, 171, 173, 175, 177, 179
            .half   218, 220, 222, 224, 226, 228
            .half   267, 269, 271, 273, 275, 277
-buf:         .space  200
-var1:        .word   3
-new_resp:    .space  2
-
-cruiser_op:  	#.ascii "012"
-		#.ascii "123"
-		#.ascii "234"
-		#ascii "345"
-		#.ascii "678"
-		#.ascii "789"
+buf:         	.space  200
+var1:        	.word   3
+new_resp:    	.space  2
+cruiser_op:  	.ascii "06c"
+		.ascii "6ci"
+		.ascii "cio"
+		.ascii "iou"
+		.ascii "17d"
+		.ascii "7dj"
+		.ascii "djp"
+		.ascii "jpv"
+		.ascii "28e"
+		.ascii "8ek"
+		.ascii "ekq"
+		.ascii "kqw"
+		.ascii "39f"
+		.ascii "9fl"
+		.ascii "flr"
+		.ascii "lrx"
+		.ascii "4ag"
+		.ascii "agm"
+		.ascii "gms"
+		.ascii "msy"
+		.ascii "5bh"
+		.ascii "bhn"
+		.ascii "hnt"
+		.ascii "ntz"
+		.ascii "012" #horizontal options
+		.ascii "123"
+		.ascii "234"
+		.ascii "345"
+		.ascii "678"
+		.ascii "789"
 		.ascii "cde"
 		.ascii "def"
 		.ascii "efg"
@@ -60,15 +83,67 @@ cruiser_op:  	#.ascii "012"
 		.ascii "uvw"
 		.ascii "vwx"
 		.ascii "wxy"
-		.ascii "xyz"
-destroyer_op:  	.ascii "01"
+		.asciiz "xyz"
+destroyer_op:   .ascii "06"
+		.ascii "6c"
+		.ascii "ci"
+		.ascii "io"
+		.ascii "ou"
+		.ascii "17"
+		.ascii "7d"
+		.ascii "dj"
+		.ascii "jp"
+		.ascii "pv"
+		.ascii "28"
+		.ascii "8e"
+		.ascii "ek"
+		.ascii "kq"
+		.ascii "qw"
+		.ascii "39"
+		.ascii "9f"
+		.ascii "fl"
+		.ascii "lr"
+		.ascii "rx"
+		.ascii "4a"
+		.ascii "ag"
+		.ascii "gm"
+		.ascii "ms"
+		.ascii "sy"
+		.ascii "5b"
+		.ascii "bh"
+		.ascii "hn"
+		.ascii "nt"
+		.ascii "tz"
+		.ascii "01" #horizontal options
 		.ascii "12"
 		.ascii "23"
 		.ascii "34"
 		.ascii "45"
 		.ascii "67"
 		.ascii "78"
-		.ascii "89"   
+		.ascii "89"
+		.ascii "ab"
+		.ascii "cd"
+		.ascii "de"
+		.ascii "ef"
+		.ascii "fg"
+		.ascii "gh"
+		.ascii "ij"
+		.ascii "jk"
+		.ascii "kl"
+		.ascii "lm"
+		.ascii "mn"
+		.ascii "op"
+		.ascii "pq"
+		.ascii "qr"
+		.ascii "rs"
+		.ascii "st"
+		.ascii "uv"
+		.ascii "vw"
+		.ascii "wx"
+		.ascii "xy"
+		.ascii "yz"
+		   
 cruiser:     	.asciiz    	"\nEnter the cruiser 3x[0-9a-z]: "
 cruiser_in:  	.space  4
 destroyer:   	.asciiz    	"\nEnter the destroyer 2x[0-9a-z]: "
@@ -79,6 +154,7 @@ shot:	     	.asciiz  	"\nYour turn:\n Next shot [0-9a-z] or peek(/): "
 shot_input:  	.space  2
 system:	     	.asciiz    	"\nSystem's turn:"
 invalid:     	.asciiz    	"\nInvalid input"
+dup_shot_message:.asciiz         "\nYou already went there. Try again [0-9a-z]: "
 you_won:     	.asciiz		"\nYou won!"
 system_won:  	.asciiz		"\nThe system won :("
 new:	     	.asciiz     	"\nNew game? (y/n):"
@@ -111,104 +187,73 @@ sb     $t2, sys_board($t1)   	#replace with .
 sb     $t2, sys_board($t5)		#do the same thing on second board
 addi   $t7, $t7, 1		#next
 bne    $t3, $t7, clear2
-li    $v0,    4			#print board
-la    $a0,    board
-syscall
 ###########################          SYSTEM CRUISER             #####################################
 system_cruiser:
 xor   $a0,$a0,$a0			#seed number
-li    $a1, 6				#set range 0-35
+li    $a1, 48			
 li    $v0, 42				#randomly choose number
 syscall
-li    $t2, 'C'
-blt   $a0, '0', put_letter      #if less than 0, not a number. tests to see if letter
-bgt   $a0, '9', put_letter      #if greater than 9, not a number. tests to see if letter
-mul   $a0, $a0, 3
-lb    $t0, cruiser_op($a0)
-sub   $t0, $t0, '0'
-mul   $t0, $t0, 2
-lh    $t1, offset3($t0)
-sb    $t2, sys_board($t1)		#first bit placed
-add   $a0, $a0, 1
-lb    $t0, cruiser_op($a0)
-sub   $t0, $t0, '0'
-mul   $t0, $t0, 2
-lh    $t1, offset3($t0)  	     
-sb    $t2, sys_board($t1)    	#second bit placed 	 
-add   $a0, $a0, 1
-lb    $t0, cruiser_op($a0)
-sub   $t0, $t0, '0'
-mul   $t0, $t0, 2
-lh    $t1, offset3($t0)   	        
-sb    $t2, sys_board($t1)     	#third bit placed     
-la    $a0, board
-li    $v0, 4
-syscall
-j    system_destroyer 
+mul   $a0, $a0, 3			#index
+li    $s5, 3				#counter for 3 pieces of cruiser ship
+cruiser_loop:
+beqz  $s5, system_destroyer		#if counter has reached 0, all pieces have been placed
+li    $t2, 'C'				#load piece to put on board
+lb    $t0, cruiser_op($a0)		#loads first bit of random ship choice
+bgt   $t0, '9', put_letter		#if greater than nine, it's a letter
+sub   $t0, $t0, '0'			#in num range so subtract 0 for proper index
+mul   $t0, $t0, 2			#each offset is 2 bits
+lh    $t1, offset3($t0)			#load offset # into $t1 of specified spot
+sb    $t2, sys_board($t1)		#replace . with O
+add   $a0, $a0, 1			#go through loop again for next bit of random ship choice
+sub   $s5, $s5, 1			#count down
+j     cruiser_loop	
 put_letter:
-mul   $a0, $a0, 3
-lb    $t0, cruiser_op($a0)
-sub   $t0, $t0, 'a'
+li    $t2, 'C'
+lb    $t0, cruiser_op($a0)		#loads first bit of random ship choice
+sub   $t0, $t0, 'a'			#in letter range, subtract 'a' for proper index
 add   $t0, $t0, 10
-mul   $t0, $t0, 2
-lh    $t1, offset3($t0)
-sb    $t2, sys_board($t1)		#first bit placed
+mul   $t0, $t0, 2			#each offset is 2 bits
+lh    $t1, offset3($t0)			#load offset # into $t1 of specified spot
+sb    $t2, sys_board($t1)		#replace . with C
 add   $a0, $a0, 1
-lb    $t0, cruiser_op($a0)
-sub   $t0, $t0, 'a'
-add   $t0, $t0, 10
-mul   $t0, $t0, 2
-lh    $t1, offset3($t0)  	     
-sb    $t2, sys_board($t1)    	#second bit placed 	 
-add   $a0, $a0, 1
-lb    $t0, cruiser_op($a0)
-sub   $t0, $t0, 'a'
-add   $t0, $t0, 10
-mul   $t0, $t0, 2
-lh    $t1, offset3($t0)   	        
-sb    $t2, sys_board($t1)     	#third bit placed     
-la    $a0, board
-li    $v0, 4
-#################           DESTROYER           #########################################################
+sub   $s5, $s5, 1
+j     cruiser_loop
+################# SYSTEM DESTROYER ##################################################
 system_destroyer:
-xor   $a0, $a0, $a0     # Set a seed number.
-li    $a1, 8            # random number 0 to 35
-li    $v0, 42           # random number generator
+xor   $a0,$a0,$a0			#seed number
+li    $a1, 50			
+li    $v0, 42				#randomly choose number
 syscall
-li    $t2, 'O'
-mul   $a0, $a0, 3
-lb    $t0, destroyer_op($a0)
-sub   $t0, $t0, '0'
-mul   $t0, $t0, 2
-lh    $t1, offset3($t0)   # Load $t1 with the offset of the index $t0.  
-sb    $t2, sys_board($t1)     # Put the marker at the location, board+offset.
-add   $a0, $a0, 1
-lb    $t0, destroyer_op($a0)
-sub   $t0, $t0, '0'
-mul   $t0, $t0, 2
-lh    $t1, offset3($t0)   # Load $t1 with the offset of the index $t0.    
-sb    $t2, sys_board($t1)     # Put the marker at the location, board+offset
-la    $a0, board
-li    $v0, 4
-syscall      
-j     system_submarine
+mul   $a0, $a0, 2			#index
+li    $s5, 2				#counter for 3 pieces of cruiser ship
+destroyer_loop:
+beqz  $s5, system_submarine		#if counter has reached 0, all pieces have been placed
+li    $t2, 'D'				#load piece to put on board
+lb    $t0, destroyer_op($a0)		#loads first bit of random ship choice
+beq   $t0, 'C', system_destroyer  	#if value is a ship, retry random #
+add   $a1, $a0, 1			#double checks next bit to make sure it doesn't override the cruiser ship
+lb    $t3, destroyer_op($a1)			
+beq   $t3, 'C', system_destroyer
+bgt   $t0, '9', put_letter2		#if greater than nine, it's a letter
+sub   $t0, $t0, '0'			#in num :wrange so subtract 0 for proper index
+mul   $t0, $t0, 2			#each offset is 2 bits
+lh    $t1, offset3($t0)			#load offset # into $t1 of specified spot
+sb    $t2, sys_board($t1)		#replace . with O
+add   $a0, $a0, 1			#go through loop again for next bit of random ship choice
+sub   $s5, $s5, 1			#count down
+j     destroyer_loop	
 put_letter2:
-mul   $a0, $a0, 3
-lb    $t0, destroyer_op($a0)
-sub   $t0, $t0, 'a'
+li    $t2, 'D'
+lb    $t0, destroyer_op($a0)		#loads first bit of random ship choice
+sub   $t0, $t0, 'a'			#in letter range, subtract 'a' for proper index
 add   $t0, $t0, 10
-mul   $t0, $t0, 2
-lh    $t1, offset3($t0)
-#beq   $t1, 'C', system_destroyer  	#if already contains 0, retry random #
-sb    $t2, sys_board($t1)		#first bit placed
+mul   $t0, $t0, 2			#each offset is 2 bits
+lh    $t1, offset3($t0)			#load offset # into $t1 of specified spot
+sb    $t2, sys_board($t1)		#replace . with C
 add   $a0, $a0, 1
-lb    $t0, destroyer_op($a0)
-sub   $t0, $t0, 'a'
-add   $t0, $t0, 10
-mul   $t0, $t0, 2
-lh    $t1, offset3($t0)  	     
-sb    $t2, sys_board($t1)    	#second bit placed 
-################ SYSTEM SUBMARINE ##################################################
+sub   $s5, $s5, 1
+j     destroyer_loop
+################# SYSTEM SUBMARINE ##################################################
 system_submarine:			#places submarine
 xor   $a0,$a0,$a0			#seed number
 li    $a1, 36				#set range 0-35
@@ -221,10 +266,10 @@ beq   $t4, 'D', system_submarine   	#if already contains 0, retry random #
 beq   $t4, 'C', system_submarine  	#if already contains 0, retry random #
 li    $t3, 'S'            		# Put the marker in $t3.	
 sb    $t3, sys_board($t1)
-la    $a0, board
-li    $v0, 4
-syscall 
 ################ get ships from player and adds to board ############################
+li    $v0, 4			#print board to start game
+la    $a0, board
+syscall 
 player_ships:			#cruiser
 li    $v0,    4        		#loads space
 la    $a0,    cruiser        	#loads cruiser statement
@@ -271,9 +316,9 @@ syscall
 la    $t0,    sub_in		#gets first byte from sub
 lb    $a0,    ($t0)
 jal find_spot
-li    $s7,   6		#if this counter gets down to 0, the player won!
-li    $s6,   6		#if this counter gets down to 0, the system won :(
-la   $a0, board		#prints board to begins
+li    $s7,   6			#if this counter gets down to 0, the player won!
+li    $s6,   6			#if this counter gets down to 0, the system won :(
+la   $a0, board			#prints board to begins
 li   $v0, 4	
 syscall
 ################################## players turn #######################################
@@ -283,7 +328,8 @@ beq   $s6, 0, sys_won
 li    $v0,    4
 la    $a0,    shot
 syscall 
-la    $a0,    shot_input	 #gets shot input
+players_turn:
+la    $a0,    shot_input	#gets shot input
 li    $a1,    2
 li    $v0,    8
 syscall
@@ -307,6 +353,7 @@ lh    $t2, offset4($t0)  	 	# Load $t2 with offset4 value
 lb    $t4, board($t1)     		# load board piece into $t4
 li    $t3, '+'            		# Put the marker in $t3.
 beq   $t4, 'X', system_turn_noprint     #eliminate duplicates
+beq   $t4, '+', system_turn_noprint     #eliminate duplicates
 beq   $t4, '0', player_ship_hit   	# if value is a ship, replace with X instead
 sb    $t3, board($t1)     		# Put the marker in the offset index player left board
 sb    $t3, sys_board($t2)    	 	# Put the marker in system right board
@@ -338,6 +385,7 @@ li   $t3, '+'            	# Put the marker in $t3.
 beq  $t4, 'D', ship_hit  	# if value is a ship, replace with X instead
 beq  $t4, 'C', ship_hit  	# if value is a ship, replace with X instead
 beq  $t4, 'S', ship_hit  	# if value is a ship, replace with X instead
+beq  $t4, '+', dup_shot  	# if value is a ship, replace with X instead
 sb   $t3, board($t1)    	# Put the marker in the offset index player left board
 sb   $t3, sys_board($t2)    	# Put the marker in system right board
 la   $a0, board
@@ -357,9 +405,10 @@ lh    $t1, offset2($s0)   	 # Load $t1 with the offset at the index $s0.
 lh    $t2, offset3($s1)   	 # Load $t2 with offset of the left sys board at index $s1
 lb    $t4, sys_board($t2)
 li    $t3, '+'                   # Put the marker in $t2.
-beq  $t4, 'D', ship_hit  	# if value is a ship, replace with X instead
-beq  $t4, 'C', ship_hit  	# if value is a ship, replace with X instead
-beq  $t4, 'S', ship_hit  	# if value is a ship, replace with X instead
+beq  $t4, 'D', ship_hit  	 # if value is a ship, replace with X instead
+beq  $t4, 'C', ship_hit  	 # if value is a ship, replace with X instead
+beq  $t4, 'S', ship_hit  	 # if value is a ship, replace with X instead
+beq  $t4, '+', dup_shot  	 # if value is a ship, replace with X instead
 sb    $t3, board($t1)
 sb    $t3, sys_board($t2)
 la    $a0, board
@@ -420,6 +469,11 @@ li     $v0, 4
 li     $v0, 10
 syscall
 ######################## check for duplicates #####################
+dup_shot:
+la    $a0, dup_shot_message
+li    $v0, 4
+syscall
+j      players_turn
 check_dup:
 li	$a0,0				# set 'boolean' value
 lh	$t1, offset4($t0)		# Load $t1 with offset of position we are checking (offset4).
