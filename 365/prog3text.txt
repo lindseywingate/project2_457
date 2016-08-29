@@ -1,7 +1,0 @@
-<read>, read
-<id>, a
-<id>, sum
-<assign>, :=
-<id>, inputA
-<add_op>, + 
-<id>, inputB
