@@ -1,5 +1,11 @@
 use strict;
 my $value1;
+my $value2;
+my $value3;
+my $vehicle;
+my $answer1;
+my $answer2;
+my $answer3;
 
 $vehicle = "motorcycle";
 print "he drives a", $vehicle, "\n";
@@ -17,3 +23,5 @@ print "Answer2 is $answer2\n";
 print "Answer3 is $answer3\n";
 $answer1 = "34woeifjdslkd" * "2aldkjfaldf";
 print "Answer1 is $answer1\n";
+
+print "The current date is \n ", 'datet', "\n";
