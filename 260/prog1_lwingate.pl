@@ -17,14 +17,21 @@ sub main
 	print "Last, First: @splitname[1], @splitname[0]\n";
 	print "Uppercase:   $newname";	
 	print "Full name:   @splitname[0] @splitname[1]\n";
+
 	print "PART TWO\n";
 	print "Please enter a three digit number and press enter: \n";
 	my $num = <STDIN>;
-	#my @splitnum = split('', $num); could use this if worried substring won't work
-	print "Hundred: ", substr($num, 0, 1), "\n";
-	print "Ten:     ", substr($num, 1, 1), "\n";
-	print "One:     ", substr($num, 2, 2);
-	print "Number:  ", $num;
+	my $temp = $num;
+	my $num1 = $num%10;
+	$num/=10; 
+	my $num2 = $num%10;
+	$num/=10;
+	my $num3 = $num%10;
+
+	print "Hundred: ", $num3, "\n";
+	print "Ten:     ", $num2, "\n";
+	print "One:     ", $num1, "\n";
+	print "Number:  ", $temp;
 }
 
 main();
