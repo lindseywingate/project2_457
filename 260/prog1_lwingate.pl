@@ -2,7 +2,7 @@
 #lindseymwingate@gmail.com
 #Program 1
 #Part One: Collection of name and random prints
-#Part Two: Collection of number and more random prints
+#Part Two: number input. number split mathematically and more random prints
 use strict;
 
 sub main
