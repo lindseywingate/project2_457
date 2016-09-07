@@ -31,12 +31,13 @@ int input;
 		}
 		counter++;
 	}
+	sleep(4);
 /* The parent's code.                                     */
    if (PID1 != 0) {
 		printf("\nENTER 1 TO KILL OFF PROCESSES.\n\n");
 		scanf("%d", &input);
 		if(input==1) {
-			printf("PARENT: Child exited with code: %d\n", kill(PID1, 9));
+			printf("PARENT: Children exited with code: %d\n", kill(PID1, 9));
 			waitpid(PID1, &ExitCode1, 0);
 		}	
 	}
