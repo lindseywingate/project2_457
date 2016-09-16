@@ -12,6 +12,18 @@ sub printAnything
 		}
 		print "\n";
 	}
+	if (ref ($localRef) eq 'SCALAR')
+	{
+		print "$$localRef\n"; #ref to scalar. 
+		print "\n";
+	}
+	elsif (ref ($localRef) eq 'HASH')
+	{
+		foreach my $item(key %$localRef) 
+		{
+			print = "$item\n";
+		}
+	}
 }
 
 my @array = (1, 2, 3, 4);
