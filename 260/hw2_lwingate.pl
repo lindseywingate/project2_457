@@ -12,8 +12,11 @@ my $passed_creds = 0;
 my $gpa = 0;
 my $class;
 my $grade;
+my $credit_hours;
+my $final_gpa;
 print "Enter the students name: ";
-my $name = <>;
+my $name = <STDIN>;
+chomp ($name);
 
 while (1) {
 	print "Enter a class: ";
@@ -22,38 +25,41 @@ while (1) {
 		last;
 	}
 	print "Enter the number of credits: ";
-	my $credit_hours = <STDIN>;
+	$credit_hours = <STDIN>;
+	chomp($credit_hours);
 	print "\nEnter the grade received: ";
 	$grade = <STDIN>;
 	chomp($grade);
-	print "\n GRADE: $grade hi";
 	if($grade eq 'a') {
-			print "\nA";
 			my $addme_a = 4 * $credit_hours;
 			$gpa = $gpa + $addme_a;
 			$passed_creds = $passed_creds + $credit_hours;
 		}
 	elsif($grade eq 'b') {
-			print "\nB";
 			my $addme_b = 3 * $credit_hours;
 			$gpa = $gpa + $addme_b;
 			$passed_creds = $passed_creds + $credit_hours;
 		}
 	elsif($grade eq 'c') {
-			print "\nC";
 			my $addme_c = 2 * $credit_hours;
 			$gpa = $gpa + $addme_c;
 			$passed_creds = $passed_creds + $credit_hours;	
 		}	
 	elsif($grade eq 'd') {
-			print "\nD";
 			$gpa = $gpa + $credit_hours;			
 			$passed_creds = $passed_creds + $credit_hours;		
 		}
+	elsif($grade eq 'f') {
+			$gpa = $gpa + 0;
+		}
 	$total_creds = $total_creds + $credit_hours;
 }
-my $final_gpa = $gpa/$passed_creds; 
-
+if($passed_creds eq 0) {
+	$final_gpa = 0;	
+}
+else {
+	$final_gpa = $gpa/$total_creds; 
+}
 print "\nTranscript for $name";
 print "\nCredits taken: $total_creds";
 print "\nCredits passed: $passed_creds";
