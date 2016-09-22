@@ -61,6 +61,4 @@ else {
 	$final_gpa = $gpa/$total_creds; 
 }
 print "\nTranscript for $name";
-print "\nCredits taken: $total_creds";
-print "\nCredits passed: $passed_creds";
-printf "\nSemester GPA %1.2f", $final_gpa;
+printf "\nCredits taken: %10i \nCredits passed: %9i \nSemester GPA: %11.2f\n", $total_creds, $passed_creds, $final_gpa;
