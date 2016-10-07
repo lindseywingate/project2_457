@@ -1,7 +1,9 @@
 #This test file was written by Lindsey Wingate
 #!/usr/local/bin/perl
+use LMP::Simple;
 
-require FileUtil;
+use FileUtil;
+
 
 
 #This test file was written by Lindsey Wingate
