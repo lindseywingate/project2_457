@@ -5,20 +5,20 @@ use LWP::Simple;
 #use warnings;
 use HTTP::Tiny;
 
-my $url = 'https://en.wikipedia.org/wiki/North_Dakota';
-my $response = HTTP::Tiny->new->get($url);
-if ($response->{success}) {
-	my $search_string = "<td style=\"padding-left:8px;\">756,927</td>";
-	my $html = $response->{content};
-	foreach my $line ($html) {
-		if($line =~ m/$search_string/) {
-			print "The population of North Dakota in Est. 2015 is 756, 927\n";	
-		}
-	}
-}
-else {
-	print "Was unable to open $url";
-}
+#my $url = 'https://en.wikipedia.org/wiki/North_Dakota';
+#my $response = HTTP::Tiny->new->get($url);
+#if ($response->{success}) {
+#	my $search_string = "<td style=\"padding-left:8px;\">756,927</td>";
+#	my $html = $response->{content};
+#	foreach my $line ($html) {
+#		if($line =~ m/$search_string/) {
+#			print "The population of North Dakota in Est. 2015 is 756, 927\n";	
+#		}
+#	}
+#}
+#else {
+#	print "Was unable to open $url";
+#}
 
 #my $url2 = 'http://www.whatsmyip.org/';
 #$response = HTTP::Tiny->new->get($url2);
@@ -33,23 +33,22 @@ else {
 #	print "Was unable to open $url2\n";
 #}
 
-my $url3 = 'http://cs.und.edu/People/';
-$response = get($url3);
-	my $search_string3 = "^[  [a-zA-Z]+[ ][a-zA-Z]+";
-	my $html3 = $response->{content};
-	foreach my $line3 ($html3) {
-		if($line3 =~ m/$search_string3/) {
-			print "Name found in line $line3";	
+my $html3 = get('http://cs.und.edu/People/');
+	my @stuff_array = split /\n/, $html3;
+	foreach my $line3 (@stuff_array) {
+		if($line3 =~ /(<h3>)[a-zA-Z ]+(<\/h3>)/) {
+			printf("$line3\n");
 		}
 	}
+	
 
 #my $url4 = 'https://twitter.com/myUND';
 #$response = HTTP::Tiny->new->get($url4);
 #if ($response->{success}) {
 #	my $html4 = $response->{content};
 #	foreach my $line4 ($html4) {
-	#	print $line4;
-	#	print "**************************************\n";
+#		print $line4;
+#		print "**************************************\n";
 #	}
 #}
 #else {
