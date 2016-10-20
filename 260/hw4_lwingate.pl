@@ -36,8 +36,18 @@ use HTTP::Tiny;
 my $html3 = get('http://cs.und.edu/People/');
 	my @stuff_array = split /\n/, $html3;
 	foreach my $line3 (@stuff_array) {
-		if($line3 =~ /(<h3>)[a-zA-Z ]+(<\/h3>)/) {
-			printf("$line3\n");
+		if($line3 =~ /(<h3>)[a-zA-Z' ]+(<\/h3>)/) {
+			my @temp = split /[<>]/, $line3;
+			printf("$temp[5]\n");
+		}
+		if($line3 =~ /(<li >)[a-zA-Z, ]+(<\/li>)/) {
+			my @temp2 = split /(li)/, $line3;
+			foreach my $i (@temp2) {
+				$i = substr $i, 2, -2; 
+				if($i =~ /^[^<>=]+$/) {
+					print("\t$i\n");
+				}
+			}
 		}
 	}
 	
