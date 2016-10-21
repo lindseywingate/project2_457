@@ -4,6 +4,34 @@ use LWP::Simple;
 use strict;
 use warnings;
 
+#NFL TEAM PORTION
+print "Enter your NFL team:\n";
+my $input = <STDIN>;
+chomp $input;
+$input = lc($input);#change to lower case for easy comparison
+
+my $count=0;#used to fetch scores after name found by regex
+my $bool="false";#used to indicate whether team was found or not
+my $nfl_html = get('http://www.nfl.com/standings'); #get the html to search
+my @nfl_stuff = split /\n/, $nfl_html; #split html into array for easy search
+foreach my $j (@nfl_stuff) { #go through and find!
+	my $l=lc($j);#set each array element to lower case for comparison
+	$count = $count + 1; 
+	if ($l =~ /[\s]+$input/) { #if the line matches the search
+		$bool="true";#indicate team was found
+		$l = join ' ', split ' ', $j;
+		print("\n$l\n");#print team as listed on website
+		printf("Wins: %s\n",substr $nfl_stuff[$count+6], -6, -5); #print stats
+		printf("Losses: %s\n",substr $nfl_stuff[$count+14], -6, -5);	
+		printf("Ties: %s\n", substr $nfl_stuff[$count+22], -6, -5);	
+			
+	}	
+}
+if($bool eq "false") {
+	print("There was no team found that matches your search.\n");
+}
+
+#NORTH DAKOTA POPULATION
 print("\n");
 my $html = get('https://en.wikipedia.org/wiki/North_Dakota');
 my @stuff = split /\n/, $html;
@@ -14,6 +42,7 @@ foreach my $line (@stuff) {
 	}
 }
 
+#NUMBER OF UND TWEETS
 my $html4 = get('https://twitter.com/myUND');
 my @array = split /\n/, $html4;
 foreach my $lino (@array) {
@@ -23,6 +52,7 @@ foreach my $lino (@array) {
 	}
 }
 
+#PROFESSORS AND INTERESTS
 my $html3 = get('http://cs.und.edu/People/');
 my @stuff_array = split /\n/, $html3;
 foreach my $line3 (@stuff_array) {
@@ -42,6 +72,8 @@ foreach my $line3 (@stuff_array) {
 }
 print("\n");	
 
+
+#MONEY STUFF
 my $html5 = get('http://money.cnn.com/data/markets/dow');
 my @more_stuff = split /\n/, $html5;
 foreach my $line5 (@more_stuff) {
@@ -61,6 +93,7 @@ foreach my $line5 (@more_stuff) {
 	}
 }
 
+#MY IP ADDRESS
 #my $html2 = get('https://www.whatismyip.com');
 #my @html_stuff = split /\n/, $html2;
 #foreach my $c (@html_stuff) {
@@ -68,32 +101,5 @@ foreach my $line5 (@more_stuff) {
 #		print("$c\n");	
 #	}
 #}
-
-print "Enter your NFL team:\n";
-my $input = <STDIN>;
-chomp $input;
-my $count=0;
-my $bool="false";
-my $nfl_html = get('http://www.nfl.com/standings');
-my @nfl_stuff = split /\n/, $nfl_html;
-foreach my $j (@nfl_stuff) {
-	$count = $count + 1;
-	if ($j =~ /[\s]+$input/) {
-		$bool="true";#indicate team was found
-		$j = join ' ', split ' ', $j;
-		print("\n$j\n");
-		printf("Wins: %s\n",substr $nfl_stuff[$count+6], -6, -5);
-		printf("Losses: %s\n",substr $nfl_stuff[$count+14], -6, -5);	
-		printf("Ties: %s\n", substr $nfl_stuff[$count+22], -6, -5);	
-			
-	}	
-}
-if($bool eq "false") {
-	print("There was no team found that matches your search.\n");
-}
-
-
-
-
 
 
