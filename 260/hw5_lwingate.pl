@@ -1,5 +1,4 @@
 #!/usr/bin/perl -w
-
 #Lindsey Wingate, 1011265, Program 5
 #This program allows a user to interact with a database of songs. The user may add a song, update a song, delete a song, or search for a song by artist\/title or name of album.
 
@@ -56,7 +55,7 @@ while(1) {
 			print "No null values are allowed.";
 			next;
 		}
-		my $newquery = "insert into tblnames (artist, title, album, time) values ('$artist', '$song', '$album', '$song_length')";
+		my $newquery = "insert into tblsongs (artist, title, album, time) values ('$artist', '$song', '$album', '$song_length')";
 		my $sth = $dbh->prepare($newquery);
 		my $rc = $sth->execute();
 	}
@@ -88,7 +87,7 @@ while(1) {
 			print "Please enter the new song name for song $song_replacement\n";
 			my $sn_rep = <STDIN>;
 			chomp($sn_rep);
-			my $sql3 = "UPDATE tblnames SET song = '$sn_rep' WHERE nameid = '$update_sn'";
+			my $sql3 = "UPDATE tblsongs SET title = '$sn_rep' WHERE songid = '$song_replacement'";
 			my $sth = $dbh->prepare($sql3);
 			my $rc = $sth->execute();
 		}
@@ -96,7 +95,7 @@ while(1) {
 			print "Please enter the new artist name for song $song_replacement\n";
 			my $artist_update = <STDIN>;
 			chomp($artist_update);
-			my $sql4 = "UPDATE tblnames SET artist = $artist_update WHERE nameid = $update_sn";
+			my $sql4 = "UPDATE tblsongs SET artist = '$artist_update' WHERE songid = '$song_replacement'";
 			my $sth = $dbh->prepare($sql4);
 			my $rc = $sth->execute();
 		}
@@ -104,7 +103,7 @@ while(1) {
 			print "Please enter the new album name for song $song_replacement\n";
 			my $album_rep = <STDIN>;
 			chomp($album_rep);
-			my $sql5 = "UPDATE tblnames SET album = $album_rep WHERE nameid = $update_sn";
+			my $sql5 = "UPDATE tblsongs SET album = '$album_rep' WHERE songid = '$song_replacement'";
 			my $sth = $dbh->prepare($sql5);
 			my $rc = $sth->execute();	
 		}
@@ -112,7 +111,7 @@ while(1) {
 			print "Please enter the new song length for song $song_replacement\n";
 			my $length = <STDIN>;
 			chomp($length);
-			my $sql6 = "UPDATE tblnames SET time = $length WHERE time = $update_sn";
+			my $sql6 = "UPDATE tblsongs SET time = '$length' WHERE songid = '$song_replacement'";
 			my $sth = $dbh->prepare($sql6);
 			my $rc = $sth->execute();
 		}
