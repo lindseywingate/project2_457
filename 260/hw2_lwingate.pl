@@ -14,6 +14,7 @@ my $class;
 my $grade;
 my $credit_hours;
 my $final_gpa;
+
 print "Enter the students name: ";
 my $name = <STDIN>;
 chomp ($name);
