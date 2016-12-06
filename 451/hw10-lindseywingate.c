@@ -56,12 +56,10 @@ int main(int argc, char *argv[]) {
 	int sharedmemoryidentifier;
 	//initialize shared memory space
 	shmget(key, size, IPC_CREAT | 0666);
-	//shmctl() allows shared memory access to other processes 
-	//shmat() shared segment attched to process address space
-	//shmget(key_t key access with sema id, size_t size in bytes of requested mem, shmflg specifies initial access permissions and creation control flags)
+	
 	//initialize pipes
 	int pipe1[2];
-	pid_t _p1;
+//	pid_t _p1;
 //	int pipe2[2];
 //	pid_t _p2;
 //	int pipe3[2];
@@ -80,13 +78,13 @@ int main(int argc, char *argv[]) {
 	char memid_c[10];
 	sprintf(memid_c, "%d", sharedmemoryidentifier);
 		
-
 	system("gcc -o pig babypig.c");
+
 	if((_p1 = fork()) == -1) {
 		perror("fork");
 	}
 	if(_p1 == 0) { //close 0, for writing. close 1 for reading
-		char *args[] = {argv[1], "_p1", "200", memid_c, NULL};//filename, pipe id, sem id, shared mem id
+		char *args[] = {argv[1], "pipe1", "200", memid_c, NULL};//filename, pipe id, sem id, shared mem id
 		execvp("./pig", args);	
 		close(pipe1[1]);
 		//nbytes = read(pipe1[0], readbuffer, sizeof(readbuffer));

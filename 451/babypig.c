@@ -9,36 +9,21 @@
 #include <stdlib.h>
 
 int main(int argc, char *argv[]) {
+	int semid, sharedmemid;
+	char str[20];
+
 	printf("Piggy is working!");	
-	printf("ARG1%s, ARG2%s, ARG3%s, ARG4%s, ARG5%s", argv[0], argv[1], argv[2], argv[3], argv[4]);
-/*	int value, semid, filename, piggy; 
-	long piggy_num, key, mem_id;
-	char *ptr;		
+//	printf("ARG1%s, ARG2%s, ARG3%s, ARG4%s", argv[0], argv[1], argv[2], argv[3]);
 
-	key = strtol(argv[2]);
-	memid = strtol(argv[3]);
+ 	strcpy(str, argv[2]);
+	semid = atoi(str);
+	strcpy(str, argv[3]);
+	sharedmemid = atoi(str); 
 
-	printf("key: %lu", key);
-
-	piggy_num = 1;
-	argv[0] = filename;
-	argv[1] = piggy;
-	argv[2] = key;
-	argv[3] = mem_id; 	
+	printf("\nFILENAME: %s\n PIPEID %s\n SEMID %d\n SHAREDMEMID %d\n", argv[0], argv[1], semid, sharedmemid);  
 
 	semid = semget(200, 5, 0666);
-	value = semctl(semid, piggy_num, GETVAL);
 	
-	if(value==1) {
-		semctl(semid, piggy_num, SETVAL, 0);
-		if(piggy_num == 4) {
-			semctl(semid, 0, SETVAL, 1);	
-		}
-		else {
-			semctl(semid, piggy_num+1, SETVAL, 1);
-		}
-	}		
-*/
 }
 
 
