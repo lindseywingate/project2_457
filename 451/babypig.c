@@ -11,6 +11,9 @@
 int main(int argc, char *argv[]) {
 	int semid, sharedmemid;
 	char str[20];
+	int pipe1[2], nbytes;
+	pid_t _p1;
+	char readbuffer[80];	
 
 	printf("Piggy is working!");	
 //	printf("ARG1%s, ARG2%s, ARG3%s, ARG4%s", argv[0], argv[1], argv[2], argv[3]);
@@ -23,6 +26,10 @@ int main(int argc, char *argv[]) {
 	printf("\nFILENAME: %s\n PIPEID %s\n SEMID %d\n SHAREDMEMID %d\n", argv[0], argv[1], semid, sharedmemid);  
 
 	semid = semget(200, 5, 0666);
+
+	close(pipe1[0]);
+	nbytes = read(pipe1[0], readbuffer, sizeof(readbuffer));
+	printf("Received string: %s", readbuffer);	
 	
 }
 

@@ -59,7 +59,7 @@ int main(int argc, char *argv[]) {
 	
 	//initialize pipes
 	int pipe1[2];
-//	pid_t _p1;
+	pid_t _p1;
 //	int pipe2[2];
 //	pid_t _p2;
 //	int pipe3[2];
