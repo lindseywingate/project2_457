@@ -10,7 +10,7 @@
 
 int main(int argc, char *argv[]) {
 	printf("Piggy is working!");	
-	printf("THIS %s, %s", argv[0], argv[1]);
+	printf("ARG1%s, ARG2%s, ARG3%s, ARG4%s, ARG5%s", argv[0], argv[1], argv[2], argv[3], argv[4]);
 /*	int value, semid, filename, piggy; 
 	long piggy_num, key, mem_id;
 	char *ptr;		

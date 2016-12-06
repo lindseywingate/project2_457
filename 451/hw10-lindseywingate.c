@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
 	char filename[100];
 	int i, semid;
 	key_t key = 200;
-	//printf("%s\n", argv[i]);
+	printf("%s\n", argv[1]);
 	//initialize semaphores
 	semid = semget(key, 5, 0666 | IPC_CREAT);
 	if(semid<0) {
@@ -77,17 +77,22 @@ int main(int argc, char *argv[]) {
 //	pipe(pipe4);
 //	pipe(pipe5);
 
+	char memid_c[10];
+	sprintf(memid_c, "%d", sharedmemoryidentifier);
+		
 
 	system("gcc -o pig babypig.c");
 	if((_p1 = fork()) == -1) {
 		perror("fork");
 	}
 	if(_p1 == 0) { //close 0, for writing. close 1 for reading
-		execvp("./pig", (char*[]){"./pig", argv[1], NULL});	
+		char *args[] = {argv[1], "_p1", "200", memid_c, NULL};//filename, pipe id, sem id, shared mem id
+		execvp("./pig", args);	
 		close(pipe1[1]);
 		//nbytes = read(pipe1[0], readbuffer, sizeof(readbuffer));
 		//printf("Received string: %s", readbuffer);	
 	}
+	return 0;
 }
 
 /*If the parent wants to receive data from the child, it should close fd1, and the child should close fd0. If the parent wants to send data to the child, it should close fd0, and the child should close fd1. Since descriptors are shared between the parent and child, we should always be sure to close the end of pipe we aren't concerned with. On a technical note, the EOF will never be returned if the unnecessary ends of the pipe are not explicitly closed. tidp.org/LDP/lpg/node11.html */
