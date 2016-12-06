@@ -13,7 +13,7 @@ int main(int argc, char *argv[]) {
 	char str[20];
 	int pipe1[2], nbytes;
 	pid_t _p1;
-	char readbuffer[80];	
+	char string[] = "Hello World!\n";	
 
 	printf("Piggy is working!");	
 //	printf("ARG1%s, ARG2%s, ARG3%s, ARG4%s", argv[0], argv[1], argv[2], argv[3]);
@@ -27,10 +27,8 @@ int main(int argc, char *argv[]) {
 
 	semid = semget(200, 5, 0666);
 
-	close(pipe1[0]);
-	nbytes = read(pipe1[0], readbuffer, sizeof(readbuffer));
-	printf("Received string: %s", readbuffer);	
-	
+	close(pipe1[0]);//close read end so write will go through
+	nbytes = write(pipe1[1], "THIS", 127);
 }
 
 
