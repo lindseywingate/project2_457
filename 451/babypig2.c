@@ -19,8 +19,11 @@ int main(int argc, char *argv[]) {
 	srand((unsigned) time(&t));
 	int r = rand() % 10;
 
-	while((c=fgetc(stuff)) !=EOF)
+	while(r>0) {
+	c=fgetc(stuff);
 		putchar(c);
+		r--;
+	}
 	fclose(stuff);	
 	printf("NUMBER IS: %d", r);
 	return 0;	
