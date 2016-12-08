@@ -7,7 +7,7 @@
 #include <sys/sem.h>
 #include <time.h>
 #include <stdlib.h>
-
+#include <string.h>
 int toString(char a[]) {
 	int c, sign, offset, n;
 	if (a[0] == '-') {
@@ -35,9 +35,11 @@ int main(int argc, char *argv[]) {
 	int pipeid = toString(argv[1]);
 	int semid = toString(argv[2]);
 	int memid = toString(argv[3]);
+	int write_value = toString(argv[4]); 
 //check if semaphore is free
 	value = semctl(semid, 0, GETVAL);
 	if(value==1) {
+		semctl(semid, 0, SETVAL);
 		FILE*stuff;
 		int c;
 		stuff = fopen(argv[0], "r");
@@ -45,13 +47,17 @@ int main(int argc, char *argv[]) {
 		time_t t;
 		srand((unsigned) time(&t));
 		int r = rand() % 10;
-
-		while(r>0) {
-		c=fgetc(stuff);
-			putchar(c);
-			r--;
+		int count = 0;
+		while(count<1) {
+			c=fgetc(stuff);
+				//putchar(c);
+				char string[] = "Hello World!\n";
+				write(write_value, string, (strlen(string)+1));
+				printf("sending string...%s", string);
+				count++;
 		}
-		fclose(stuff);	
+		semctl(semid, 1, SETVAL);	
+		fclose(stuff);
 	}
 
 	return 0;	

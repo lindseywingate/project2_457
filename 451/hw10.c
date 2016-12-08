@@ -6,22 +6,11 @@
 #include <sys/ipc.h>
 #include <sys/sem.h>
 
-void read_from_pipe(int file) {
-	FILE*stuff;
-	int c;
-	stuff = fopen(file, "r");
-	while((c=fgetc(stuff)) !=EOF)
-		putchar(c);
-	fclose(stuff);	
-}
-
 int main(int argc, char *argv[]) {
 	char filename[100]; //used for filename passed in
 	int i, semid, memid;
 	key_t key = 200;
 	printf("%s\n", argv[1]);
-
-	system("gcc -o pig babypig2.c");//compile baby pig program
 
 	semid = semget(key, 0, IPC_CREAT);//create semaphore
 	if(semid==-1)
@@ -41,20 +30,24 @@ int main(int argc, char *argv[]) {
 
 	int pipe1[2];
 	pipe(pipe1);
-
+	int write = pipe1[1];
 	char memid_c[10];
 	char semid_c[10];
-	char _p1_c[10];	
+	char _p1_c[10];
+	char write_c[10];
+	sprintf(write_c, "%d", write);	
 	sprintf(semid_c, "%d", semid);
 	sprintf(memid_c, "%d", memid);
 	sprintf(_p1_c, "%d", _p1);
 	
 	if(_p1 == 0) {//process was successfully created
-		char *args[] = {argv[1], _p1_c, semid_c, memid_c, NULL}; 
+		char *args[] = {argv[1], _p1_c, semid_c, memid_c, write_c, NULL}; 
 		execvp("./pig", args);	
 		close(pipe1[1]);
-		read_from_pipe(pipe1[0]);				
+		int nbytes;	
+		char readbuffer[80];
+		nbytes = read(pipe1[0], readbuffer, sizeof(readbuffer));
+		printf("Received string: %s", readbuffer);
 	}		
 	return 0;
 }
-
