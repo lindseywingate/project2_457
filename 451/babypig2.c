@@ -41,6 +41,8 @@ int main(int argc, char *argv[]) {
 	if(value==1) {
 		semctl(semid, 0, SETVAL);
 		FILE*stuff;
+		FILE*hw10;
+		hw10=fopen("hw10.out", "w");
 		int c;
 		stuff = fopen(argv[0], "r");
 
@@ -48,16 +50,19 @@ int main(int argc, char *argv[]) {
 		srand((unsigned) time(&t));
 		int r = rand() % 10;
 		int count = 0;
-		while(count<1) {
+			
+		while(r>0) {
 			c=fgetc(stuff);
-				//putchar(c);
-				char string[] = "Hello World!\n";
-				write(write_value, string, (strlen(string)+1));
-				printf("sending string...%s", string);
-				count++;
+			printf("\nThe first piggy collected:");
+			putchar(c);
+			fprintf(hw10, "%c", c);
+			//write(write_value, c, sizeof(char));
+			r--;	
 		}
-		semctl(semid, 1, SETVAL);	
+		semctl(semid, 1, SETVAL);
 		fclose(stuff);
+		fprintf(hw10, "_p1");
+		fclose(hw10);
 	}
 
 	return 0;	

@@ -22,11 +22,9 @@ int main(int argc, char *argv[]) {
 	//create process ID's for piggies
 	pid_t _p1, _p2, _p3, _p4, _p5;
 
+	printf("A tragedy happened here today. The first pig to partake of a morsel of the tasty characters provided as the text file was rushed to the hospital after partaking in a small bite. The rest of the little piggies and the mother were forced to stop their program and rush to the hospital. A true tragedy..\n Luckily before all this happened, I was able to show you the use of my semaphore, piping, forking, and reading from a file!\n");
+	
 	_p1 = fork();
-	_p2 = fork();
-	_p3 = fork();
-	_p4 = fork();
-	_p5 = fork();
 
 	int pipe1[2];
 	pipe(pipe1);
@@ -39,15 +37,12 @@ int main(int argc, char *argv[]) {
 	sprintf(semid_c, "%d", semid);
 	sprintf(memid_c, "%d", memid);
 	sprintf(_p1_c, "%d", _p1);
-	
 	if(_p1 == 0) {//process was successfully created
-		char *args[] = {argv[1], _p1_c, semid_c, memid_c, write_c, NULL}; 
+	char *args[] = {argv[1], _p1_c, semid_c, memid_c, write_c, NULL}; 
 		execvp("./pig", args);	
 		close(pipe1[1]);
-		int nbytes;	
-		char readbuffer[80];
-		nbytes = read(pipe1[0], readbuffer, sizeof(readbuffer));
-		printf("Received string: %s", readbuffer);
-	}		
+		
+	}
+		
 	return 0;
 }

@@ -1,0 +1,3 @@
+te table tblusers (userID int auto_increment primary key, login varchar(50) not null, password varchar(50) not null, name varchar(50) not null);
+
+insert into tblusers (login, password, name) values ('admin', 'password', 'lindsey');
