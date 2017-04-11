@@ -14,13 +14,8 @@ import java.io.OutputStreamWriter;
 
 public class SigninActivity extends AsyncTask<String, Void, String> {
 
-    public SigninActivity() {
-
-    }
-
-    protected void onpreExecute() {
-        //not used
-    }
+    public SigninActivity() {}
+    protected void onpreExecute() {}
 
     @Override
     protected String doInBackground(String arg0) {
@@ -28,7 +23,7 @@ public class SigninActivity extends AsyncTask<String, Void, String> {
             String username = (String) arg0[0];
             String password = (String) arg0[1];
 
-            String link = "http://people.aero.und.edu/~lwingate/457/bookstore/login_post.php";
+            String link = "http://people.aero.und.edu/~lwingate/457/bookstore/login_get.php";
 
             //get method
             link += "?username=" + URLEncoder.encode(username, "UTF-8");
