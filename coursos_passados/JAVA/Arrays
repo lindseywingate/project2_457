@@ -1,0 +1,28 @@
+import java.util.*;
+
+public class Arrays
+{
+	public static void main(String[] args)
+	{
+		Scanner keyboard = new Scanner(System.in);
+		
+		int[] numbers;
+		numbers = new int[10];	
+	
+		//also int[] numbers = new int[10];
+
+		//also 
+		//final int SIZE = 10;
+		//int[] numbers = new int[SIZE];
+		
+		employees(numbers);	
+	}
+	public static int employees(int[] numbers)
+	{
+		for(x = 1; int<=numbers.length();x++)
+		{
+			System.out.println("How many hours for employee" + x);
+			numbers[x] = keyboard.nextInt();
+		}
+	}
+}		

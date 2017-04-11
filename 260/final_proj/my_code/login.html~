@@ -1,0 +1,19 @@
+<html>
+
+<head>
+<title>Login</title>
+</head>
+
+<body>
+<form action="/cgi.bin/firstPerlScript.pl" method=post>
+First Name <input type="text" name="txtFirstName" value = "default name" size="15"><br>
+<br><br>
+</form>
+<for action="/cgi.bin/firstPerlScript.pl" method=post>
+Last Name <input type="text" name="txtFirstName" value = "default name" size="15"><br>
+<br><br>
+</form>
+<!--<input type=submitvalue value="go">-->
+<br>
+</body>
+</html>

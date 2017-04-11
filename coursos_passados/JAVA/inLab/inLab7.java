@@ -1,0 +1,82 @@
+import java.util.*;
+import java.math.*;
+public class inLab7
+{
+	static int finalInt2;
+	static String finalInt="";		
+	static String binary2 = "";
+
+	//main method
+	public static void main(String[]args)
+	{
+		int reverse = 0;
+		String finalInt = "";
+
+		Scanner bert = new Scanner(System.in);
+		System.out.println("Please enter an integer to reverse! ");
+		reverse = bert.nextInt();
+		int length = Integer.toString(reverse).length();
+
+		//calls to reverse number and find binary equivolent
+		int int2 = Recursion(reverse, length);
+		System.out.println("\nYour number in binary is: "+binary(int2));
+	}
+	
+	public static int Recursion(int reverse, int length)
+	{
+		
+		//reverse the number
+		while(length>0)
+		{
+			int section = reverse%10;
+			reverse = reverse/10;
+	
+			finalInt = finalInt + section;
+			finalInt2 = Integer.parseInt(finalInt);
+
+		length = length - 1;
+		}
+		System.out.println("\nYour number reversed is: "+finalInt2);
+		return finalInt2;
+	}
+
+	public static String binary(int finalInt2)
+	{
+//find the binary equivolent
+
+		if(finalInt2<2)
+		{
+			binary2 = binary2 + finalInt2;
+		}
+		else
+		{
+			if(finalInt2!=0)
+			{
+				binary(finalInt2/2);
+				binary2 = binary2 + (finalInt2%2);
+			}
+		}
+	return binary2;
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

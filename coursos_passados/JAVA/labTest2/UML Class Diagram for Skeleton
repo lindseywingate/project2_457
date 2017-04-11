@@ -1,0 +1,24 @@
+UML Class Diagram for Skeleton.java
+
+Skeleton
+
+-bones: int 
+-broken: int
+-alive: boolean
+-name: String
+
++Skeleton()
++Skeleton(numBones:int, numBroken:int, living:boolean, inName:int)
++getBones(): int
++setBones(input:int)
++getBroken(): int
++setBroken(broke:int)
++getAlive():boolean
++setAlive(status:boolean)
++getName():String
++setName(input:String)
++breakBone():boolean
++toString():String
++equals(Skeleton:object, other:object):boolean
+
+

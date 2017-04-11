@@ -1,0 +1,96 @@
+import java.util.*;
+
+public class StackMath 
+{
+	public static void main(String[] args)
+	{
+		double firstRound = 0.0;
+		ArrayList<String> equationStuff = new ArrayList<String>();
+		Stack myStack = new Stack();
+		ArrayList<String> charzard = new ArrayList<String>();
+
+		Scanner bob = new Scanner(System.in);
+		System.out.println("Please enter a mathematical equation using the following operators and single digits: * / - +");
+		String userInput = bob.nextLine();
+		
+		for(char c : userInput.toCharArray())
+		{
+			String change = Character.toString(c);		
+			charzard.add(change);
+		}
+		
+		//put user data into nodes and insert into stack backwards (so pulling them back out again will happen in the right order)
+		for(int f =charzard.size()-1; f>=0; f--)
+		{
+			String me = charzard.get(f).trim();
+			Node hi = new Node();
+			hi.setData(me);
+			myStack.push(hi);	
+		}
+		
+		int count = 0;
+		//put data into arraylist to be manipulated easily)
+		while(myStack.peek()!=null)
+		{
+			String thisOne = myStack.peek();
+			myStack.pop();
+			equationStuff.add(thisOne);
+		}
+	
+		//get first portion of math equation
+		if(equationStuff.get(1).equals("*"))
+		{
+			firstRound = Double.parseDouble(equationStuff.get(0)) * Double.parseDouble(equationStuff.get(2));
+
+		}
+		else if(equationStuff.get(1).equals("/"))	
+		{
+			firstRound = Double.parseDouble(equationStuff.get(0)) / Double.parseDouble(equationStuff.get(2));
+
+		}
+		else if(equationStuff.get(1).equals("-"))
+		{
+			firstRound = Double.parseDouble(equationStuff.get(0)) - Double.parseDouble(equationStuff.get(2));
+
+		}
+		else if(equationStuff.get(1).equals("+"))
+		{
+			firstRound = Double.parseDouble(equationStuff.get(0)) + Double.parseDouble(equationStuff.get(2));
+		}
+		else
+		{
+			System.out.println("Your equation cannot be computed.");
+		}
+		//rest of equation pieces
+		double newRound = firstRound;
+		int count2 = 3;
+		int count4 = 4;
+		while(count2 < equationStuff.size())
+		{
+			if(equationStuff.get(count2).equals("*"))
+			{
+				newRound = newRound * Double.parseDouble(equationStuff.get(count4));
+			}
+			else if(equationStuff.get(count2).equals("/"))	
+			{
+				newRound = newRound / Double.parseDouble(equationStuff.get(count4));
+	
+			}
+			else if(equationStuff.get(count2).equals("-"))
+			{
+				newRound = newRound - Double.parseDouble(equationStuff.get(count4));
+			}
+			else if(equationStuff.get(count2).equals("+"))
+			{
+				newRound = newRound + Double.parseDouble(equationStuff.get(count4));
+			}
+			else
+			{
+				System.out.println("Your equation cannot be computed.");
+			}
+			count2 = count2+2;
+			count4 = count4+2;				
+		}
+	System.out.println("The answer to the equation is: "+newRound);
+	}
+}

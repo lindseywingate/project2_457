@@ -1,0 +1,18 @@
+TLDDR
+
+	Each of my algorithms were based off a quicksort done at the beginning of each method. When the user chooses an option, the arrayLists are organized by the option. For example, if the user wants to maximize money, the pet arrayList is organized by pet cost and the houseArray is organized by budget. This way, the houses with the least amount of money are more likely to be able to hold multiple pets. I organized all the methods this way so the pets had the best chance of getting a home. 
+	I had to play around with the numbers a little until I was satisfied with the results. For example, the happiness methods required some tweaking. If I allowed any pet (satisfaction of -10 to 10) to be placed in a home, the happiness rate dropped. I ended with satisfaction ratings of 0 or higher because it gave the best happiness result before the euthanization rate began to affect the happiness level.
+
+	When comparing the output of the two files I compared the Affluency rates and the numbers of whatever the methods were supposed to be best at (for maximizing happiness I compared the happiness ratings). I think the algorithms performed similarly because the ratios were the same. The larger list contained more pets but not necessarily more costly pets or pets with higher satisfaction ratings, just MORE pets.
+
+Algorithm Success:
+1. minEuthanizations
+2. minEuthanizationsWithPenalties
+3. maxHappy
+4. maxHappyWithPenalties
+5. maxMoneyLeftover
+6. maxMoneyLeftoverPenalties
+
+I was most successful minimizing euthanizations. However, when it came to the money methods, I was not pleased with the outcome. I think it was miscalculating the budget. It should have been higher however the budgets were decreasing even when I added all pets to the households. There was an error in my code but I couldn't figure out exactly what it was in time.
+
+

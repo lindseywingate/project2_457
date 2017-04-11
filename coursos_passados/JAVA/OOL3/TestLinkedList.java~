@@ -1,0 +1,41 @@
+public class TestLinkedList
+{
+	public static void main (String[] args)
+	{	
+		LinkedList myList = new LinkedList();
+		System.out.println(myList); //printing empty list. should return null :)
+		//deliminate data
+		System.out.println("------------");
+
+		Household myHouse = new Household();
+		myHouse.setName("My Cottage");
+		Node newNode = new Node();
+		newNode.setData(myHouse);
+		myList.add(newNode);
+		System.out.println(myList);
+
+		//deliminate data
+		System.out.println("============");
+		
+		myHouse = new Household();
+		myHouse.setName("Your Mansion");
+		newNode = new Node();
+		newNode.setData(myHouse);
+		myList.add(newNode);
+		System.out.println(myList);
+
+		if(myList.search("Your Cottage"))	{
+			System.out.println("Found");
+		}
+		else
+			System.out.println("NOT Found");
+		//Deliminationnnn
+		System.out.println("+++++++++++++");
+		Node output = myList.remove("Your Cottage");
+		System.out.println("LIST: ");
+		System.out.println(myList);
+		System.out.println("REMOVED");
+		System.out.println(output);
+	}
+	
+}

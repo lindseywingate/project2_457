@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="FinalProj.jnlp">
+  <information>
+    <title>FinalProj</title>
+    <vendor>dakota</vendor>
+    <description>null</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="FinalProj.jar" size="25586" download="eager" />
+  </resources>
+  <application-desc main-class="finalProj.finalProjMain"  name="FinalProj" >
+  </application-desc>
+  <update check="always"/>
+</jnlp>

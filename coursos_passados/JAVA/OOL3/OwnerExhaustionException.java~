@@ -1,0 +1,7 @@
+public class OwnerExhaustionException extends Exception
+{
+     public String getMessage()
+     {
+          return "ERROR!!!  Adding this pet will cause owner to die of exhaustion!!!";
+     }
+}

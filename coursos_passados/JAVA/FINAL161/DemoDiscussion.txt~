@@ -1,0 +1,1 @@
+BogoSorts are simple when the list is small because there are only so many switches you need to make to ensure it is in order (usually 2 at most). However, once a list gets bigger it becomes exponentially more tedious to switch only one pair randomly. There is a chance you may never actually get the list organized.

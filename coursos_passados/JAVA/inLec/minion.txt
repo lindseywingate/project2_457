@@ -1,0 +1,9 @@
+minion user
+-on duty-
+
+methods:
+createusers()
+can't change password
+toString
+get/set
+change user office numbers

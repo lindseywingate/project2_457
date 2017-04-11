@@ -1,0 +1,6 @@
+public class Node
+{
+	//Attributes 
+	private Household data = null;
+	private Node next = null;
+}

@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Aplicacao de Livros</string>
+    <string name="Username">username</string>
+    <string name="Password">password</string>
+    <string name="Login">login</string>
+    <string name="home_page">home_page</string>
+    <string name="App">Login Application</string>
+    <string name="Role">RoleField</string>
+    <string name="Status">StatusField</string>
+    <string name="Logout">logout</string>
+    <string name="Search">search for...</string>
+    <string name="Profile">profile</string>
+    <string name="ShoppingCart">Shopping Cart</string>
+    <string name="Go">go</string>
+    <string name="View">View</string>
+</resources>

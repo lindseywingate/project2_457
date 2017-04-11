@@ -1,0 +1,21 @@
+#!/usr/bin/perl
+
+#	Get time of day in a nicely formatted string
+my $time_of_day = scalar localtime;
+
+#
+#	Tell the client what kind of information follows
+#
+print "Content-type: text/html\n\n";
+
+#
+#	Here is the information
+#
+print "<html>\n";
+print "<head>\n";
+print "<title>Time of Day</title>\n";
+print "</head>\n";
+print "<body>\n";
+print "<h2>It is now $time_of_day on the server.</h2>\n";
+print "</body>\n";
+print "</html>\n";

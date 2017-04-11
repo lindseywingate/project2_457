@@ -1,0 +1,113 @@
+The processing time required for each data set to either add, remove, search or sort made sense based on the way they were laid out. Arraylists were generally quick to add items but slower to sort, search, and remove. This can be attributed to the single-lined format of ArrayLists (Only one, unique index for each item in the list). A few times it took longer to add items, which probably means there were more items to add and ArrayList had to take the time to open more space for these items.
+
+     Vector processing times were quicker than ArrayList’s add time because it adds a certain number of cells at once when it runs out of space, whereas ArrayList’s add space one at a time. The search time and remove time was the data that varied greatly for Vector’s, although not as much as ArrayList’s varied with the add times.
+
+     The HashTable data had a much longer search time, mainly because it requires you to search through sets of data (a key and a value). Also, allowing data sets to share keys elongated the search process. Positively, the keys allow the data to already be somewhat organized and it sorted about the same time as Vectors.
+
+     The HashSet was particularly effective in most areas. It does not allow keys to be used multiple times and this helps with sorting, searching, adding, and removing quickly.
+
+     The HashMap was effective in all aspects except the sorting method. It does not guarantee any organization and therefore takes a lot of time to sort.
+
+     The Linked HashSet varied a lot in the data presented, specifically searching and deleting. This can be attributed to the layout of the HashSet. Searching can start at both ends but when the object being searched for is in the middle it can take longer. The same explanation goes for deleting items. To get to the items to delete, you have to go through all the data (either front or back) until you meet up with the second search.
+
+     The Linked HashMap produced varied results in the add time and in the search times. I didn’t expect the add time to vary as it seems to be doing the same thing each time (create the same pointers and a node). The search times vary a lot because you could go through all or none of the data before you find what you are looking for.
+
+     The only thing consistent about the TreeSet and TreeMap data was the removal of an item. Everything else varied. This makes sense because of the wide varieties of data types a TreeSet or TreeMap can hold.
+
+ 
+
+     Top three adders:
+
+1. Vector
+
+2. ArrayList
+
+3. Linked HashMap
+
+ 
+
+     Worse three adders:
+
+1. Linked HashSet
+
+2. LinkedList
+
+3. TreeMap
+
+ 
+
+     These ratings make sense because Vectors, ArrayLists, and HashMaps are easy to add things and don’t require a pointer to be made. The worst adders take more time to set up and require pointers.
+
+ 
+
+     Top three removers:
+
+1. HashTable
+
+2. HashSet
+
+3. Linked HashSet
+
+ 
+
+(All three were relatively close)
+
+ 
+
+     Bottom three removers:
+
+1. LinkedList
+
+2. Vector
+
+3. ArrayList
+
+ 
+
+The fastest removers make sense because you need two pieces of data to remove an item, making it a lot easier to track down which item to remove. The bottom removers are ironically the data models that are easiest to add. Unfortunately they do not set up an easy way to remove and have go through each item to find the remove target.
+
+ 
+
+     Top three searchers:
+
+1. Linked HashSet
+
+2. HashSet
+
+3. TreeSet
+
+ 
+
+     Bottom three searchers:
+
+1. TreeMap
+
+2. HashMap
+
+3. HashTable
+
+ 
+
+These rankings make sense for searching data because sets allow you to enter two pieces of unique data for a search. The bottom searchers allow your data to be varied (and share the same keys for maps) and become very grueling to search. HashTable’s are long to process simply because they have a lot of data and you have to go through it one by one.
+
+
+Doubling Searches
+	I expect the Linked HashSet, HashSet, and TreeSet to have the smallest numbers for searching because they were the top performers in the initial documents. I think it will take twice the time to search twice the original amount.
+	I was partially correct. The slower searchers (TreeMap, HashMap, and HashTable) doubled and even tripled in search times. The faster searchers however only increased by a little more. The TreeSet search time ended up being the most effective.
+
+
+Halving Searches
+	I expect the quick searchers to be a little less and the longer searchers to decrease to about half their original search values.
+	It turns out the data structures that took longer to search dropped way below half the time of the original search averages once the data was halved. The Linked HashSet didn't decrease as much as an ArrayList (1,163,811,973 from run 8, which was 6,446,515,821) but it did decrease. 
+
+
+What I found interesting from this exercise is the importance of choosing your data structure based on what you need. For example, if I just wanted to store data somewhere I would probably use an ArrayList because it is easy to add. However, if I was searching the data frequently I would want to use a set of some kind because they are more efficient at searching. Each data structure has it's strengths and weaknesses. If a data structure takes more time to set up it usually is faster at searching and removing because it took more organization up front to initialize.
+
+
+Sources:
+
+Java API
+The Java API helped me understand the processes of how data is added, removed, searched, sorted, and what type of data is accepted. 
+
+Google
+I googled a lot of visuals to get a picture of the data storage methods (I used whichever ones popped up first when I searched the data structure). This helped me decide how long it would take to search and what it would take for a storage method to add a new node/piece of data. For example, sets have a general layout of a tree. There is a starting point and a lot of branches. This helped me understand why they were easier to use to access data (like a binary search). The items that had a more "horizontal" or "vertical" layout (lists and maps) were generally quick to add but took longer to sort, search, and find data. 

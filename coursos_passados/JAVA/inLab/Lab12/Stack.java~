@@ -1,0 +1,74 @@
+public class Stack extends LinkedList
+{
+	public Stack()
+	{
+
+	}
+	
+	public Node pop()
+	{
+		if(front==null)
+		return null;
+	
+		else
+		{
+			Node curr = front;
+			front = front.getNext();
+			curr.setNext(null);
+			return curr;
+		}
+	}
+
+	public Node remove(String input)
+	{
+		return pop();
+	}
+
+	public void add(Node newNode)
+	{
+		push(newNode);
+	}
+	
+	public boolean push(Node nodster)
+	{
+		if (nodster == null)
+			return false;
+		nodster.setNext(front);
+		front = nodster;
+		return true;
+	}
+	
+	public String peek()
+	{
+		if (front == null)
+		{
+			return null;
+		}
+		else
+		{	
+			return front.getData();	
+		}
+	}
+
+	public boolean search(String target)
+	{
+		boolean found = false;
+		Node curr = front;
+		//Run through list
+		while (curr != null)
+		{
+			if (target.equals(curr.getData()))
+				return true;
+			curr = curr.getNext();
+		}
+		return found;
+	}
+	public String toString()
+	{
+		String output = "----TOP----\n";
+		output += super.toString();
+		output += "----BOTTOM----\n";
+		return output;
+	}
+	
+}

@@ -1,0 +1,6 @@
+In Class Binary Search Questions
+1. BST's are generally faster to search because you will never have to go through all the values. In arraylists or Linked Lists, you may have to go all the way to the end to find what you are looking for
+2. Tail and Bottom pieces are guaranteed quicker with linear searches because an array search would require going all the way to the end.
+3. All data structures would be the same search time if the value searched is at the beginning. All searches start at the beginning :)
+4. BST's are quicker to add the average because you do not have to search through half the values as you would with an array or linked list. 
+5. BST is the quickest because it always cuts time. Because there are different branches you only go down one, not through all the options like an array or Linked List.

@@ -1,0 +1,106 @@
+public class LinkedList
+{
+	//be sure to label first link in list to find anything else
+	Node front = null;
+	
+	public LinkedList()
+	{
+	}
+
+	public Node remove(String target)	{
+		//Empty List
+		if(front == null)	
+			return null;
+
+		//Target not in list
+		if(search(target) == false)	
+			return null;		
+		
+		//if item is first in list
+		if(front.getData().getName().equals(target))	{
+			Node curr = front; //record first one that will leave so you can use the space for what you want (delete, etc)
+			front = front.getNext();//reset the front value
+			return curr;
+		}
+		else	{
+
+			Node curr = front;
+
+//get name from node that is behind us and check to see if it matches target (say it backwards)
+			while(curr.getNext() != null && target.equals(curr.getNext().getData().getName()))	{	
+								
+				curr = curr.getNext();
+			}
+		//no matches or curr is pointing at the node before target
+
+			//if target matches data behind, know we've found the target
+			if(curr.getNext().getData().getName().equals(target))	{
+				// remove
+				Node temp = curr.getNext();
+				Node temp2 = temp.getNext();
+				curr.setNext(temp2);
+				//sanitize output so no pointers are still connected to linkedList. booya
+				temp.setNext(null);
+				return temp;			
+			}
+		}
+		return null;
+	}
+	
+	public boolean search(String target)	{
+		boolean found = false;
+
+		//Iterate through the list
+		Node curr = front;
+
+		while(curr != null)	{
+			if(target.equals(curr.getData().getName()))	{
+				//found = true;
+				//return as soon as done, don't have to look through other numbers
+				return true;
+			}	
+			curr  = curr.getNext();
+
+		}		
+		
+		return found;
+	}
+
+	public void add(Node newNode)
+	{
+		//Empty List? If front isn't pointing to anything
+		//take new element and put in front
+		if (newNode == null) {
+			return;
+		}	
+		
+		if (front == null)	{	
+			front = newNode;
+			return;
+		} 
+		//Must have something inside list
+		//how to find end of list? start at front, go to end
+		//create new variable to keep track of where we are
+		Node curr = front;
+		while(curr.getNext() != null)	{//target is last element, not null. goal is to look ahead a space
+			curr = curr.getNext();
+		}
+		//curr is pointing to last element after loopdy-loo
+		//add new node after curr
+		curr.setNext(newNode);
+	}
+
+	public String toString()
+	{
+		String output = "";
+		Node curr = front; //to iterate you always need a curr to start from the beginning
+		
+		while(curr != null)	{
+			output = output + curr;	
+			System.out.println(curr);	
+		}
+		
+		return output;
+	}
+	
+}

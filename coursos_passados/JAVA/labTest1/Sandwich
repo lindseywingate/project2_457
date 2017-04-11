@@ -1,0 +1,65 @@
+import java.util.*;
+
+public class Sandwich
+{
+	public static main void(String[] args)
+	{
+		String[2] sandwich;
+		Scanner keyboard = new Scanner(System.in);
+		System.out.println("Are you hungry? Enter y/n")
+		String hungry = keyboard.nextLine();
+
+		if(hungry.equals("y")|| hungry.equals("Y")
+		{	
+			System.out.println("Would you like peanut butter? Enter y/n")
+			String PB = keyboard.nextLine()
+			
+			if(PB.equals("y") or PB.equals("Y"))
+			{
+				String[0]="Peanut Butter"
+
+				System.out.println("Would you like jelly? Enter y/n")
+				String jelly = keyboard.nextLine()
+				if(jelly.equals("y")||jelly.equals("Y")
+				{
+					System.out.println("Would you like grape or strawberry? Enter g for grape or s for strawberry.")
+					String type = keyboard.nextLine();
+					if(type.equals("g")||type.equals("G"))
+					{
+						String[1] ="Grape Jelly";
+					}
+					if(type.equals("s")||type.equals("S"))
+					{
+						String[1]="Strawberry Jelly";
+					}
+				}	
+			}
+			else
+			{
+				System.out.println("Would you like jelly? Enter y/n")
+				String jelly = keyboard.nextLine()
+				if(jelly.equals("y")||jelly.equals("Y")
+				{
+					System.out.println("Would you like grape or strawberry? Enter g for grape or s for strawberry.")
+					String type = keyboard.nextLine();
+					if(type.equals("g")||type.equals("G"))
+					{
+						String[0] ="Grape Jelly";
+					}
+					if(type.equals("s")||type.equals("S"))
+					{
+						String[0]="Strawberry Jelly";
+					}
+				}
+				else
+				{
+					System.out.println(sandwich);
+				}	
+			}
+			
+		}
+		else
+		{
+			System.out.println("Raw bread is always good too.");
+		}
+		

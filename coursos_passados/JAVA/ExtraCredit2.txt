@@ -1,0 +1,10 @@
+Extra Credit
+
+For the senior capstone poster session I talked to Michael Kuehn, Ben Schmidt, and Andrew Heller about their project. They got their idea from Alycia Cummings. Their project built a program to see whether children (ages 3-6) can recognize correct pronunciation. It is a simple layout - a picture is shown and a correct or incorrect pronunciation is given. The child needs to press "yes" if the pronunciation is correct and "no" if it was not. 
+
+To complete this project they used JavaScript, HTML5, and PHP. They had to transfer AIFF sound files to .wave and store them on the volunteer computing database (project run by Travis Desell). They hope to download the files to be embedded in the program instead of having to reference them from the database in the future. They plan on continuing the project throughout the summer.
+
+If it was me, I would have a short tutorial before the student begins to answer questions where the correct and incorrect pronunciations are provided. Then, when the child begins to answer questions the difference will either be obvious (because they have heard it before) or the child will not be able to tell a difference and still get some questions wrong. This could help distinguish whether they have a hearing problem or simply didn't recognize what the word was.
+
+Please add 10 points to my OOL2 grade :)
+

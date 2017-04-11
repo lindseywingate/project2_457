@@ -1,0 +1,43 @@
+public class Node
+{
+	private String data;
+	private Node next = null;
+		
+	public Node()
+	{
+
+	}
+
+	public Node(String userInput)
+	{
+		setData(userInput);
+	}
+	
+	public void setData(String userInput)
+	{
+		data = userInput;
+	}
+	
+	public void setNext(Node newbs)
+	{
+		next = newbs;
+	}
+		
+	public String getData()
+	{
+		return data;
+	}
+
+	public Node getNext()
+	{
+		return next;
+	}
+
+	public String toString()
+	{
+		String output = "";
+		output = output + getData();
+		return output;
+	}
+
+}

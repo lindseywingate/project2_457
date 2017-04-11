@@ -1,0 +1,38 @@
+public class Fish extends Pet
+{
+	boolean poisonous;
+
+	Fish()
+	{
+		super();
+	}
+	
+	Fish(String name, double caret, double carec, int sat, int ref)
+	{
+		super(name, caret, carec, sat, ref);
+		poisonous = setPoisonous;
+	}
+
+	public setPoisonous()
+	{
+		poisonous = getPoisonous();
+		return poisonous;
+	}
+
+	public getPoisonous()
+	{
+		Random poo = new Random();
+		p = poo.nextBoolean();
+		return p;
+	}
+		
+	public toString();
+	{
+		
+	}
+	
+	public equals();
+	{
+
+	}
+}

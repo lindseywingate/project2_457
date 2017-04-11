@@ -1,0 +1,95 @@
+
+import java.util.*;
+/**
+* Creates an object with bird characteristics. Extends pet
+* @param freq
+* @param fly
+* @param rabbits
+* @param fish
+
+*/
+public class Bird extends Pet
+{
+     private double freq;
+     private boolean fly;
+     private boolean rabbits;
+     private boolean fish;
+     
+/* default constructor
+*/
+     public Bird()
+     {
+          setTweet(100);
+          setFlight(rand.nextBoolean());
+          setEatRabbits(rand.nextBoolean());
+          setEatFish(rand.nextBoolean());
+     }
+/* constructor used when passing in variables
+*/    
+     public Bird(String n, double h, double c, double s, double r, double t, boolean f, boolean ra, boolean fi)
+     {
+          super(n,h,c,s,r);
+          setTweet(t);
+          setFlight(f);
+          setEatRabbits(ra);
+          setEatFish(fi);
+     }
+/* sets tweet variable
+*/
+     
+     public void setTweet(double input)
+     {
+          freq = input;
+          while (freq < 0.0 || freq > 5.0)
+               freq = (rand.nextDouble() * 10) / 2;
+     }
+/* sets fly
+*/
+     public void setFlight(boolean input)
+     {
+          fly = input;
+     }
+/* sets whether bird eats rabbits
+*/
+     public void setEatRabbits(boolean input)
+     {
+          rabbits = input;
+     }
+/* sets whether bird eats fish
+*/
+     public void setEatFish(boolean input)
+     {
+          fish = input;
+     }
+/* gets tweet variable
+*/
+     public double getTweet()
+     {
+          return freq;
+     }
+/*gets fly variable
+*/   
+     public boolean getFlight()
+     {
+          return fly;
+     }
+/* gets bird eats rabbits variable
+*/   
+     public boolean getEatRabbits()
+     {
+          return rabbits;
+     }
+/* gets bird eats fish variable
+*/   
+     public boolean getEatFish()
+     {
+          return fish;
+     }
+/*easily printable version of Bird
+*/   
+     public String toString()
+     {
+          return "The Bird: " + super.toString() + "\n\tTweeting Frequency:\t" + getTweet() + "\n\tCan Fly:\t" + getFlight() + "\n\tCan Eat Rabbits:\t" + getEatRabbits() + "\n\tCan Eat Fish:\t" + getEatFish();
+     }
+     
+}

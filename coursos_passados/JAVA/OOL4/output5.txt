@@ -1,0 +1,105 @@
+------------------------
+ArrayList Add Time:
+		16436304 nano seconds
+Vector Add Time:
+		15791112 nano seconds
+HashTable Add Time:
+		57208411 nano seconds
+HashSet Add Time:
+		53486228 nano seconds
+HashMap Add Time:
+		58330376 nano seconds
+Linked HashSet Add Time:
+		636709124 nano seconds
+Linked HashMap Add Time:
+		25852312 nano seconds
+Linked List Add Time:
+		408166833 nano seconds
+TreeSet Add Time:
+		69151510 nano seconds
+TreeMap Add Time:
+		93637262 nano seconds
+------------------------
+ArrayList Search Time:
+		5255036918 nano seconds
+Vector Search Time:
+		5183132966 nano seconds
+HashTable Search Time:
+		53477322156 nano seconds
+HashSet Search Time:
+		7865186 nano seconds
+HashMap Search Time:
+		48194932338 nano seconds
+Linked HashSet Search Time:
+		4731033 nano seconds
+Linked HashMap Search Time:
+		35298361034 nano seconds
+Linked List Search Time:
+		18100793398 nano seconds
+TreeSet Search Time:
+		11033270 nano seconds
+TreeMap Search Time:
+		247989919718 nano seconds
+------------------------
+ArrayList Remove Time:
+		512456618 nano seconds
+Vector Remove Time:
+		530505096 nano seconds
+HashTable Remove Time:
+		682026 nano seconds
+HashSet Remove Time:
+		908765 nano seconds
+HashMap Remove Time:
+		826061 nano seconds
+Linked HashSet Remove Time:
+		1016558 nano seconds
+Linked HashMap Remove Time:
+		852193 nano seconds
+Linked List Remove Time:
+		1827411625 nano seconds
+TreeSet Remove Time:
+		1470077 nano seconds
+TreeMap Remove Time:
+		1413702 nano seconds
+------------------------
+ArrayList Sort Time:
+		174555142 nano seconds
+Vector Sort Time:
+		92147686 nano seconds
+HashTable Sort Time:
+		84150182 nano seconds
+HashSet Sort Time:
+		35749615 nano seconds
+HashMap Sort Time:
+		29544476 nano seconds
+Linked HashSet Sort Time:
+		54635483 nano seconds
+Linked HashMap Sort Time:
+		29098736 nano seconds
+Linked List Sort Time:
+		91910101 nano seconds
+TreeSet Sort Time:
+		20409063 nano seconds
+TreeMap Sort Time:
+		45149911 nano seconds
+------------------------
+ArrayList Total Time:
+		5958484982 nano seconds
+Vector Total Time:
+		5821576860 nano seconds
+HashTable Total Time:
+		53619362775 nano seconds
+HashSet Total Time:
+		98009794 nano seconds
+HashMap Total Time:
+		48283633251 nano seconds
+Linked HashSet Total Time:
+		697092198 nano seconds
+Linked HashMap Total Time:
+		35354164275 nano seconds
+Linked List Total Time:
+		20428281957 nano seconds
+TreeSet Total Time:
+		102063920 nano seconds
+TreeMap Total Time:
+		248130120593 nano seconds

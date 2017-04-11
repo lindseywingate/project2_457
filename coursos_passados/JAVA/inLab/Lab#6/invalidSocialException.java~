@@ -1,0 +1,7 @@
+public class invalidSocialException extends Exception
+{
+	public String message()
+	{
+		System.out.println("Invalid entry for SSN. Please enter your social with 6 digits or more");
+	}
+}

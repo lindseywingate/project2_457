@@ -1,0 +1,10 @@
+public class practiceTest1
+{
+	public static void main(String[] args)
+	{
+		System.out.println("This is the test review.");
+		String test = "5";
+		newString = Integer.parseInt(test);
+		System.out.println(newString);
+	}
+}

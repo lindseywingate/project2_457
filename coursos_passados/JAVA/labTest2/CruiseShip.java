@@ -1,0 +1,133 @@
+/**
+ * The CruiseShip class is a child of the Ship class and contains constructors and methods for a Ship with properties exclusive to cargo ships.
+ * @author Scott Kerlin
+ * @version Feb 24, 2014
+ */
+public class CruiseShip extends Ship {
+  
+  /* Create instance variables */
+  private static double maxPassengers; // The maximum payload for the ship.
+  private static double curPassengers; // The current payload the ship is carrying.
+  
+  /**
+   * This constructor takes in 4 parameters and creates a CruiseShip object using the parameters.
+   * @param inShipName The inputted name of the ship as a string
+   * @param inYearBuilt The inputted year the ship was built as a long
+   * @param inMax The inputted maximum number of passengers the CruiseShip can hold as a double
+   * @param inPassengers The inputted current passengers the CruiseShip is holding as a double
+   * @return A CruiseShip object
+   */
+  public CruiseShip(String inShipName, int inYearBuilt, double inMax, double inPassengers) 
+  {
+    super(inShipName, inYearBuilt);
+    //Set Max first, then current
+    SetMaxPassengers(inMax);
+    if (inPassengers <= maxPassengers && inPassengers >= 0)
+ {
+     curPassengers = inPassengers;
+ }
+    else if (inPassengers > maxPassengers)
+ {
+     curPassengers = maxPassengers;
+ }
+    else
+ {
+     curPassengers = 0;
+ }
+  }
+  
+  /**
+   * This accessor method gets the maximum tonnage of cargo the CruiseShip can hold.
+   * @return The maximum tonnage of cargo the CruiseShip can hold as a double.
+   */
+  public static double GetMaxPassengers() 
+  {
+    return maxPassengers;
+  }
+  
+  /**
+   * This accessor method gets the current tonnage the CruiseShip is carrying.
+   * @return The current tonnage the CruiseShip is carrying as a double.
+   */
+  public static double GetCurrentPassengers() 
+  {
+    return curPassengers;
+  }
+
+  /**
+   * This method adds cargo to the ship
+   * @param inPassengers The amount of cargo to add as a double
+   * @return returns the amount of excess cargo OR -1 if input was negative
+   */
+  public static double AddPassengers(double inPassengers) 
+    {
+    if (inPassengers < 0) 
+ {
+     return -1;
+ }
+    else if (inPassengers + curPassengers > maxPassengers)
+ {
+     double surplus = inPassengers + curPassengers - maxPassengers;
+     curPassengers = maxPassengers;
+     return surplus;
+ } 
+    else 
+ {
+     curPassengers += inPassengers;
+     return 0;
+ }
+
+    }
+  
+  /**
+   * This method removes cargo from the ship
+   * @param inPassengers The amount of cargo to remove as a double
+   * @return returns amount of cargo unable to be unloaded OR -1 if input was negative
+   */
+  public static double RemovePassengers(double inPassengers) 
+    {
+    if (inPassengers < 0) 
+ {
+     return -1;
+ }
+    else if (curPassengers - inPassengers < 0)
+ {
+     double surplus = inPassengers - curPassengers;
+     curPassengers = 0;
+     return surplus;
+ } 
+    else
+ {
+    curPassengers -= inPassengers;
+    return 0;
+ }
+
+    }
+
+  
+  /**
+   * This method returns a string giving information about the CruiseShip.
+   * @return A string containing information about the ship.
+   */
+  public String toString() 
+  {
+    return "The cruise ship \""+GetName()+"\" was built in "+GetYear()+". It has a maximum payload of "+maxPassengers+" passengers and is currently carrying "+curPassengers+" passengers.";
+  }
+  
+  /**
+   * This accessor method sets the passenger limit for the CruiseShip.
+   * @param inLimit The limit of passengers allowed on the CruiseShip
+   */
+  public static void SetMaxPassengers(double inLimit) 
+  {
+    if (inLimit > 0) 
+    {
+      maxPassengers = inLimit;
+    } 
+    else 
+    {
+      maxPassengers = 0;
+    }
+  }
+  
+}

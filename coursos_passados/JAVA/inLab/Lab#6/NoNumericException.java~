@@ -1,0 +1,7 @@
+NoNumericException extends Exception
+{
+	public String message()
+	{	
+		return "Invalid entry for first name and last name";
+	}
+}

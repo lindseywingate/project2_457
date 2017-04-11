@@ -1,0 +1,15 @@
+Node
+-data: object
+-next: Node (pointer to next node)
+
++Node()
++Node(input: object)
++setData(in: Object) void
++setNext(new Next: Node) void
++getData(): object
++getNext(): Node
+
+
+
+
+

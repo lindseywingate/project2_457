@@ -1,0 +1,31 @@
+import java.util.*;
+import java.io.*;
+
+public class Reader
+{
+	public static void main (String[] args)
+	{
+			
+
+		File Data1 = new File("output.txt");
+		File Data2= new File("output2.txt");
+
+		File Data3 = new File("output3.txt");
+
+		File Data4 = new File("output4.txt");
+
+		File Data5 = new File("output5.txt");
+
+		File Data6 = new File("output6.txt");
+
+		File Data7 = new File("output7.txt");
+
+		File Data8 = new File("output8.txt");
+
+		File Data9 = new File("output9.txt");
+
+		File Data10 = new File("output10.txt");
+
+		
+	}
+}
