@@ -10,10 +10,10 @@ import java.net.URLEncoder;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-public class SigninActivity extends AsyncTask<String, Void, String> {
-        private Context context;
+public class SearchActivity extends AsyncTask<String, Void, String> {
+    private Context context;
 
-    public SigninActivity(Context context) {
+    public SearchActivity(Context context) {
         this.context = context;
     }
 
@@ -24,13 +24,13 @@ public class SigninActivity extends AsyncTask<String, Void, String> {
     @Override //do not want to call parent method. use super if you want both
     protected String doInBackground(String... arg0) {
         try {
-            String username = (String) arg0[0];
-            String password = (String) arg0[1];
-            String link = "http://people.aero.und.edu/~lwingate/457/bookstore/login_get.php";
+            //search for phrase
+            String title = (String) arg0[0];
+            //php script to call
+            String link = "http://people.aero.und.edu/~lwingate/457/bookstore/search.php";
 
-            //get method
-            link += "?username=" + URLEncoder.encode(username, "UTF-8");
-            link += "&password=" + URLEncoder.encode(password, "UTF-8");
+            //get method to pass variables
+            link += "?title=" + URLEncoder.encode(title, "UTF-8");
 
             //Connect to server
             URL url = new URL(link);
@@ -54,10 +54,10 @@ public class SigninActivity extends AsyncTask<String, Void, String> {
     }
 
     @Override
-    protected void onPostExecute(String result) {
+    protected void onPostExecute(String result) { //result of background computation passed here after done
         if (result!=null) { //if returns with data, entry exists. login successful
             super.onPostExecute(result);
-            context.startActivity(new Intent(context, HomepageActivity.class));
+            context.startActivity(new Intent(context, SearchResultsActivity.class));
         }
     }
 }

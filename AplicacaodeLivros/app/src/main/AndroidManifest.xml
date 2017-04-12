@@ -30,7 +30,9 @@
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".HomepageActivity"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".SearchActivity" />
+        <activity android:name=".SearchResultsActivity"></activity>
     </application>
 
 </manifest>

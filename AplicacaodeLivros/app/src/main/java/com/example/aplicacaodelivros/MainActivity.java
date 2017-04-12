@@ -11,11 +11,14 @@ import android.widget.TextView;
 import static com.example.aplicacaodelivros.R.id.editText;
 
 public class MainActivity extends Activity {
+    //not needed but keeping anyway. from original practice activity
     public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
     public static final String EXTRA_MESSAGE2 = "com.example.myfirstapp.MESSAGE2";
+    //needed
     private EditText usernameField, passwordField;
 
     @Override
+    //identify fields where you are pulling in info from user
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -24,6 +27,7 @@ public class MainActivity extends Activity {
     }
 
     public void loginGet (View view) {
+        //get what was entered - start signin.
         String username = usernameField.getText().toString();
         String password = passwordField.getText().toString();
         new SigninActivity(this).execute(username, password);
