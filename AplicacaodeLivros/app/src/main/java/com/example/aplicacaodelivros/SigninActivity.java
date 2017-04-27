@@ -26,7 +26,7 @@ public class SigninActivity extends AsyncTask<String, Void, String> {
         try {
             String username = (String) arg0[0];
             String password = (String) arg0[1];
-            String link = "http://people.aero.und.edu/~lwingate/457/bookstore/login_get.php";
+            String link = "http://people.aero.und.edu/~lwingate/457/2/login_get.php";
 
             //get method
             link += "?username=" + URLEncoder.encode(username, "UTF-8");
@@ -55,9 +55,6 @@ public class SigninActivity extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        if (result!=null) { //if returns with data, entry exists. login successful
-            super.onPostExecute(result);
-            context.startActivity(new Intent(context, HomepageActivity.class));
-        }
+        context.startActivity(new Intent(context, HomepageActivity.class));
     }
 }
