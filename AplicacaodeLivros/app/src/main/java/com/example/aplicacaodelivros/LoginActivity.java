@@ -1,4 +1,7 @@
+/*This code is old and not used, but keeping around for reference*/
+
 package com.example.aplicacaodelivros;
+
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;

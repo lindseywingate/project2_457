@@ -27,7 +27,7 @@ public class SearchActivity extends AsyncTask<String, Void, String> {
             //search for phrase
             String title = (String) arg0[0];
             //php script to call
-            String link = "http://people.aero.und.edu/~lwingate/457/bookstore/search.php";
+            String link = "http://people.aero.und.edu/~lwingate/457/2/search.php";
 
             //get method to pass variables
             link += "?title=" + URLEncoder.encode(title, "UTF-8");

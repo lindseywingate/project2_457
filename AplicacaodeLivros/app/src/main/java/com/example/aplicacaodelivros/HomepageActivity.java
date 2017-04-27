@@ -1,3 +1,4 @@
+/**This is the page that is viewed once the user has logged in*/
 package com.example.aplicacaodelivros;
 
 import android.content.Intent;
@@ -26,11 +27,10 @@ public class HomepageActivity extends AppCompatActivity {
     public void Go(View view) {
         String title = search.getText().toString(); //get search entered
         new SearchActivity(this).execute(title); //send to mysql/php scripts
-
     }
 
     public void Profile(View view) {
-        //
+        new ProfileActivity(this).execute();
     }
 
     public void Viewcart(View view) {
