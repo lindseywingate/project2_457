@@ -28,8 +28,12 @@ public class MainActivity extends Activity {
 
     public void loginGet (View view) {
         //get what was entered - start signin.
+        Intent intent = new Intent(this, HomepageActivity.class);
         String username = usernameField.getText().toString();
         String password = passwordField.getText().toString();
-        new SigninActivity(this).execute(username, password);
+        intent.putExtra("username", username);
+        intent.putExtra("password", password);
+        startActivity(intent);
+        //new SigninActivity(this).execute(username, password);
     }
 }
