@@ -11,21 +11,24 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 public class SigninActivity extends AsyncTask<String, Void, String> {
-        private Context context;
+    private Context context;
 
     public SigninActivity(Context context) {
         this.context = context;
     }
 
-    protected void onCreate() {}
+    protected void onCreate() {
+
+    }
 
     protected void onpreExecute() {} //parent class
 
     @Override //do not want to call parent method. use super if you want both
     protected String doInBackground(String... arg0) {
+        String username = (String) arg0[0];
+        String password = (String) arg0[1];
+
         try {
-            String username = (String) arg0[0];
-            String password = (String) arg0[1];
             String link = "http://people.aero.und.edu/~lwingate/457/2/login_get.php";
 
             //get method
@@ -56,5 +59,6 @@ public class SigninActivity extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         context.startActivity(new Intent(context, HomepageActivity.class));
+
     }
 }
