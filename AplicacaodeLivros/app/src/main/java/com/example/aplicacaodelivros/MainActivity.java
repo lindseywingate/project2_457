@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -16,10 +17,11 @@ public class MainActivity extends Activity {
     public static final String MyPREFERENCES = "MyPrefs";
     public static final String Name = "nameKey";
     public static final String Password = "passwordKey";
-    SharedPreferences sharedpreferences;
-    //needed
-    private EditText usernameField, passwordField;
 
+    EditText usernameField, passwordField;
+    Button button;
+
+    SharedPreferences sharedpreferences;
     @Override
     //identify fields where you are pulling in info from user
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,15 +29,16 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         usernameField = (EditText)findViewById(R.id.editText);
         passwordField = (EditText)findViewById(R.id.editText2);
+
+    }
+
+    public void loginGet (View view) {
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedpreferences.edit();
 
         editor.putString(Name, usernameField.toString());
         editor.putString(Password, passwordField.toString());
         editor.commit();
-    }
-
-    public void loginGet (View view) {
         new SigninActivity(this).execute(usernameField.toString(), passwordField.toString());
     }
 }

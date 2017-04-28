@@ -33,7 +33,7 @@ public class HomepageActivity extends AppCompatActivity {
     }
 
     public void Profile(View view) {
-
+        setContentView(R.layout.activity_profile);
     }
 
     public void Viewcart(View view) {
