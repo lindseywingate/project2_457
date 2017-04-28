@@ -23,9 +23,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
-            android:parentActivityName=".MainActivity" />
-        <activity
             android:name=".SigninActivity"
             android:parentActivityName=".MainActivity" />
         <activity
@@ -36,7 +33,6 @@
         <activity
             android:name=".ProfileActivity"
             android:parentActivityName=".HomepageActivity" />
-        <activity android:name=".ProfileResultsActivity"></activity>
     </application>
 
 </manifest>

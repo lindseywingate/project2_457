@@ -1,9 +1,10 @@
 package com.example.aplicacaodelivros;
 
-import android.content.Intent;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
-import android.widget.TextView;
+import android.widget.EditText;
+
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
@@ -12,14 +13,13 @@ import java.io.InputStreamReader;
 
 public class SigninActivity extends AsyncTask<String, Void, String> {
     private Context context;
+    //needed
 
     public SigninActivity(Context context) {
         this.context = context;
     }
 
-    protected void onCreate() {
-
-    }
+    protected void onCreate() {}
 
     protected void onpreExecute() {} //parent class
 
@@ -59,6 +59,5 @@ public class SigninActivity extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         context.startActivity(new Intent(context, HomepageActivity.class));
-
     }
 }
