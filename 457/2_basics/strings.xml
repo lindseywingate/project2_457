@@ -1,0 +1,7 @@
+<resources>
+  <string name="app_name">HelloWorld</string>
+  <string name="home_page">Home Page</string>
+  <string name="next_page">Next Page</string>
+  <string name="action_settings">Settings</string>
+</resources>
+
