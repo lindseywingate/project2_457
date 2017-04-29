@@ -6,9 +6,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -27,36 +29,20 @@ public class HomepageActivity extends Activity {
         Button editprofile = (Button) findViewById(R.id.profilebutton);
         editprofile.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                new ProfileTask().execute();
+                String result = testing();
+                //TextView box = (TextView) findViewById(R.id.testing);
+                //box.setText("testingggg");
             }
         });
-
-        //search = (EditText)findViewById(R.id.editText); //setup variable
-    }
-
-    public void Go(View view) {
-
-    }
-
-    //public void Edit(View view) {
-        //this.startActivity(new Intent(this, ProfileActivity.class));
-    //}
-
-    public void Viewcart(View view) {
-        //
     }
 
     public void Logout(View view) {
-        setContentView(R.layout.activity_main);
+        Intent newintent = new Intent();
+        newintent.setClass(this, MainActivity.class);
+        this.startActivity(newintent);
     }
 
-    private class ProfileTask extends AsyncTask<String, Void, String> {
-        private Context context;
-
-        protected void onpreExecute() {} //parent class
-
-        @Override //do not want to call parent method. use super if you want both
-        protected String doInBackground(String... arg0) {
+        protected String testing() { //parent class
             try {
                 //search for phrase
                 //php script to call
@@ -80,20 +66,19 @@ public class HomepageActivity extends Activity {
                     sb.append(line);
                     break;
                 }
+                System.out.println(sb.toString());
                 return sb.toString();
             }
             catch(Exception e) {
-                return new String("Exception: " + e.getMessage());
-            }
-        }
+                System.out.println("Exception: " + e.getMessage());
+                Log.w("Exception: ","print**** " + e.getMessage());
+                return e.getMessage();
 
-        @Override
-        protected void onPostExecute(String result) { //result of background computation passed here after doneif (result!=null) { //if returns with data, entry exists. login successful
-            super.onPostExecute(result);
-            Intent newintent = new Intent();
-            newintent.setClass(context, SearchResultsActivity.class);
-            context.startActivity(newintent);
-            //context.startActivity(new Intent(context, SearchResultsActivity.class));
-        }
+            }
+            //startActivity(new Intent(this, SearchResultsActivity.class));
+
+            //Intent newintent = new Intent();
+         // newintent.setClass(context, SearchResultsActivity.class);
+         //context.startActivity(newintent);
     }
 }
