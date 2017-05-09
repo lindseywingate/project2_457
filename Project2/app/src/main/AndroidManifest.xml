@@ -21,7 +21,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".MenuActivity" />
-        <activity android:name=".ResultsActivity"></activity>
+        <activity android:name=".SearchResultsActivity" />
+        <activity android:name=".ProfileActivity" />
+        <activity android:name=".ProfilePageActivity" />
+        <activity android:name=".ShoppingCartActivity"></activity>
     </application>
 
 </manifest>

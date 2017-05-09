@@ -5,13 +5,16 @@
     android:layout_height    = "fill_parent"
     android:weightSum        = "1"
     android:gravity          = "center">
+
     <TextView
-        android:layout_width   = "wrap_content"
-        android:layout_height  = "wrap_content"
-        android:textAppearance = "?android:attr/textAppearanceLarge"
-        android:text           = "Please search for a book:"
-        android:layout_weight  = "0.07"
-        android:textStyle      = "bold" />
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.07"
+        android:text="Search for a book:"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textStyle="bold" />
+
     <EditText
         android:layout_width   = "216dp"
         android:layout_height  = "wrap_content"
@@ -23,4 +26,30 @@
         android:layout_height="wrap_content"
         android:text="@string/go"
         android:onClick="search" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.13" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="286dp"
+        android:layout_height="wrap_content"
+        android:onClick="profile"
+        android:text="View my Profile" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.13" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="213dp"
+        android:layout_height="wrap_content"
+        android:text="Logout" />
+
 </LinearLayout>

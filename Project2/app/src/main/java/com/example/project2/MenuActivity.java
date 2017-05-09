@@ -29,6 +29,14 @@ public class MenuActivity extends Activity {
         new SearchActivity(this).execute(search);
     }
 
+    public void profile(View v) {
+        new ProfileActivity(this).execute();
+    }
+
+    public void logout(View v) {
+
+    }
+
 /*    @Override
     public boolean onCreateOptionsMenu( Menu menu ) {
         // Inflate the menu; this adds items to the action bar if it is present.
