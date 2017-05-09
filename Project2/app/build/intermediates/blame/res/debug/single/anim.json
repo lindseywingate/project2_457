@@ -1,0 +1,42 @@
+[
+    {
+        "merged": "/Users/lindseymwingate/Documents/escola/Project2/app/build/intermediates/res/merged/debug/anim/abc_grow_fade_in_from_bottom.xml",
+        "source": "/Users/lindseymwingate/.android/build-cache/f453a7f75a7df073b35eb0927fb1caa4d001dcdd/output/res/anim/abc_grow_fade_in_from_bottom.xml"
+    },
+    {
+        "merged": "/Users/lindseymwingate/Documents/escola/Project2/app/build/intermediates/res/merged/debug/anim/abc_popup_exit.xml",
+        "source": "/Users/lindseymwingate/.android/build-cache/f453a7f75a7df073b35eb0927fb1caa4d001dcdd/output/res/anim/abc_popup_exit.xml"
+    },
+    {
+        "merged": "/Users/lindseymwingate/Documents/escola/Project2/app/build/intermediates/res/merged/debug/anim/abc_fade_out.xml",
+        "source": "/Users/lindseymwingate/.android/build-cache/f453a7f75a7df073b35eb0927fb1caa4d001dcdd/output/res/anim/abc_fade_out.xml"
+    },
+    {
+        "merged": "/Users/lindseymwingate/Documents/escola/Project2/app/build/intermediates/res/merged/debug/anim/abc_slide_in_bottom.xml",
+        "source": "/Users/lindseymwingate/.android/build-cache/f453a7f75a7df073b35eb0927fb1caa4d001dcdd/output/res/anim/abc_slide_in_bottom.xml"
+    },
+    {
+        "merged": "/Users/lindseymwingate/Documents/escola/Project2/app/build/intermediates/res/merged/debug/anim/abc_shrink_fade_out_from_bottom.xml",
+        "source": "/Users/lindseymwingate/.android/build-cache/f453a7f75a7df073b35eb0927fb1caa4d001dcdd/output/res/anim/abc_shrink_fade_out_from_bottom.xml"
+    },
+    {
+        "merged": "/Users/lindseymwingate/Documents/escola/Project2/app/build/intermediates/res/merged/debug/anim/abc_slide_out_top.xml",
+        "source": "/Users/lindseymwingate/.android/build-cache/f453a7f75a7df073b35eb0927fb1caa4d001dcdd/output/res/anim/abc_slide_out_top.xml"
+    },
+    {
+        "merged": "/Users/lindseymwingate/Documents/escola/Project2/app/build/intermediates/res/merged/debug/anim/abc_popup_enter.xml",
+        "source": "/Users/lindseymwingate/.android/build-cache/f453a7f75a7df073b35eb0927fb1caa4d001dcdd/output/res/anim/abc_popup_enter.xml"
+    },
+    {
+        "merged": "/Users/lindseymwingate/Documents/escola/Project2/app/build/intermediates/res/merged/debug/anim/abc_slide_in_top.xml",
+        "source": "/Users/lindseymwingate/.android/build-cache/f453a7f75a7df073b35eb0927fb1caa4d001dcdd/output/res/anim/abc_slide_in_top.xml"
+    },
+    {
+        "merged": "/Users/lindseymwingate/Documents/escola/Project2/app/build/intermediates/res/merged/debug/anim/abc_slide_out_bottom.xml",
+        "source": "/Users/lindseymwingate/.android/build-cache/f453a7f75a7df073b35eb0927fb1caa4d001dcdd/output/res/anim/abc_slide_out_bottom.xml"
+    },
+    {
+        "merged": "/Users/lindseymwingate/Documents/escola/Project2/app/build/intermediates/res/merged/debug/anim/abc_fade_in.xml",
+        "source": "/Users/lindseymwingate/.android/build-cache/f453a7f75a7df073b35eb0927fb1caa4d001dcdd/output/res/anim/abc_fade_in.xml"
+    }
+]

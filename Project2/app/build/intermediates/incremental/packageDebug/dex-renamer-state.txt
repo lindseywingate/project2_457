@@ -1,0 +1,7 @@
+#Tue May 09 14:46:26 MDT 2017
+base.0=/Users/lindseymwingate/Documents/escola/Project2/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_5dca58bf278dc652ea2fa66b6b01d429d4bd315f
+renamed.1=classes.dex
+renamed.0=classes2.dex
+file.1=/Users/lindseymwingate/Documents/escola/Project2/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_e2da1898d723bdbc5c555c0177b61d2691d75aa6/classes.dex
+base.1=/Users/lindseymwingate/Documents/escola/Project2/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_e2da1898d723bdbc5c555c0177b61d2691d75aa6
+file.0=/Users/lindseymwingate/Documents/escola/Project2/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_5dca58bf278dc652ea2fa66b6b01d429d4bd315f/classes.dex
