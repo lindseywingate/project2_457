@@ -3,15 +3,10 @@ package com.example.project2;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,8 +18,7 @@ public int count;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_results);
+        setContentView(R.layout.activity_search_results);
 
         Intent intent = getIntent();
         String results = intent.getStringExtra("key");
@@ -51,17 +45,25 @@ public int count;
         }
     }
 
-    public void addtocart() {
-        List Books = new ArrayList();
+    public void addtocart(View v) {
+        CheckBox thisguy = (CheckBox) findViewById(0);
+        String thisstuff = thisguy.getText().toString();
+
+        /*String Books = "";
         for(int i=0; i<count; i++) {
-            CheckBox thisguy;
-            thisguy = (CheckBox) findViewById(i);
+            CheckBox thisguy = (CheckBox) findViewById(i);
             if(thisguy.isChecked()) {
-                Books.add(thisguy.getText().toString());
+                Books = Books + thisguy.getText().toString()+", ";
             }
-        }
-        new ShoppingCartActivity(this).execute(Books);
+        }*/
+        Intent intent_name = new Intent();
+        intent_name.setClass(this, CheckOutActivity.class);
+        intent_name.putExtra("somethingnew", thisstuff);
+        this.startActivity(intent_name);
     }
 
+    public void test(View v) {
+
+    }
 
 }

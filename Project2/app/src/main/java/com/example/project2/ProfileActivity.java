@@ -27,6 +27,9 @@ public class ProfileActivity extends AsyncTask<String, Void, String> {
     }
 
     public ProfileActivity(Class<MenuActivity> menuActivityClass) {
+    }
+
+    public ProfileActivity() {
 
     }
 
