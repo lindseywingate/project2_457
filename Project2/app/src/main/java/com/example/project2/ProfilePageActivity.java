@@ -4,6 +4,9 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.URLSpan;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
@@ -32,13 +35,22 @@ public class ProfilePageActivity extends Activity {
 
             LinearLayout linear = (LinearLayout) findViewById(R.id.horizontal_ll);
 
-            int isbn = 1;
-            int title = 0;
+            int isbn = 0;
+            int title = 1;
             int price = 2;
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
             for (int i = 0; i < count; i++) {
                 TextView stuff = new TextView(this);
-                stuff.setText("Title: " + list.get(title) + ", ISBN: " + list.get(isbn) + ", Price: " + list.get(price));
+                stuff.setText("Title: " + list.get(title));// + ", ISBN: " + list.get(isbn) + ", Price: " + list.get(price));
+
+                ProfilePageActivity.makeTextViewHyperlink(stuff);
+                stuff.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent bookintent = new Intent (ProfilePageActivity.this, BookActivity.class);
+                        startActivity(bookintent);
+                    }
+                });
                 stuff.setId(i);
                 stuff.setLayoutParams(params);
                 linear.addView(stuff);
@@ -48,6 +60,16 @@ public class ProfilePageActivity extends Activity {
             }
         }
     }
+
+public static void makeTextViewHyperlink(TextView tv) {
+    SpannableStringBuilder ssb = new SpannableStringBuilder();
+    ssb.append(tv.getText());
+    ssb.setSpan(new URLSpan("#"), 0, ssb.length(),
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+    tv.setText(ssb, TextView.BufferType.SPANNABLE);
+
+}
+
 
     public void addtocart(View v) {
         //CheckBox thisguy = (CheckBox) findViewById(0);
