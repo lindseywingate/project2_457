@@ -2,6 +2,7 @@ package com.example.project2;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,12 +10,14 @@ import android.widget.EditText;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.example.project2.R;
 
 public class MenuActivity extends Activity {
     private EditText Search;
     private Button button;
+    private String user;
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
@@ -22,6 +25,9 @@ public class MenuActivity extends Activity {
         setContentView(R.layout.activity_menu);
         Search = (EditText) findViewById(R.id.search);
         button = (Button) findViewById(R.id.next);
+        //just testing to make sure sharedpreferences works
+        SharedPreferences sp = getSharedPreferences("stuff", Activity.MODE_PRIVATE);
+        user = sp.getString("username", "notfound");
     }
 
     public void search(View v) {
@@ -30,7 +36,7 @@ public class MenuActivity extends Activity {
     }
 
     public void profile(View v) {
-        new ProfileActivity(this).execute();
+        new ProfileActivity(this).execute(user);
     }
 
     public void logout(View v) {

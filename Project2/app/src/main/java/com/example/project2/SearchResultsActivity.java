@@ -22,32 +22,35 @@ public int count;
 
         Intent intent = getIntent();
         String results = intent.getStringExtra("key");
+        if (results.equals("No results")) {
+            //do nothing
+        } else {
+            List<String> list = new ArrayList<String>(Arrays.asList(results.split("-")));
+            count = list.size() / 3;
+            //puthere.setText(list.get(0));
 
-        List<String> list = new ArrayList<String>(Arrays.asList(results.split("-")));
-        count = list.size()/3;
-        //puthere.setText(list.get(0));
+            LinearLayout linear = (LinearLayout) findViewById(R.id.horizontal_ll);
 
-        LinearLayout linear = (LinearLayout) findViewById(R.id.horizontal_ll);
-
-        int isbn = 1;
-        int title = 0;
-        int price = 2;
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams (LinearLayout.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
-        for(int i = 0; i<count; i++) {
-            CheckBox checkBox = new CheckBox(this);
-            checkBox.setText("Title: "+list.get(isbn)+", ISBN: "+list.get(title)+", Price: "+list.get(price));
-            checkBox.setId(i);
-            checkBox.setLayoutParams(params);
-            linear.addView(checkBox);
-            isbn = isbn + 3;
-            title = title + 3;
-            price = price + 3;
+            int isbn = 1;
+            int title = 0;
+            int price = 2;
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
+            for (int i = 0; i < count; i++) {
+                CheckBox checkBox = new CheckBox(this);
+                checkBox.setText("Title: " + list.get(isbn) + ", ISBN: " + list.get(title) + ", Price: " + list.get(price));
+                checkBox.setId(i);
+                checkBox.setLayoutParams(params);
+                linear.addView(checkBox);
+                isbn = isbn + 3;
+                title = title + 3;
+                price = price + 3;
+            }
         }
     }
 
     public void addtocart(View v) {
-        CheckBox thisguy = (CheckBox) findViewById(0);
-        String thisstuff = thisguy.getText().toString();
+        //CheckBox thisguy = (CheckBox) findViewById(0);
+        //String thisstuff = thisguy.getText().toString();
 
         /*String Books = "";
         for(int i=0; i<count; i++) {
@@ -58,7 +61,7 @@ public int count;
         }*/
         Intent intent_name = new Intent();
         intent_name.setClass(this, CheckOutActivity.class);
-        intent_name.putExtra("somethingnew", thisstuff);
+        //intent_name.putExtra("somethingnew", thisstuff);
         this.startActivity(intent_name);
     }
 

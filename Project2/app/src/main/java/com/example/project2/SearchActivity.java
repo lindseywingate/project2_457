@@ -12,7 +12,6 @@ import java.io.InputStreamReader;
 
 public class SearchActivity extends AsyncTask<String, Void, String> {
     private Context context;
-    private int byGetOrPost = 0;
     public SearchActivity activity;
 
     // Flag 0 means GET and 1 means POST. (By default it is GET.)
@@ -25,10 +24,6 @@ public class SearchActivity extends AsyncTask<String, Void, String> {
     }
 
     protected void onPreExecute() { }
-
-    public void onAttach() {
-        this.activity = activity;
-    }
 
     @Override
     protected String doInBackground( String... arg0 ) {
